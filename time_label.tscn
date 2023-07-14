@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://time_label.gd" type="Script" id=1]
+
+[node name="time_label" type="TextEdit"]
+margin_top = 13.0
+margin_right = 56.0
+margin_bottom = 27.0
+text = "00:00:00"
+script = ExtResource( 1 )
