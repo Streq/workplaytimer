@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	var seconds = Time.get_unix_time_from_system()
 	msecs_now += int(seconds*1000.0)%1000
 	var msecs_remaining = msecs_now + remainder.msec
-	text = Global.to_text(msecs_remaining)
+	text = Global.to_text_wrap_hours(msecs_remaining)
 
 func _ready() -> void:
 	timer.connect("started",self,"set_process",[false])
