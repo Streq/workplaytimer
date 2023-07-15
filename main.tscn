@@ -152,6 +152,7 @@ custom_colors/font_color = Color( 1, 0.427451, 0.427451, 1 )
 text = "00:00:00"
 script = ExtResource( 6 )
 remainder_path = NodePath("../../HBoxContainer2/work_remainder")
+timer_path = NodePath("../../HBoxContainer/work_timer")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 674.0
@@ -176,10 +177,22 @@ margin_bottom = 502.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="play" type="Button" parent="VBoxContainer"]
-unique_name_in_owner = true
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 506.0
 margin_right = 1024.0
 margin_bottom = 600.0
+
+[node name="play" type="Button" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+margin_right = 510.0
+margin_bottom = 94.0
 size_flags_horizontal = 3
 text = "work"
+
+[node name="stop" type="Button" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 94.0
+size_flags_horizontal = 3
+text = "stop"

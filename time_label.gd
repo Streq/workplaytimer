@@ -1,5 +1,7 @@
 extends TextEdit
 signal updated
+signal started
+signal stopped
 
 var last_start_msec := 0
 var accumulated_time_msec := 0
@@ -37,10 +39,11 @@ func on():
 	stopped = false
 	last_start_msec = Global.now_msec()
 	set_process(true)
+	emit_signal("started")
 func off():
 	stopped = true
 	set_process(false)
-
+	emit_signal("stopped")
 
 
 	
