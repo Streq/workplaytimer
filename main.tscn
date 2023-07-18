@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://work_goal.gd" type="Script" id=5]
 [ext_resource path="res://expected_finish.gd" type="Script" id=6]
 [ext_resource path="res://now.gd" type="Script" id=7]
+[ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=8]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 4 )
@@ -17,13 +18,8 @@ font_data = ExtResource( 4 )
 
 [sub_resource type="Theme" id=2]
 default_font = SubResource( 1 )
+PopupMenu/fonts/font = ExtResource( 8 )
 TooltipLabel/fonts/font = SubResource( 5 )
-
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0, 0.223529, 0.403922, 1 )
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0, 0.403922, 0.372549, 1 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.54902, 0.223529, 0.223529, 1 )
@@ -60,102 +56,83 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 502.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-alignment = 1
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 670.0
-margin_bottom = 502.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 670.0
-margin_bottom = 88.0
-custom_styles/normal = SubResource( 3 )
-text = "Work"
-align = 1
-clip_text = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 92.0
-margin_right = 670.0
-margin_bottom = 191.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_top = 5.0
-margin_right = 320.0
-margin_bottom = 93.0
-rect_min_size = Vector2( 320, 0 )
-text = "Worked"
-clip_text = true
-
-[node name="work_timer" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+[node name="work_timer" parent="VBoxContainer/GridContainer" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_left = 324.0
 margin_top = 0.0
-margin_right = 670.0
-margin_bottom = 99.0
+margin_right = 512.0
+margin_bottom = 168.0
 hint_tooltip = "This is the time you've spent working"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stopped = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 195.0
-margin_right = 670.0
-margin_bottom = 295.0
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/work_timer"]
+self_modulate = Color( 1, 1, 1, 0.45098 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -88.0
+grow_horizontal = 0
+text = "Work"
+
+[node name="play_timer" parent="VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+unique_name_in_owner = true
+margin_left = 512.0
+margin_top = 0.0
+margin_right = 1024.0
+margin_bottom = 168.0
+hint_tooltip = "This is the time you've spent NOT working"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_top = 6.0
-margin_right = 320.0
-margin_bottom = 94.0
-rect_min_size = Vector2( 320, 0 )
-text = "Remainder"
-clip_text = true
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/play_timer"]
+self_modulate = Color( 1, 1, 1, 0.45098 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -88.0
+grow_horizontal = 0
+text = "Play"
 
-[node name="work_remainder" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="work_remainder" type="TextEdit" parent="VBoxContainer/GridContainer"]
 unique_name_in_owner = true
-margin_left = 324.0
-margin_right = 670.0
-margin_bottom = 100.0
+margin_top = 168.0
+margin_right = 512.0
+margin_bottom = 335.0
 hint_tooltip = "This is the time you've got left"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/font_color = Color( 0.890196, 1, 0.356863, 1 )
 text = "00:00:00"
 script = ExtResource( 1 )
-goal_path = NodePath("../../HBoxContainer3/work_goal")
-timer_path = NodePath("../../HBoxContainer/work_timer")
+goal_path = NodePath("../work_goal")
+timer_path = NodePath("../work_timer")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 299.0
-margin_right = 670.0
-margin_bottom = 398.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/work_remainder"]
+modulate = Color( 0.890196, 1, 0.356863, 1 )
+self_modulate = Color( 1, 1, 1, 0.45098 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -88.0
+grow_horizontal = 0
+text = "Remainder"
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_top = 5.0
-margin_right = 320.0
-margin_bottom = 93.0
-rect_min_size = Vector2( 320, 0 )
-text = "Goal"
-clip_text = true
-
-[node name="work_goal" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="work_goal" type="TextEdit" parent="VBoxContainer/GridContainer"]
 unique_name_in_owner = true
-margin_left = 324.0
-margin_right = 670.0
-margin_bottom = 99.0
+margin_left = 512.0
+margin_top = 168.0
+margin_right = 1024.0
+margin_bottom = 335.0
 hint_tooltip = "This is the time you want to have spent working, 
 you can set it using the format HH:MM:SS"
 size_flags_horizontal = 3
@@ -164,78 +141,41 @@ custom_colors/font_color = Color( 0, 1, 1, 1 )
 text = "00:30:00"
 script = ExtResource( 5 )
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 402.0
-margin_right = 670.0
-margin_bottom = 502.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/work_goal"]
+modulate = Color( 0, 1, 1, 1 )
+self_modulate = Color( 1, 1, 1, 0.45098 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -88.0
+grow_horizontal = 0
+text = "Goal"
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
-margin_top = 6.0
-margin_right = 320.0
-margin_bottom = 94.0
-rect_min_size = Vector2( 320, 0 )
-text = "Clock"
-clip_text = true
-
-[node name="now" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
+[node name="now" type="TextEdit" parent="VBoxContainer/GridContainer"]
 unique_name_in_owner = true
-margin_left = 324.0
-margin_right = 670.0
-margin_bottom = 100.0
+margin_top = 335.0
+margin_right = 512.0
+margin_bottom = 502.0
 hint_tooltip = "Current time"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "00:00:00"
 script = ExtResource( 7 )
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 674.0
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/now"]
+self_modulate = Color( 1, 1, 1, 0.45098 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -88.0
+grow_horizontal = 0
+text = "Current"
+
+[node name="expected_finish" type="TextEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+margin_left = 512.0
+margin_top = 335.0
 margin_right = 1024.0
-margin_bottom = 502.0
-rect_min_size = Vector2( 350, 0 )
-size_flags_vertical = 3
-alignment = 1
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 350.0
-margin_bottom = 88.0
-custom_styles/normal = SubResource( 4 )
-text = "Play"
-align = 1
-clip_text = true
-
-[node name="play_timer" parent="VBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
-unique_name_in_owner = true
-margin_top = 92.0
-margin_right = 350.0
-margin_bottom = 195.0
-hint_tooltip = "This is the time you've spent NOT working"
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="play_timer2" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 199.0
-margin_right = 350.0
-margin_bottom = 302.0
-hint_tooltip = "This is the time you've spent NOT working"
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 306.0
-margin_right = 350.0
-margin_bottom = 394.0
-custom_styles/normal = SubResource( 4 )
-text = "Finish at"
-align = 1
-clip_text = true
-
-[node name="expected_finish" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-unique_name_in_owner = true
-margin_top = 398.0
-margin_right = 350.0
 margin_bottom = 502.0
 hint_tooltip = "This is the time you are expected to finish at, 
 provided you don't take any breaks"
@@ -244,10 +184,20 @@ size_flags_vertical = 3
 custom_colors/font_color = Color( 1, 0.427451, 0.427451, 1 )
 text = "00:00:00"
 script = ExtResource( 6 )
-remainder_path = NodePath("../../VBoxContainer/HBoxContainer2/work_remainder")
-timer_path = NodePath("../../VBoxContainer/HBoxContainer/work_timer")
-goal_path = NodePath("../../VBoxContainer/HBoxContainer3/work_goal")
-now_path = NodePath("../../VBoxContainer/HBoxContainer4/now")
+remainder_path = NodePath("../work_remainder")
+timer_path = NodePath("../work_timer")
+goal_path = NodePath("../work_goal")
+now_path = NodePath("../now")
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/expected_finish"]
+modulate = Color( 1, 0.427451, 0.427451, 1 )
+self_modulate = Color( 1, 1, 1, 0.45098 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -88.0
+grow_horizontal = 0
+text = "Finish"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 506.0
