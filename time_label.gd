@@ -1,19 +1,60 @@
-extends TextEdit
+extends Control
+class_name TimeLabel
+tool
+
 signal updated
 signal started
 signal stopped
 
-var last_start_msec := 0
-var accumulated_time_msec := 0
+var msec := 0
 export var stopped := false
+export var color : Color = Color.aquamarine setget set_color
+func set_color(val):
+	color = val
+	if !label:
+		yield(self, "ready")
+	label.add_color_override("font_color",color)
+	title_label.add_color_override("font_color",color)
+	description_label.add_color_override("font_color",color)
+
+onready var title_label = $"%title"
+export var title := "Work" setget set_title
+func set_title(val):
+	title = val
+	if !title_label:
+		yield(self, "ready")
+	title_label.text = val
+
+onready var description_label = $"%description"
+export var description:= "jaja" setget set_description
+func set_description(val):
+	description = val
+	if !description_label:
+		yield(self, "ready")
+	description_label.text = val
+
+onready var label : LineEdit = $"%label"
+export var text := "00:00:00" setget set_text
+func set_text(val):
+	if !val:
+		val = ""
+	text = val
+	if !label:
+		yield(self, "ready")
+	label.text = val
+	emit_signal("updated")
 
 func _ready() -> void:
+	if Engine.editor_hint:
+		return
 	set_stopped(stopped)
+	set_color(color)
 	render_text()
-	connect("text_changed",self,"_on_text_changed")
+	label.connect("text_entered",self,"_on_text_entered")
+	label.connect("text_changed",self,"_on_text_changed")
+
 func render_text():
-	text = Global.to_text(accumulated_time_msec)
-	emit_signal("updated")
+	set_text(Global.to_text(msec))
 
 func set_stopped(val):
 	stopped = val
@@ -22,12 +63,6 @@ func set_stopped(val):
 	else:
 		on()
 
-func _process(delta: float) -> void:
-	var now = Global.now_msec()
-	var step = now - last_start_msec
-	accumulated_time_msec += step
-	last_start_msec = now
-	render_text()
 
 func switch():
 	if stopped:
@@ -37,15 +72,22 @@ func switch():
 
 func on():
 	stopped = false
-	last_start_msec = Global.now_msec()
 	set_process(true)
 	emit_signal("started")
+	_start()
 func off():
 	stopped = true
 	set_process(false)
 	emit_signal("stopped")
-
-
+	_stop()
+func _on_text_entered(new_text := ""):
+	msec = Global.from_text(label.text)
+	render_text()
+func _on_text_changed(new_text := ""):
+	msec = Global.from_text(label.text)
+	emit_signal("updated")
 	
-func _on_text_changed():
-	accumulated_time_msec = Global.from_text(text)
+func _start():
+	pass
+func _stop():
+	pass

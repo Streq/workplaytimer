@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Global",
 "language": "GDScript",
 "path": "res://Global.gd"
+}, {
+"base": "Control",
+"class": "TimeLabel",
+"language": "GDScript",
+"path": "res://time_label.gd"
 } ]
 _global_script_class_icons={
-"Global": ""
+"Global": "",
+"TimeLabel": ""
 }
 
 [application]

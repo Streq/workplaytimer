@@ -1,4 +1,5 @@
-extends TextEdit
+extends TimeLabel
+tool
 
 export var remainder_path : NodePath
 onready var remainder = get_node(remainder_path)
@@ -11,12 +12,17 @@ onready var now = get_node(now_path)
 
 
 func _process(delta: float) -> void:
+	if Engine.editor_hint:
+		return
 	update_time()
 
 func _ready() -> void:
+	if Engine.editor_hint:
+		return
+	._ready()
 	timer.connect("started",self,"set_process",[false])
 	timer.connect("stopped",self,"set_process",[true])
 	goal.connect("updated",self,"update_time")
 	
 func update_time():
-	text = Global.to_text_wrap_hours(now.msec + remainder.msec)
+	set_text(Global.to_text_wrap_hours(now.msec + remainder.msec))

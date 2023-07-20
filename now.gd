@@ -1,9 +1,9 @@
-extends TextEdit
-signal updated()
-
-var msec := 0
+extends TimeLabel
+tool
 
 func _process(delta: float) -> void:
+	if Engine.editor_hint:
+		return
 	update_time()
 
 func update_time():
@@ -11,5 +11,5 @@ func update_time():
 	#for subsecond precision, sucks I know
 	var now_sub_msec = int(Time.get_unix_time_from_system()*1000.0)%1000
 	msec = now_sec + now_sub_msec
-	text = Global.to_text_wrap_hours(msec)
-	
+	set_text(Global.to_text_wrap_hours(msec))
+

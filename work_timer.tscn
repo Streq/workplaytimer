@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://work_timer.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/medium_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=4]
+
+[node name="work_timer" type="VBoxContainer"]
+margin_right = 461.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+title = "Focus"
+description = "this is the time you've spent focusing"
+
+[node name="Panel" type="PanelContainer" parent="."]
+margin_right = 461.0
+margin_bottom = 66.0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 454.0
+margin_bottom = 59.0
+custom_constants/margin_right = 32
+custom_constants/margin_top = 0
+custom_constants/margin_left = 32
+custom_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
+margin_left = 32.0
+margin_right = 415.0
+margin_bottom = 52.0
+custom_constants/separation = -16
+
+[node name="title" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 383.0
+margin_bottom = 45.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 2 )
+text = "Focus"
+
+[node name="description" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 29.0
+margin_right = 383.0
+margin_bottom = 52.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "this is the time you've spent focusing"
+align = 2
+
+[node name="label" type="LineEdit" parent="."]
+unique_name_in_owner = true
+margin_top = 70.0
+margin_right = 461.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "00:00:00"
+placeholder_text = "00:00:00.0"
