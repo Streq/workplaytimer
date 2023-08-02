@@ -72,14 +72,10 @@ func switch():
 
 func on():
 	stopped = false
-	set_process(true)
-	emit_signal("started")
-	_start()
+	update_process()
 func off():
 	stopped = true
-	set_process(false)
-	emit_signal("stopped")
-	_stop()
+	update_process()
 func _on_text_entered(new_text := ""):
 	msec = Global.from_text(label.text)
 	render_text()
@@ -91,3 +87,26 @@ func _start():
 	pass
 func _stop():
 	pass
+
+var frozen = false
+func set_frozen(val):
+	if val:
+		freeze()
+	else:
+		unfreeze()
+func freeze():
+	frozen = true
+	update_process()
+func unfreeze():
+	frozen = false
+	update_process()
+
+func update_process():
+	var process = !frozen and !stopped
+	set_process(process)
+	if !process:
+		emit_signal("stopped")
+		_stop()
+	else:
+		emit_signal("started")
+		_start()

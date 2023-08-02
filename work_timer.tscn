@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://work_timer.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/medium_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://copy_to_clipboard.gd" type="Script" id=3]
 [ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=4]
 
 [node name="work_timer" type="VBoxContainer"]
@@ -42,6 +43,22 @@ margin_bottom = 45.0
 grow_horizontal = 0
 custom_fonts/font = ExtResource( 2 )
 text = "Focus"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/title"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -48.0
+margin_bottom = 29.0
+grow_horizontal = 0
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
+margin_right = 48.0
+margin_bottom = 29.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "copy"
+align = 0
+script = ExtResource( 3 )
 
 [node name="description" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

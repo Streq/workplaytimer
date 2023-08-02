@@ -70,7 +70,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="timers" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 margin_right = 1024.0
 margin_bottom = 504.0
 size_flags_horizontal = 3
@@ -79,13 +80,13 @@ custom_constants/vseparation = 0
 custom_constants/hseparation = 0
 columns = 2
 
-[node name="work_timer" parent="HBoxContainer/VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+[node name="work_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_right = 512.0
 margin_bottom = 168.0
 color = Color( 1, 1, 1, 1 )
 
-[node name="play_timer" parent="HBoxContainer/VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+[node name="play_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
 margin_right = 1024.0
@@ -94,7 +95,7 @@ color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
 description = "this is the time you've spent NOT focusing"
 
-[node name="remainder" parent="HBoxContainer/VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+[node name="remainder" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_top = 168.0
 margin_right = 512.0
@@ -106,7 +107,7 @@ description = "focus time remaining"
 goal_path = NodePath("../work_goal")
 timer_path = NodePath("../work_timer")
 
-[node name="work_goal" parent="HBoxContainer/VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+[node name="work_goal" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
 margin_top = 168.0
@@ -117,7 +118,7 @@ color = Color( 0, 1, 0.929412, 1 )
 title = "Goal"
 description = "goal focus time, set it with HH:MM:SS"
 
-[node name="expected_finish" parent="HBoxContainer/VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+[node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_top = 336.0
 margin_right = 512.0
@@ -125,13 +126,13 @@ margin_bottom = 504.0
 script = ExtResource( 7 )
 color = Color( 1, 0.498039, 0.498039, 1 )
 title = "Finish"
-description = "time you'll finish at if you don't take breaks"
+description = "expected finish time"
 remainder_path = NodePath("../remainder")
 timer_path = NodePath("../work_timer")
 goal_path = NodePath("../work_goal")
 now_path = NodePath("../now")
 
-[node name="now" parent="HBoxContainer/VBoxContainer/GridContainer" instance=ExtResource( 3 )]
+[node name="now" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
 margin_top = 336.0
@@ -150,22 +151,32 @@ margin_bottom = 602.0
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
-margin_right = 338.0
+margin_right = 253.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 text = "work"
 
 [node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
-margin_left = 342.0
-margin_right = 681.0
+margin_left = 257.0
+margin_right = 510.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
+toggle_mode = true
 text = "stop"
+
+[node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 514.0
+margin_right = 767.0
+margin_bottom = 94.0
+size_flags_horizontal = 3
+toggle_mode = true
+text = "freeze"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
-margin_left = 685.0
+margin_left = 771.0
 margin_right = 1024.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
