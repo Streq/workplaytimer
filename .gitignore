@@ -1,2 +1,2 @@
 exports/*
-!exports/empty
+!exports/.DO_NOT_IGNORE
