@@ -55,7 +55,6 @@ onready var config = $"%config"
 func _ready() -> void:
 	if Engine.editor_hint:
 		return
-	yield(get_tree(),"idle_frame")
 	config.initialize()
 	set_stopped(stopped)
 	set_color(color)

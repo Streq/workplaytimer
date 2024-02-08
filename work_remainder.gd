@@ -8,7 +8,7 @@ onready var timer = get_node(timer_path)
 func _ready() -> void:
 	if Engine.editor_hint:
 		return
-	._ready()
+#	._ready()
 	timer.connect("updated",self,"render_text")
 	goal.connect("updated",self,"render_text")
 func render_text() -> void:

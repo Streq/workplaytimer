@@ -23,7 +23,7 @@ func set_sound_on(val:bool):
 		volume_db = -80.0
 
 var MS_PER_TIC = 1000
-func set_interval(val:int):
+func set_interval(val:float):
 	MS_PER_TIC = int(val*1000.0)
 
 

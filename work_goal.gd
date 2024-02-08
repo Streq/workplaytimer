@@ -3,7 +3,7 @@ extends TimeLabel
 func _ready() -> void:
 	if Engine.editor_hint:
 		return
-	._ready()
+#	._ready()
 	connect("focus_exited",self,"_focus_out")
 	_on_text_changed()
 

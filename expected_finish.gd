@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 func _ready() -> void:
 	if Engine.editor_hint:
 		return
-	._ready()
+#	._ready()
 	timer.connect("started",self,"set_process",[false])
 	timer.connect("stopped",self,"set_process",[true])
 	goal.connect("updated",self,"update_time")
