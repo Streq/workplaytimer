@@ -1,13 +1,16 @@
 extends TimeLabel
+
+
 tool
 var last_start_msec := 0
 
-func _process(delta: float) -> void:
+func _process(_ignored_: float) -> void:
 	if Engine.editor_hint:
 		return
 	var now = Global.now_msec()
-	var step = now - last_start_msec
-	msec += step
+	var delta = now - last_start_msec
+	
+	set_msec(msec + delta)
 	last_start_msec = now
 	render_text()
 

@@ -14,5 +14,5 @@ func _ready() -> void:
 func render_text() -> void:
 	if !goal:
 		yield(self,"ready")
-	msec = (goal.msec - timer.msec)
+	set_msec(goal.msec - timer.msec)
 	set_text(Global.to_text(msec))

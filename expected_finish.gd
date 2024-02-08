@@ -25,4 +25,5 @@ func _ready() -> void:
 	goal.connect("updated",self,"update_time")
 	
 func update_time():
-	set_text(Global.to_text_wrap_hours(now.msec + remainder.msec))
+	set_msec(now.msec + remainder.msec)
+	set_text(Global.to_text_wrap_hours(msec))

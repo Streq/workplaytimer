@@ -7,8 +7,14 @@ signal started
 signal stopped
 
 var msec := 0
+var msec_before := 0
 export var stopped := false
 export var color : Color = Color.aquamarine setget set_color
+
+func set_msec(val):
+	msec_before = msec
+	msec = val
+
 func set_color(val):
 	color = val
 	if !label:
