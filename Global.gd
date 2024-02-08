@@ -1,5 +1,8 @@
 extends Node
-class_name Global
+
+
+var PATH: String = OS.get_executable_path().get_base_dir()
+
 
 static func to_text(msec: int)->String:
 	var seconds := msec/1000

@@ -10,9 +10,9 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
-"class": "Global",
+"class": "Config",
 "language": "GDScript",
-"path": "res://Global.gd"
+"path": "res://config.gd"
 }, {
 "base": "Control",
 "class": "TimeLabel",
@@ -20,7 +20,7 @@ _global_script_classes=[ {
 "path": "res://time_label.gd"
 } ]
 _global_script_class_icons={
-"Global": "",
+"Config": "",
 "TimeLabel": ""
 }
 
@@ -30,6 +30,10 @@ config/name="WorkPlayTimer"
 run/main_scene="res://main.tscn"
 boot_splash/show_image=false
 config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Global.gd"
 
 [display]
 

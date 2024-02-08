@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://work_timer.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/medium_font.tres" type="DynamicFont" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://tick_sound.gd" type="Script" id=5]
 [ext_resource path="res://assets/sfx/tic.wav" type="AudioStream" id=6]
 [ext_resource path="res://tic.gd" type="Script" id=7]
+[ext_resource path="res://sound_file.gd" type="Script" id=8]
+[ext_resource path="res://audio_file_dialog.tscn" type="PackedScene" id=9]
+[ext_resource path="res://config.gd" type="Script" id=10]
+[ext_resource path="res://audio_file_dialog.gd" type="Script" id=11]
+[ext_resource path="res://tic_time.gd" type="Script" id=12]
 
 [node name="work_timer" type="VBoxContainer"]
 margin_right = 461.0
@@ -54,18 +59,40 @@ margin_left = -48.0
 margin_bottom = 29.0
 grow_horizontal = 0
 
-[node name="Button" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
-margin_right = 48.0
-margin_bottom = 33.0
+[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
+margin_right = 62.0
+margin_bottom = 47.0
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 55.0
+margin_bottom = 40.0
 grow_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
 text = "copy"
 align = 0
 script = ExtResource( 3 )
 
-[node name="tic" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
-margin_left = 52.0
-margin_right = 91.0
+[node name="Panel" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
+margin_left = 66.0
+margin_right = 220.0
+margin_bottom = 47.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 147.0
+margin_bottom = 40.0
+grow_horizontal = 0
+
+[node name="sound" type="AudioStreamPlayer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+unique_name_in_owner = true
+stream = ExtResource( 6 )
+script = ExtResource( 5 )
+
+[node name="tic" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+margin_right = 39.0
 margin_bottom = 33.0
 grow_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
@@ -74,16 +101,26 @@ text = "tick"
 align = 0
 script = ExtResource( 7 )
 
-[node name="sound" type="AudioStreamPlayer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/tic"]
-stream = ExtResource( 6 )
-script = ExtResource( 5 )
-
-[node name="tic_time" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
-margin_left = 95.0
-margin_right = 153.0
+[node name="tic_time" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+margin_left = 43.0
+margin_right = 101.0
 margin_bottom = 33.0
 custom_fonts/font = ExtResource( 4 )
 placeholder_text = "secs"
+script = ExtResource( 12 )
+
+[node name="sound_file" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+margin_left = 105.0
+margin_right = 140.0
+margin_bottom = 33.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "file"
+align = 0
+script = ExtResource( 8 )
+
+[node name="audio_file_dialog" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2/sound_file" instance=ExtResource( 9 )]
+script = ExtResource( 11 )
 
 [node name="description" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -105,4 +142,6 @@ size_flags_vertical = 3
 text = "00:00:00"
 placeholder_text = "00:00:00.0"
 
-[connection signal="text_changed" from="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/tic_time" to="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/tic/sound" method="_on_tic_time_text_changed"]
+[node name="config" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource( 10 )
