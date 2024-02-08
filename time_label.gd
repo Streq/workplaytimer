@@ -68,8 +68,8 @@ func _ready() -> void:
 	set_stopped(stopped)
 	set_color(color)
 	render_text()
-	label.connect("text_entered",self,"_on_text_entered")
-	label.connect("text_changed",self,"_on_text_changed")
+	label.connect("text_entered",self,"_on_text_entered",[true])
+	label.connect("text_changed",self,"_on_text_changed",[true])
 
 func render_text():
 	set_text(Global.to_text(msec))
@@ -94,12 +94,16 @@ func on():
 func off():
 	stopped = true
 	update_process()
-func _on_text_entered(new_text := ""):
+func _on_text_entered(new_text := "", save:=false):
 	msec = Global.from_text(label.text)
 	render_text()
-func _on_text_changed(new_text := ""):
+	if save:
+		save()
+func _on_text_changed(new_text := "", save:=false):
 	msec = Global.from_text(label.text)
 	emit_signal("updated")
+	if save:
+		save()
 	
 func _start():
 	pass
