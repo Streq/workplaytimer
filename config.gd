@@ -5,10 +5,10 @@ signal audio_file_updated(audio)
 signal sound_on_updated(val)
 signal interval_updated(val)
 
-onready var CONFIG_PATH: String = Global.PATH.plus_file(owner.name).plus_file("config.json")
+onready var CONFIG_PATH: String = Global.PATH.plus_file("config").plus_file(owner.name+".json")
 var config = {
-	audio_file = "res://assets/sfx/tic.wav",
-	sound_on = true,
+	audio_file = "res://assets/sfx/click.wav",
+	sound_on = false,
 	interval = 1.0
 }
 
@@ -17,7 +17,7 @@ func initialize() -> void:
 	
 	if _load_config() == -1:
 		print("configuration file not found for {file}, creating one with default values".format({ 
-			"file" : name 
+			"file" : CONFIG_PATH.get_file() 
 			}))
 		_create_config_file()
 
