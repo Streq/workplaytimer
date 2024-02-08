@@ -11,6 +11,15 @@ var msec_before := 0
 export var stopped := false
 export var color : Color = Color.aquamarine setget set_color
 
+onready var SAVE_PATH = Global.PATH.plus_file("state").plus_file(name+".json") 
+
+func save():
+	FileUtils.save_json_file(SAVE_PATH, {"msec":msec})
+func load_():
+	var save_state = FileUtils.load_json_file(SAVE_PATH)
+	if save_state!=null and "msec" in save_state:
+		msec = save_state.msec
+	render_text()
 func set_msec(val):
 	msec_before = msec
 	msec = val

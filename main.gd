@@ -18,7 +18,7 @@ func _ready() -> void:
 	stop.connect("pressed",self,"_on_stop_button_pressed")
 	clear.connect("pressed",self,"_on_clear_button_pressed")
 	freeze.connect("pressed",self,"_on_freeze_button_pressed")
-	_on_clear_button_pressed()
+	initialize()
 
 func _on_play_button_pressed():
 	unfreeze()
@@ -77,5 +77,15 @@ func _on_clear_button_pressed():
 	play_timer.msec = 0
 	play_timer.render_text()
 	
-	work_goal.text = "00:00:00.0"
-	work_goal._on_text_changed()
+	work_goal.msec = 0
+	work_goal.render_text()
+
+func initialize():
+	work_timer.off()
+	play_timer.off()
+	
+	work_timer.render_text()
+	
+	play_timer.render_text()
+	
+	work_goal.render_text()
