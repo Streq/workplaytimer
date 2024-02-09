@@ -1,7 +1,7 @@
 extends Button
 
 onready var sound = $"%sound"
-onready var dialog = $audio_file_dialog
+onready var dialog = $"%audio_file_dialog"
 
 
 
@@ -11,4 +11,3 @@ func _ready():
 
 func pressed():
 	dialog.popup()
-

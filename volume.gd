@@ -1,23 +1,63 @@
-extends LineEdit
+extends Slider
 
+onready var debug_volume = $"%debug_volume"
 
 func _ready() -> void:
 	yield(owner,"ready")
 	owner.config.connect("volume_updated",self,"set_volume_internal")
-	connect("text_changed",self,"text_changed")
+	connect("value_changed",self,"value_changed")
+	
+	
+func set_volume_internal(db: float):
+	if to_volume(value) != db:
+		value = to_value(db)
+	
+func set_volume(db: float):
+	set_volume_internal(db)
+	owner.config.set_property("volume",db)
+
+func value_changed(value:float):
+	var db = to_volume(value)
+	set_volume(db)
+	debug_volume.value = db
 	
 
+func to_value(db: float):
+	var exp_value = range_lerp(db, -80.0, 0.0, 100.0, 20.0) 
+	var ratio = log_lerp_inverse(100.0, 20.0, exp_value)
+	var value = ratio*100.0
 
-var volume : float = 0.0
-	
-func set_volume_internal(val:float):
-	volume = val
-	if float(text)!=volume:
-		text = str(val)
-	
-func set_volume(val):
-	set_volume_internal(val)
-	owner.config.set_property("volume",volume)
+#	print("db: {db}, exp_value: {exp_value}, to_value: ratio: {ratio}, value: {value}".format({
+#		"value":str(value),
+#		"ratio":str(ratio),
+#		"exp_value":str(exp_value),
+#		"db":str(db)
+#	}))
 
-func text_changed(val:String):
-	set_volume(val.to_float())
+	return value
+
+func to_volume(value: float):
+	var ratio = value/100.0
+	var exp_value = log_lerp(100.0, 20.0, ratio)
+	var db = range_lerp(exp_value, 100.0, 20.0, -80.0, 0.0)
+	
+#	print("to_volume: value: {value}, ratio: {ratio}, exp_value: {exp_value}, db: {db}".format({
+#		"value":str(value),
+#		"ratio":str(ratio),
+#		"exp_value":str(exp_value),
+#		"db":str(db)
+#	}))
+
+	return db
+
+static func log_lerp(from, to, weight):
+	var exp_from = log(from)
+	var exp_to = log(to)
+	var v = exp(lerp(exp_from, exp_to, weight))
+	return v
+
+static func log_lerp_inverse(from, to, v):
+	var exp_from = log(from)
+	var exp_to = log(to)
+	var weight = inverse_lerp(exp_from, exp_to, log(v))
+	return weight

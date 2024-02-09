@@ -51,6 +51,7 @@ func set_property(prop_name, prop_value):
 	set_property_no_signal(prop_name, prop_value)
 	emit_signal(prop_name+"_updated", prop_value)
 	save()
-
+func get_property(prop_name):
+	return config[prop_name]
 func save():
 	FileUtils.save_json_file(CONFIG_PATH, config)
