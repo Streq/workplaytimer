@@ -91,9 +91,9 @@ unique_name_in_owner = true
 margin_left = 512.0
 margin_right = 1024.0
 margin_bottom = 168.0
+color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
 description = "this is the time you've spent NOT focusing"
-color = Color( 0.764706, 0.764706, 0.764706, 1 )
 
 [node name="remainder" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
@@ -101,9 +101,9 @@ margin_top = 168.0
 margin_right = 512.0
 margin_bottom = 335.0
 script = ExtResource( 1 )
+color = Color( 0.780392, 1, 0, 1 )
 title = "Remainder"
 description = "focus time remaining"
-color = Color( 0.780392, 1, 0, 1 )
 goal_path = NodePath("../work_goal")
 timer_path = NodePath("../work_timer")
 
@@ -114,9 +114,9 @@ margin_top = 168.0
 margin_right = 1024.0
 margin_bottom = 335.0
 script = ExtResource( 5 )
+color = Color( 0, 1, 0.929412, 1 )
 title = "Goal"
 description = "goal focus time, set it with HH:MM:SS"
-color = Color( 0, 1, 0.929412, 1 )
 
 [node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
@@ -124,11 +124,9 @@ margin_top = 335.0
 margin_right = 512.0
 margin_bottom = 502.0
 script = ExtResource( 7 )
-stopped = false
 color = Color( 1, 0.498039, 0.498039, 1 )
 title = "Finish"
 description = "expected finish time"
-text = "00:00:00"
 remainder_path = NodePath("../remainder")
 timer_path = NodePath("../work_timer")
 goal_path = NodePath("../work_goal")
@@ -141,7 +139,6 @@ margin_top = 335.0
 margin_right = 1024.0
 margin_bottom = 502.0
 script = ExtResource( 6 )
-stopped = false
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Now"
 description = "current time"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://work_timer.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/medium_font.tres" type="DynamicFont" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://sound_file.gd" type="Script" id=8]
 [ext_resource path="res://audio_file_dialog.tscn" type="PackedScene" id=9]
 [ext_resource path="res://config.gd" type="Script" id=10]
-[ext_resource path="res://audio_file_dialog.gd" type="Script" id=11]
 [ext_resource path="res://tic_time.gd" type="Script" id=12]
 [ext_resource path="res://volume.gd" type="Script" id=13]
 
@@ -133,8 +132,6 @@ script = ExtResource( 8 )
 
 [node name="audio_file_dialog" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2/sound_file" instance=ExtResource( 9 )]
 access = 0
-filters = PoolStringArray( "*.wav ; WAV files", "*.ogg ; OGG files" )
-script = ExtResource( 11 )
 
 [node name="description" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

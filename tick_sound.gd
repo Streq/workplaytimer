@@ -16,7 +16,8 @@ func set_audio_file(path:String):
 		else:
 			var ogg_stream = AudioStreamOGGVorbis.new()
 			var ogg_file = File.new()
-			ogg_file.open(path, File.READ)
+			if ogg_file.open(path, File.READ):
+				return
 			ogg_stream.data = ogg_file.get_buffer(ogg_file.get_len())
 			ogg_file.close()
 			self.stream = ogg_stream
