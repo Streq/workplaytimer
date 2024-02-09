@@ -12,3 +12,4 @@ resizable = true
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav ; WAV files", "*.ogg ; OGG files", "* ; Any file Dawg" )
+show_hidden_files = true

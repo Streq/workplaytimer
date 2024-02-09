@@ -4,12 +4,14 @@ class_name Config
 signal audio_file_updated(audio)
 signal sound_on_updated(val)
 signal interval_updated(val)
+signal volume_updated(val)
 
 onready var CONFIG_PATH: String = Global.PATH.plus_file("config").plus_file(owner.name+".json")
 var config = {
 	audio_file = "res://assets/sfx/click.wav",
 	sound_on = false,
-	interval = 1.0
+	interval = 1.0,
+	volume = 0.0
 }
 
 func initialize() -> void:
@@ -40,6 +42,7 @@ func _refresh_config():
 	emit_signal("sound_on_updated",config.sound_on)
 	emit_signal("audio_file_updated",config.audio_file)
 	emit_signal("interval_updated",config.interval)
+	emit_signal("volume_updated",config.volume)
 
 
 func set_property_no_signal(prop_name, prop_value):

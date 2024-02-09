@@ -45,7 +45,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_blend = true
 
-[node name="Node2D" type="Control"]
+[node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 2 )
@@ -65,7 +65,7 @@ rect_min_size = Vector2( 32, 32 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 1024.0
-margin_bottom = 602.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -73,7 +73,7 @@ alignment = 1
 [node name="timers" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 1024.0
-margin_bottom = 504.0
+margin_bottom = 502.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 0
@@ -99,7 +99,7 @@ description = "this is the time you've spent NOT focusing"
 unique_name_in_owner = true
 margin_top = 168.0
 margin_right = 512.0
-margin_bottom = 336.0
+margin_bottom = 335.0
 script = ExtResource( 1 )
 color = Color( 0.780392, 1, 0, 1 )
 title = "Remainder"
@@ -112,7 +112,7 @@ unique_name_in_owner = true
 margin_left = 512.0
 margin_top = 168.0
 margin_right = 1024.0
-margin_bottom = 336.0
+margin_bottom = 335.0
 script = ExtResource( 5 )
 color = Color( 0, 1, 0.929412, 1 )
 title = "Goal"
@@ -120,9 +120,9 @@ description = "goal focus time, set it with HH:MM:SS"
 
 [node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_top = 336.0
+margin_top = 335.0
 margin_right = 512.0
-margin_bottom = 504.0
+margin_bottom = 502.0
 script = ExtResource( 7 )
 color = Color( 1, 0.498039, 0.498039, 1 )
 title = "Finish"
@@ -135,28 +135,28 @@ now_path = NodePath("../now")
 [node name="now" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
-margin_top = 336.0
+margin_top = 335.0
 margin_right = 1024.0
-margin_bottom = 504.0
+margin_bottom = 502.0
 script = ExtResource( 6 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Now"
 description = "current time"
 text = "00:00:00.0"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 508.0
+[node name="buttons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 506.0
 margin_right = 1024.0
-margin_bottom = 602.0
+margin_bottom = 600.0
 
-[node name="play" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
 margin_right = 253.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 text = "work"
 
-[node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
 margin_left = 257.0
 margin_right = 510.0
@@ -165,7 +165,7 @@ size_flags_horizontal = 3
 toggle_mode = true
 text = "stop"
 
-[node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
 margin_left = 514.0
 margin_right = 767.0
@@ -174,7 +174,7 @@ size_flags_horizontal = 3
 toggle_mode = true
 text = "freeze"
 
-[node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
 margin_left = 771.0
 margin_right = 1024.0

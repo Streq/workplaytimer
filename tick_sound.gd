@@ -5,28 +5,42 @@ func _ready():
 	owner.config.connect("audio_file_updated", self, "set_audio_file")
 	owner.config.connect("sound_on_updated", self, "set_sound_on")
 	owner.config.connect("interval_updated", self, "set_interval")
+	owner.config.connect("volume_updated", self, "set_volume")
 
 
 func set_audio_file(path:String):
-	var file = load(path)
-	if is_instance_valid(file) and file is AudioStreamSample:
-		var sample : AudioStreamSample = file
-		self.stream = sample
+	if ResourceLoader.exists(path):
+		var stream = load(path)
+		if is_instance_valid(stream) and stream is AudioStreamSample:
+			self.stream = stream
+		else:
+			var ogg_stream = AudioStreamOGGVorbis.new()
+			var ogg_file = File.new()
+			ogg_file.open(path, File.READ)
+			ogg_stream.data = ogg_file.get_buffer(ogg_file.get_len())
+			ogg_file.close()
+			self.stream = ogg_stream
 
 
 var sound_on : bool = true
 func set_sound_on(val:bool):
 	sound_on = val
-	if sound_on:
-		volume_db = 0.0
-	else:
-		volume_db = -80.0
+	refresh_volume_db()
 
 var MS_PER_TIC = 1000
 func set_interval(val:float):
 	MS_PER_TIC = int(val*1000.0)
 
+var volume = 0.0
+func set_volume(val:float):
+	volume = val
+	refresh_volume_db()
 
+func refresh_volume_db():
+	if sound_on:
+		volume_db = volume
+	else:
+		volume_db = -80.0
 func _process(delta):
 	var ms_now = owner.msec
 	var ms_before = owner.msec_before
