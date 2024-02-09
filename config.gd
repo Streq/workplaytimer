@@ -26,7 +26,7 @@ func initialize() -> void:
 	_refresh_config()
 
 func _load_config():
-	var new_config = FileUtils.load_json_file(CONFIG_PATH)
+	var new_config = FileUtils.load_json_file_as_dict(CONFIG_PATH)
 	if new_config == null:
 		return -1
 	if typeof(new_config) == TYPE_DICTIONARY:

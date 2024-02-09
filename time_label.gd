@@ -16,7 +16,7 @@ onready var SAVE_PATH = Global.PATH.plus_file("state").plus_file(name+".json")
 func save():
 	FileUtils.save_json_file(SAVE_PATH, {"msec":msec})
 func load_():
-	var save_state = FileUtils.load_json_file(SAVE_PATH)
+	var save_state = FileUtils.load_json_file_as_dict(SAVE_PATH)
 	if save_state!=null and "msec" in save_state:
 		msec = save_state.msec
 	render_text()
@@ -94,12 +94,12 @@ func on():
 func off():
 	stopped = true
 	update_process()
-func _on_text_entered(new_text := "", save:=false):
+func _on_text_entered(_new_text := "", save:=false):
 	msec = Global.from_text(label.text)
 	render_text()
 	if save:
 		save()
-func _on_text_changed(new_text := "", save:=false):
+func _on_text_changed(_new_text := "", save:=false):
 	msec = Global.from_text(label.text)
 	emit_signal("updated")
 	if save:

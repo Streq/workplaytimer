@@ -1,7 +1,7 @@
 extends TimeLabel
 tool
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Engine.editor_hint:
 		return
 	update_time()

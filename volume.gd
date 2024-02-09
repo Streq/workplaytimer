@@ -1,7 +1,4 @@
 extends LineEdit
-signal changed(val)
-
-
 
 
 func _ready() -> void:

@@ -91,9 +91,9 @@ unique_name_in_owner = true
 margin_left = 512.0
 margin_right = 1024.0
 margin_bottom = 168.0
-color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
 description = "this is the time you've spent NOT focusing"
+color = Color( 0.764706, 0.764706, 0.764706, 1 )
 
 [node name="remainder" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
@@ -101,9 +101,9 @@ margin_top = 168.0
 margin_right = 512.0
 margin_bottom = 335.0
 script = ExtResource( 1 )
-color = Color( 0.780392, 1, 0, 1 )
 title = "Remainder"
 description = "focus time remaining"
+color = Color( 0.780392, 1, 0, 1 )
 goal_path = NodePath("../work_goal")
 timer_path = NodePath("../work_timer")
 
@@ -114,9 +114,9 @@ margin_top = 168.0
 margin_right = 1024.0
 margin_bottom = 335.0
 script = ExtResource( 5 )
-color = Color( 0, 1, 0.929412, 1 )
 title = "Goal"
 description = "goal focus time, set it with HH:MM:SS"
+color = Color( 0, 1, 0.929412, 1 )
 
 [node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
@@ -124,9 +124,11 @@ margin_top = 335.0
 margin_right = 512.0
 margin_bottom = 502.0
 script = ExtResource( 7 )
+stopped = false
 color = Color( 1, 0.498039, 0.498039, 1 )
 title = "Finish"
 description = "expected finish time"
+text = "00:00:00"
 remainder_path = NodePath("../remainder")
 timer_path = NodePath("../work_timer")
 goal_path = NodePath("../work_goal")
@@ -139,6 +141,7 @@ margin_top = 335.0
 margin_right = 1024.0
 margin_bottom = 502.0
 script = ExtResource( 6 )
+stopped = false
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Now"
 description = "current time"
@@ -151,15 +154,15 @@ margin_bottom = 600.0
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_right = 253.0
+margin_right = 192.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 text = "work"
 
 [node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 257.0
-margin_right = 510.0
+margin_left = 196.0
+margin_right = 389.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -167,8 +170,8 @@ text = "stop"
 
 [node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 514.0
-margin_right = 767.0
+margin_left = 393.0
+margin_right = 591.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -176,14 +179,22 @@ text = "freeze"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 771.0
-margin_right = 1024.0
+margin_left = 595.0
+margin_right = 788.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 custom_styles/hover = SubResource( 6 )
 custom_styles/pressed = SubResource( 8 )
 custom_styles/normal = SubResource( 7 )
 text = "clear"
+
+[node name="log_day" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
+unique_name_in_owner = true
+margin_left = 792.0
+margin_right = 1024.0
+margin_bottom = 94.0
+size_flags_horizontal = 3
+text = "log day"
 
 [node name="Control2" type="Control" parent="HBoxContainer"]
 visible = false

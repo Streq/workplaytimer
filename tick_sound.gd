@@ -41,7 +41,7 @@ func refresh_volume_db():
 		volume_db = volume
 	else:
 		volume_db = -80.0
-func _process(delta):
+func _process(_delta):
 	var ms_now = owner.msec
 	var ms_before = owner.msec_before
 	check(ms_before, ms_now)
