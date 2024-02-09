@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://now.gd" type="Script" id=6]
 [ext_resource path="res://expected_finish.gd" type="Script" id=7]
 [ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://progress.gd" type="Script" id=9]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 4 )
@@ -45,6 +46,9 @@ border_width_right = 3
 border_width_bottom = 3
 border_blend = true
 
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.242833, 0.31, 0, 1 )
+
 [node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -73,7 +77,7 @@ alignment = 1
 [node name="timers" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 1024.0
-margin_bottom = 502.0
+margin_bottom = 475.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 0
@@ -83,23 +87,23 @@ columns = 2
 [node name="work_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_right = 512.0
-margin_bottom = 168.0
+margin_bottom = 159.0
 color = Color( 1, 1, 1, 1 )
 
 [node name="play_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
 margin_right = 1024.0
-margin_bottom = 168.0
+margin_bottom = 159.0
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
 description = "this is the time you've spent NOT focusing"
 
 [node name="remainder" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_top = 168.0
+margin_top = 159.0
 margin_right = 512.0
-margin_bottom = 335.0
+margin_bottom = 317.0
 script = ExtResource( 1 )
 color = Color( 0.780392, 1, 0, 1 )
 title = "Remainder"
@@ -110,9 +114,9 @@ timer_path = NodePath("../work_timer")
 [node name="work_goal" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
-margin_top = 168.0
+margin_top = 159.0
 margin_right = 1024.0
-margin_bottom = 335.0
+margin_bottom = 317.0
 script = ExtResource( 5 )
 color = Color( 0, 1, 0.929412, 1 )
 title = "Goal"
@@ -120,9 +124,9 @@ description = "goal focus time, set it with HH:MM:SS"
 
 [node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_top = 335.0
+margin_top = 317.0
 margin_right = 512.0
-margin_bottom = 502.0
+margin_bottom = 475.0
 script = ExtResource( 7 )
 color = Color( 1, 0.498039, 0.498039, 1 )
 title = "Finish"
@@ -135,9 +139,9 @@ now_path = NodePath("../now")
 [node name="now" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
-margin_top = 335.0
+margin_top = 317.0
 margin_right = 1024.0
-margin_bottom = 502.0
+margin_bottom = 475.0
 script = ExtResource( 6 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Now"
@@ -145,9 +149,9 @@ description = "current time"
 text = "00:00:00.0"
 
 [node name="buttons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 506.0
+margin_top = 479.0
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 573.0
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
@@ -192,6 +196,17 @@ margin_right = 1024.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 text = "log day"
+
+[node name="progress" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+margin_top = 577.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 8 )
+custom_styles/fg = SubResource( 9 )
+script = ExtResource( 9 )
+goal_path = NodePath("../timers/work_goal")
+timer_path = NodePath("../timers/work_timer")
 
 [node name="Control2" type="Control" parent="HBoxContainer"]
 visible = false

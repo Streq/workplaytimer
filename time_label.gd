@@ -17,7 +17,7 @@ func save():
 	FileUtils.save_json_file(SAVE_PATH, {"msec":msec})
 func load_():
 	var save_state = FileUtils.load_json_file_as_dict(SAVE_PATH)
-	if save_state!=null and "msec" in save_state:
+	if save_state != null and "msec" in save_state:
 		msec = save_state.msec
 	render_text()
 func set_msec(val):
