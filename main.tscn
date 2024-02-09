@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -47,7 +47,10 @@ border_width_bottom = 3
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id=9]
-bg_color = Color( 0.242833, 0.31, 0, 1 )
+bg_color = Color( 0.380392, 0.486275, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.054902, 0.054902, 0.054902, 1 )
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -204,6 +207,7 @@ margin_bottom = 600.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 8 )
 custom_styles/fg = SubResource( 9 )
+custom_styles/bg = SubResource( 10 )
 script = ExtResource( 9 )
 goal_path = NodePath("../timers/work_goal")
 timer_path = NodePath("../timers/work_timer")
