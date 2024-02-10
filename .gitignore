@@ -8,7 +8,7 @@ exports/*
 
 # Ignore this file to avoid keystore passwords being exposed
 # If you wanna commit your configuration but have sensitive data
-# copy the contents to export_presets_template.cfg 
+# copy the contents to export_presets.cfg.template
 # and do the following regex replace 
 #
 # find every line containing "keystore" or "password" and a non-empty value
@@ -24,3 +24,6 @@ android/build/*
 
 # Dumbass intellij files
 .idea/
+
+# Folder to test stuff out
+ignore/
