@@ -21,3 +21,6 @@ export_presets.cfg
 # Android build ignore
 android/build/*
 !android/build/AndroidManifest.xml
+
+# Dumbass intellij files
+.idea/
