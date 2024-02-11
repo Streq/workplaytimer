@@ -1,5 +1,5 @@
 extends TimeLabel
-
+tool
 
 func _ready() -> void:
 	if Engine.editor_hint:

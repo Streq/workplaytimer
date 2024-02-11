@@ -15,9 +15,14 @@ _global_script_classes=[ {
 "path": "res://config.gd"
 }, {
 "base": "Node",
+"class": "ErrorUtils",
+"language": "GDScript",
+"path": "res://utils/ErrorUtils.gd"
+}, {
+"base": "Node",
 "class": "FileUtils",
 "language": "GDScript",
-"path": "res://FileUtils.gd"
+"path": "res://utils/FileUtils.gd"
 }, {
 "base": "Control",
 "class": "TimeLabel",
@@ -26,6 +31,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Config": "",
+"ErrorUtils": "",
 "FileUtils": "",
 "TimeLabel": ""
 }
@@ -34,6 +40,8 @@ _global_script_class_icons={
 
 config/name="WorkPlayTimer"
 run/main_scene="res://main.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="workplaytimer"
 boot_splash/show_image=false
 config/icon="res://icon.png"
 

@@ -1,13 +1,14 @@
 extends Node
 class_name FileUtils
-
-static func load_json_file_as_dict(json_path: String) -> Object:
+ 
+static func load_json_file_as_dict(json_path: String):
 	var file = File.new()
 	var error = file.open(json_path, file.READ)
 	if error:
-		push_warning("couldn't open json file at \"{path}\". Error code {error}".format({
+		push_warning("couldn't open json file at \"{path}\". Error code {error} - {error_string}".format({
 				"path": json_path,
-				"error": str(error)
+				"error": str(error),
+				"error_string": ErrorUtils.get_error_text(error)
 			}))
 		return null
 	
@@ -17,11 +18,14 @@ static func load_json_file_as_dict(json_path: String) -> Object:
 	file.close()
 	
 	if json.error:
-		push_warning("couldn't extract valid json from \"{path}\". Error code {error}".format({
+		push_warning("couldn't extract valid json from \"{path}\". Error code {error} - {error_text}, at line {error_line}.".format({
 				"path": json_path,
-				"error": str(json.error)
+				"error": str(json.error),
+				"error_text": json.error_string,
+				"error_line": str(json.error_line),
 			}))
 		return null
+
 	return json.result
 
 

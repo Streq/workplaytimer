@@ -1,8 +1,8 @@
 extends Node
+tool
 
-
-var PATH: String = OS.get_executable_path().get_base_dir()
-
+#var PATH: String = OS.get_executable_path().get_base_dir()
+var PATH: String = "user://"
 
 static func to_text(msec: int)->String:
 	var seconds := msec/1000
@@ -44,3 +44,4 @@ static func from_text(text:String):
 
 static func now_msec():
 	return Time.get_ticks_msec()
+

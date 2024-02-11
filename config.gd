@@ -18,7 +18,7 @@ func initialize() -> void:
 	yield(get_tree(),"idle_frame")
 	
 	if _load_config() == -1:
-		print("configuration file not found for {file}, creating one with default values".format({ 
+		push_warning("configuration file not found for {file}, creating one with default values".format({ 
 			"file" : CONFIG_PATH.get_file() 
 		}))
 		save()

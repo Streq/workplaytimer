@@ -1,14 +1,15 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
-[ext_resource path="res://work_timer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://time_label.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://work_goal.gd" type="Script" id=5]
 [ext_resource path="res://now.gd" type="Script" id=6]
 [ext_resource path="res://expected_finish.gd" type="Script" id=7]
 [ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://progress.gd" type="Script" id=9]
+[ext_resource path="res://work_timer.gd" type="Script" id=10]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 4 )
@@ -91,13 +92,16 @@ columns = 2
 unique_name_in_owner = true
 margin_right = 512.0
 margin_bottom = 159.0
-color = Color( 1, 1, 1, 1 )
+script = ExtResource( 10 )
+title = "Work"
+description = "this is the time you've spent focusing"
 
 [node name="play_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 512.0
 margin_right = 1024.0
 margin_bottom = 159.0
+script = ExtResource( 10 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
 description = "this is the time you've spent NOT focusing"
@@ -149,7 +153,6 @@ script = ExtResource( 6 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Now"
 description = "current time"
-text = "00:00:00.0"
 
 [node name="buttons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 479.0
