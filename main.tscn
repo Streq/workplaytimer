@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://progress.gd" type="Script" id=9]
 [ext_resource path="res://work_timer.gd" type="Script" id=10]
+[ext_resource path="res://assets/theme/small_theme.tres" type="Theme" id=11]
+[ext_resource path="res://input_field/time_line_edit.gd" type="Script" id=13]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 4 )
@@ -65,6 +67,39 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="tasks" type="PanelContainer" parent="HBoxContainer"]
+margin_right = 86.0
+margin_bottom = 600.0
+theme = ExtResource( 11 )
+
+[node name="task_list" type="VBoxContainer" parent="HBoxContainer/tasks"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 79.0
+margin_bottom = 593.0
+
+[node name="task" type="PanelContainer" parent="HBoxContainer/tasks/task_list"]
+margin_right = 72.0
+margin_bottom = 74.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/tasks/task_list/task"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 65.0
+margin_bottom = 67.0
+
+[node name="name" type="Label" parent="HBoxContainer/tasks/task_list/task/VBoxContainer"]
+margin_right = 58.0
+margin_bottom = 23.0
+text = "work"
+
+[node name="time_input" type="LineEdit" parent="HBoxContainer/tasks/task_list/task/VBoxContainer"]
+margin_top = 27.0
+margin_right = 58.0
+margin_bottom = 60.0
+expand_to_text_length = true
+script = ExtResource( 13 )
+
 [node name="Control" type="Control" parent="HBoxContainer"]
 visible = false
 margin_right = 32.0
@@ -72,6 +107,7 @@ margin_bottom = 600.0
 rect_min_size = Vector2( 32, 32 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 90.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
@@ -80,7 +116,7 @@ alignment = 1
 
 [node name="timers" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 1024.0
+margin_right = 934.0
 margin_bottom = 475.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -90,7 +126,7 @@ columns = 2
 
 [node name="work_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_right = 512.0
+margin_right = 467.0
 margin_bottom = 159.0
 script = ExtResource( 10 )
 title = "Work"
@@ -98,8 +134,8 @@ description = "this is the time you've spent focusing"
 
 [node name="play_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_left = 512.0
-margin_right = 1024.0
+margin_left = 467.0
+margin_right = 934.0
 margin_bottom = 159.0
 script = ExtResource( 10 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
@@ -109,7 +145,7 @@ description = "this is the time you've spent NOT focusing"
 [node name="remainder" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_top = 159.0
-margin_right = 512.0
+margin_right = 467.0
 margin_bottom = 317.0
 script = ExtResource( 1 )
 color = Color( 0.780392, 1, 0, 1 )
@@ -120,9 +156,9 @@ timer_path = NodePath("../work_timer")
 
 [node name="work_goal" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_left = 512.0
+margin_left = 467.0
 margin_top = 159.0
-margin_right = 1024.0
+margin_right = 934.0
 margin_bottom = 317.0
 script = ExtResource( 5 )
 color = Color( 0, 1, 0.929412, 1 )
@@ -132,7 +168,7 @@ description = "goal focus time, set it with HH:MM:SS"
 [node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_top = 317.0
-margin_right = 512.0
+margin_right = 467.0
 margin_bottom = 475.0
 script = ExtResource( 7 )
 color = Color( 1, 0.498039, 0.498039, 1 )
@@ -145,9 +181,9 @@ now_path = NodePath("../now")
 
 [node name="now" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_left = 512.0
+margin_left = 467.0
 margin_top = 317.0
-margin_right = 1024.0
+margin_right = 934.0
 margin_bottom = 475.0
 script = ExtResource( 6 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
@@ -156,20 +192,20 @@ description = "current time"
 
 [node name="buttons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 479.0
-margin_right = 1024.0
+margin_right = 934.0
 margin_bottom = 573.0
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_right = 192.0
+margin_right = 180.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 text = "work"
 
 [node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 196.0
-margin_right = 389.0
+margin_left = 184.0
+margin_right = 364.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -177,8 +213,8 @@ text = "stop"
 
 [node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 393.0
-margin_right = 591.0
+margin_left = 368.0
+margin_right = 566.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -186,8 +222,8 @@ text = "freeze"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 595.0
-margin_right = 788.0
+margin_left = 570.0
+margin_right = 750.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 custom_styles/hover = SubResource( 6 )
@@ -197,15 +233,15 @@ text = "clear"
 
 [node name="log_day" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 792.0
-margin_right = 1024.0
+margin_left = 754.0
+margin_right = 934.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
-text = "log day"
+text = "log"
 
 [node name="progress" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
 margin_top = 577.0
-margin_right = 1024.0
+margin_right = 934.0
 margin_bottom = 600.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 8 )

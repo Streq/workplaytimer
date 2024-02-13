@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://input_field/time_line_edit.gd" type="Script" id=1]
+
+[node name="task" type="PanelContainer"]
+margin_right = 72.0
+margin_bottom = 74.0
+
+[node name="data" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 65.0
+margin_bottom = 67.0
+
+[node name="name" type="Label" parent="data"]
+margin_right = 58.0
+margin_bottom = 23.0
+text = "work"
+
+[node name="time_input" type="LineEdit" parent="data"]
+margin_top = 27.0
+margin_right = 58.0
+margin_bottom = 60.0
+expand_to_text_length = true
+script = ExtResource( 1 )

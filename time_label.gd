@@ -111,7 +111,9 @@ func _on_text_entered(_new_text := "", save:=false):
 		save()
 func _on_text_changed(_new_text := "", save:=false):
 	msec = Global.from_text(label.text)
+	var caret = label.caret_position
 	emit_signal("updated")
+	label.caret_position = caret
 	if save:
 		save()
 	

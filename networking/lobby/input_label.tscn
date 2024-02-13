@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://networking/lobby/input_label.gd" type="Script" id=1]
+
+[node name="input_label" type="HBoxContainer"]
+margin_right = 353.0
+margin_bottom = 24.0
+script = ExtResource( 1 )
+label = "label"
+
+[node name="label" type="Label" parent="."]
+margin_right = 174.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "label"
+align = 2
+valign = 1
+
+[node name="value" type="LineEdit" parent="."]
+margin_left = 178.0
+margin_right = 353.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
