@@ -26,7 +26,7 @@ func add_task_internal(task):
 	task_list.add_child(task)
 
 
-func _on_msec_updated(new_msec, task):
+func _on_msec_updated(_new_msec, _task):
 	calculate_tasks()
 
 func _on_work_done_updated(msec):

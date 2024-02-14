@@ -29,7 +29,7 @@ func set_msec_internal(val):
 	progress.max_value = msec
 
 onready var enabled_input = $"%enabled"
-export var enabled := false setget set_enabled
+export var enabled := true setget set_enabled
 func set_enabled(val):
 	set_enabled_internal(val)
 	if !is_inside_tree():
@@ -62,7 +62,7 @@ func _ready():
 	remove.connect("pressed",self,"remove")
 	connect("disabled",progress,"hide")
 	connect("enabled",progress,"show")
-	set_title(title)	
+	set_title(title)
 	set_msec(msec)
 	set_msec_done(0)
 	set_enabled(enabled)
