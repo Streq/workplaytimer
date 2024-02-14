@@ -23,6 +23,7 @@ margin_bottom = 52.0
 [node name="address" parent="VBoxContainer/fields" instance=ExtResource( 2 )]
 unique_name_in_owner = true
 margin_right = 1010.0
+value = "127.0.0.1"
 label = "Address"
 
 [node name="port" parent="VBoxContainer/fields" instance=ExtResource( 2 )]

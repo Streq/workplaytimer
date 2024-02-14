@@ -13,6 +13,7 @@ onready var play_timer: TimeLabel = $"%play_timer"
 onready var expected_finish: TimeLabel = $"%expected_finish"
 onready var work_goal: TimeLabel = $"%work_goal"
 onready var now: TimeLabel = $"%now"
+onready var tasks = $"%tasks"
 
 func _ready() -> void:
 	play.connect("pressed",self,"_on_play_button_pressed")
@@ -20,8 +21,13 @@ func _ready() -> void:
 	clear.connect("pressed",self,"_on_clear_button_pressed")
 	freeze.connect("pressed",self,"_on_freeze_button_pressed")
 	log_day.connect("pressed",self,"_on_log_day_button_pressed")
+	tasks.connect("task_time_changed", self, "_on_task_time_changed")
+	work_timer.connect("msec_changed", tasks, "_on_work_done_updated")
 	initialize()
-
+	
+func _on_task_time_changed(val):
+	work_goal.msec = val
+	work_goal.render_text()
 func _on_play_button_pressed():
 	unfreeze()
 	set_stop(false)

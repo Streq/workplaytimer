@@ -41,6 +41,3 @@ func do_print_stack():
 			})
 	print(text)
 	emit_signal("printed_stack", text)
-
-func _ready():
-	do_print_stack()

@@ -11,6 +11,14 @@ static func to_text(msec: int)->String:
 	var unit_seconds = seconds%60
 	var unit_dsec = msec%1000/100
 	return "%02d:%02d:%02d.%01d" % [unit_hours, unit_minutes, unit_seconds, unit_dsec]
+static func to_text_no_sub_sec(msec: int)->String:
+	var seconds := msec/1000
+	var unit_hours = seconds/60/60
+	var unit_minutes = (seconds/60)%60
+	var unit_seconds = seconds%60
+	return "%02d:%02d:%02d" % [unit_hours, unit_minutes, unit_seconds]
+
+
 static func to_text_wrap_hours(msec: int)->String:
 	var seconds := msec/1000
 	var unit_hours = (seconds/60/60)%24

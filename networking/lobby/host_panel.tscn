@@ -23,7 +23,7 @@ margin_bottom = 52.0
 [node name="address" parent="VBoxContainer/fields" instance=ExtResource( 2 )]
 unique_name_in_owner = true
 margin_right = 1010.0
-label = "Address"
+label = "Public Address"
 editable = false
 
 [node name="port" parent="VBoxContainer/fields" instance=ExtResource( 2 )]
@@ -53,3 +53,6 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Host"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+unique_name_in_owner = true

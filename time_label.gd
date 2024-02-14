@@ -5,6 +5,7 @@ tool
 signal updated
 signal started
 signal stopped
+signal msec_changed(val)
 
 onready var SAVE_PATH = Global.PATH.plus_file("state").plus_file(name+".json") 
 onready var title_label = $"%title"
@@ -59,7 +60,7 @@ var msec_before := 0
 func set_msec(val):
 	msec_before = msec
 	msec = val
-
+	emit_signal("msec_changed", msec)
 
 func _ready() -> void:
 	_update_title()
