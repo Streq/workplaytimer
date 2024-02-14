@@ -39,13 +39,18 @@ func _on_data_folder_pressed():
 	FileUtils.open_user_data()
 	
 func _work_timer_changed(msec):
-	subtract_leftover.disabled = msec <= work_goal.msec
 	tasks._on_work_done_updated(msec)
+	update_subtract_leftover()
 
 func _on_task_time_changed(val):
 	work_goal.msec = val
 	work_goal.render_text()
 	progress.update_progress()
+	update_subtract_leftover()
+
+func update_subtract_leftover():
+	subtract_leftover.disabled = work_timer.msec <= work_goal.msec
+	
 
 func _on_subtract_leftover_pressed():
 	if work_timer.msec > work_goal.msec:
