@@ -12,7 +12,6 @@ func _ready():
 	add.connect("pressed", self, "add_task")
 	load_()
 	
-var active_tasks = {}
 func add_task():
 	var task = Task.instance()
 	add_task_internal(task)
@@ -35,7 +34,9 @@ func _on_work_done_updated(msec):
 
 func update_task_completeness():
 	var sum = msec_completed
-	for task in active_tasks:
+	for task in task_list.get_children():
+		if !task.enabled:
+			continue
 		var task_msec = task.msec
 		if sum >= task_msec:
 			sum -= task_msec
@@ -46,7 +47,9 @@ func update_task_completeness():
 
 func calculate_tasks():
 	var sum = 0
-	for task in active_tasks:
+	for task in task_list.get_children():
+		if !task.enabled:
+			continue
 		sum += task.msec
 	emit_signal("task_time_changed", sum)
 	save()
@@ -68,10 +71,4 @@ func load_():
 		var task = Task.instance()
 		task.deserialize(serialized_task)
 		add_task_internal(task)
-	calculate_tasks()
-func enable_task(task):
-	active_tasks[task] = task
-	calculate_tasks()
-func disable_task(task):
-	active_tasks.erase(task)
 	calculate_tasks()
