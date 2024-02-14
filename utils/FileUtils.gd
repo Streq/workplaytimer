@@ -87,8 +87,34 @@ static func open_or_create(path : String) -> File:
 	if error == OK:
 		return file
 
-	push_error("Couldn't open log file at \"{file}\". Error code is {error}.".format({
+	push_error("Couldn't open file at \"{file}\". Error code is {error}.".format({
 			"file" : path,
 			"error" : error
 		}))
 	return null
+static func create_if_absent(path : String) -> int:
+	var file = File.new()
+	
+	if file.file_exists(path):
+		return OK
+	
+	var error = create_dir_for_file_if_absent(path)
+	
+	if error:
+		return error
+	
+	error = file.open(path, File.WRITE) 
+
+	if error:
+		push_error("Couldn't create file at \"{file}\". Error code is {error}.".format({
+				"file" : path,
+				"error" : error
+			}))
+		return error
+	
+	file.close()
+	return OK
+
+static func open_user_data():
+	var file = ProjectSettings.globalize_path("user://")
+	OS.shell_open(file)

@@ -1,8 +1,6 @@
 extends PanelContainer
 tool
-signal msec_updated(msec)
-signal enabled()
-signal disabled()
+signal updated()
 
 onready var title_input = $"%title"
 export var title = "" setget set_title
@@ -23,11 +21,9 @@ func set_msec(val):
 	time_input.msec = msec
 func set_msec_internal(val):
 	msec = val
-	emit_signal("msec_updated", msec)
-	if !is_inside_tree():
-		return
-	progress.max_value = msec
-
+	_update_progress()
+	emit_signal("updated")
+	
 onready var enabled_input = $"%enabled"
 export var enabled := true setget set_enabled
 func set_enabled(val):
@@ -39,10 +35,10 @@ func set_enabled_internal(val):
 	enabled = val
 	if enabled:
 		set_msec_done(0)
-		emit_signal("enabled")
 	else:
 		set_msec_done(msec)
-		emit_signal("disabled")
+	_update_progress()
+	emit_signal("updated")
 
 
 export var msec_done := 0 setget set_msec_done
@@ -60,15 +56,13 @@ func _ready():
 	title_input.connect("text_changed", self, "set_title_internal")
 	enabled_input.connect("toggled", self, "set_enabled_internal")
 	remove.connect("pressed",self,"remove")
-	connect("disabled",progress,"hide")
-	connect("enabled",progress,"show")
 	set_title(title)
 	set_msec(msec)
 	set_msec_done(0)
 	set_enabled(enabled)
 
 func remove():
-	emit_signal("disabled")
+	set_enabled(false)
 	queue_free()
 
 func serialize():
@@ -81,3 +75,10 @@ func deserialize(dict):
 	set_title(dict.title)
 	set_msec(dict.msec)
 	set_enabled(dict.enabled)
+
+func _update_progress():
+	if !is_inside_tree():
+		return
+	progress.value = msec_done
+	progress.max_value = msec
+	progress.visible = enabled and msec > 0

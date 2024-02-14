@@ -5,6 +5,9 @@ onready var stop: Button = $"%stop"
 onready var clear: Button = $"%clear"
 onready var freeze: Button = $"%freeze"
 onready var log_day: Button = $"%log_day"
+onready var subtract_leftover: Button = $"%subtract_leftover"
+onready var data_folder = $"%data_folder"
+
 
 onready var timers: GridContainer = $"%timers"
 
@@ -14,20 +17,40 @@ onready var expected_finish: TimeLabel = $"%expected_finish"
 onready var work_goal: TimeLabel = $"%work_goal"
 onready var now: TimeLabel = $"%now"
 onready var tasks = $"%tasks"
+onready var progress = $"%progress"
 
 func _ready() -> void:
-	play.connect("pressed",self,"_on_play_button_pressed")
-	stop.connect("pressed",self,"_on_stop_button_pressed")
-	clear.connect("pressed",self,"_on_clear_button_pressed")
-	freeze.connect("pressed",self,"_on_freeze_button_pressed")
-	log_day.connect("pressed",self,"_on_log_day_button_pressed")
+	play.connect("pressed", self, "_on_play_button_pressed")
+	stop.connect("pressed", self, "_on_stop_button_pressed")
+	clear.connect("pressed", self, "_on_clear_button_pressed")
+	freeze.connect("pressed", self, "_on_freeze_button_pressed")
+	log_day.connect("pressed", self, "_on_log_day_button_pressed")
+	subtract_leftover.connect("pressed", self, "_on_subtract_leftover_pressed")
+	data_folder.connect("pressed", self, "_on_data_folder_pressed")
+
+	work_timer.connect("msec_changed", self, "_work_timer_changed")
 	tasks.connect("task_time_changed", self, "_on_task_time_changed")
-	work_timer.connect("msec_changed", tasks, "_on_work_done_updated")
+
 	initialize()
+
+	_work_timer_changed(work_timer.msec)
+
+func _on_data_folder_pressed():
+	FileUtils.open_user_data()
 	
+func _work_timer_changed(msec):
+	subtract_leftover.disabled = msec <= work_goal.msec
+	tasks._on_work_done_updated(msec)
+
 func _on_task_time_changed(val):
 	work_goal.msec = val
 	work_goal.render_text()
+	progress.update_progress()
+
+func _on_subtract_leftover_pressed():
+	if work_timer.msec > work_goal.msec:
+		work_timer.msec = work_goal.msec
+		work_timer.render_text()
 func _on_play_button_pressed():
 	unfreeze()
 	set_stop(false)
@@ -35,15 +58,19 @@ func _on_play_button_pressed():
 	if work_timer.stopped:
 		play_timer.on()
 		play.text = "work"
+		play.hint_tooltip = "pause the Play timer and start the Work timer"
+		play.theme = preload("work_theme.tres")
 	else:
 		play_timer.off()
 		play.text = "play"
+		play.hint_tooltip = "pause the Work timer and start the Play timer"
+		play.theme = preload("play_theme.tres")
 		expected_finish.update_time()
 
 var stop_pressed = false
 func _on_stop_button_pressed():
 	set_stop(!stop_pressed)
-	
+
 func set_stop(val):
 	unfreeze()
 	stop_pressed = val
@@ -86,13 +113,14 @@ func _on_clear_button_pressed():
 	work_goal.msec = 0
 	work_goal.render_text()
 
-
-onready var logs_file = Global.PATH.plus_file("history").plus_file("history.csv")
+onready var LOGS_FILE = "history".plus_file("history.csv")
+onready var LOGS_ABSOLUTE_PATH = OS.get_user_data_dir().plus_file(LOGS_FILE)
+onready var LOGS_USER_PATH = Global.PATH.plus_file(LOGS_FILE)
 func _on_log_day_button_pressed():
 	log_day()
 
 func log_day():
-	var file = FileUtils.open_or_create(logs_file)
+	var file = FileUtils.open_or_create(LOGS_USER_PATH)
 	
 	if file == null:
 		return
@@ -145,7 +173,5 @@ func initialize():
 	play_timer.off()
 	
 	work_timer.render_text()
-	
 	play_timer.render_text()
-	
 	work_goal.render_text()

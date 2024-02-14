@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=4 format=2]
+
+[ext_resource path="res://assets/red_button/play_normal.tres" type="StyleBox" id=1]
+[ext_resource path="res://assets/red_button/play_hover.tres" type="StyleBox" id=2]
+[ext_resource path="res://assets/red_button/play_pressed.tres" type="StyleBox" id=3]
+
+[resource]
+Button/styles/hover = ExtResource( 2 )
+Button/styles/normal = ExtResource( 1 )
+Button/styles/pressed = ExtResource( 3 )

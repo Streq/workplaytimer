@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -11,6 +11,11 @@
 [ext_resource path="res://progress.gd" type="Script" id=9]
 [ext_resource path="res://work_timer.gd" type="Script" id=10]
 [ext_resource path="res://task/task_panel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/theme/small_theme.tres" type="Theme" id=12]
+[ext_resource path="res://assets/red_button/hover.tres" type="StyleBox" id=13]
+[ext_resource path="res://assets/red_button/normal.tres" type="StyleBox" id=14]
+[ext_resource path="res://assets/red_button/pressed.tres" type="StyleBox" id=15]
+[ext_resource path="res://work_theme.tres" type="Theme" id=16]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 4 )
@@ -23,30 +28,6 @@ font_data = ExtResource( 4 )
 default_font = SubResource( 1 )
 PopupMenu/fonts/font = ExtResource( 8 )
 TooltipLabel/fonts/font = SubResource( 5 )
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.54902, 0.223529, 0.223529, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 1, 0, 0, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.545098, 0.0666667, 0, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_blend = true
 
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.380392, 0.486275, 0, 1 )
@@ -88,7 +69,7 @@ alignment = 1
 [node name="timers" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 860.0
-margin_bottom = 475.0
+margin_bottom = 540.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 0
@@ -98,7 +79,7 @@ columns = 2
 [node name="work_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_right = 430.0
-margin_bottom = 159.0
+margin_bottom = 180.0
 script = ExtResource( 10 )
 title = "Work"
 description = "this is the time you've spent focusing"
@@ -107,7 +88,7 @@ description = "this is the time you've spent focusing"
 unique_name_in_owner = true
 margin_left = 430.0
 margin_right = 860.0
-margin_bottom = 159.0
+margin_bottom = 180.0
 script = ExtResource( 10 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
@@ -115,9 +96,9 @@ description = "this is the time you've spent NOT focusing"
 
 [node name="remainder" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_top = 159.0
+margin_top = 180.0
 margin_right = 430.0
-margin_bottom = 317.0
+margin_bottom = 360.0
 script = ExtResource( 1 )
 color = Color( 0.780392, 1, 0, 1 )
 title = "Left"
@@ -128,9 +109,9 @@ timer_path = NodePath("../work_timer")
 [node name="work_goal" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 430.0
-margin_top = 159.0
+margin_top = 180.0
 margin_right = 860.0
-margin_bottom = 317.0
+margin_bottom = 360.0
 script = ExtResource( 5 )
 color = Color( 0, 1, 0.929412, 1 )
 title = "Goal"
@@ -138,9 +119,9 @@ description = "goal focus time, set it with HH:MM:SS"
 
 [node name="expected_finish" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
-margin_top = 317.0
+margin_top = 360.0
 margin_right = 430.0
-margin_bottom = 475.0
+margin_bottom = 540.0
 script = ExtResource( 7 )
 color = Color( 1, 0.498039, 0.498039, 1 )
 title = "End"
@@ -153,64 +134,96 @@ now_path = NodePath("../now")
 [node name="now" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 margin_left = 430.0
-margin_top = 317.0
+margin_top = 360.0
 margin_right = 860.0
-margin_bottom = 475.0
+margin_bottom = 540.0
 script = ExtResource( 6 )
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Now"
 description = "current time"
 
 [node name="buttons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 479.0
+margin_top = 544.0
 margin_right = 860.0
 margin_bottom = 573.0
+theme = ExtResource( 12 )
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_right = 161.0
-margin_bottom = 94.0
+margin_right = 116.0
+margin_bottom = 29.0
 size_flags_horizontal = 3
+theme = ExtResource( 16 )
 text = "work"
+clip_text = true
 
 [node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 165.0
-margin_right = 327.0
-margin_bottom = 94.0
+margin_left = 120.0
+margin_right = 236.0
+margin_bottom = 29.0
+hint_tooltip = "stop both Play and Work timers"
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
 toggle_mode = true
 text = "stop"
+clip_text = true
 
 [node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 331.0
-margin_right = 529.0
-margin_bottom = 94.0
+margin_left = 240.0
+margin_right = 356.0
+margin_bottom = 29.0
+hint_tooltip = "stop all timers, useful to take a snapshot of the timer"
 size_flags_horizontal = 3
 toggle_mode = true
 text = "freeze"
+clip_text = true
+
+[node name="subtract_leftover" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
+unique_name_in_owner = true
+margin_left = 360.0
+margin_right = 499.0
+margin_bottom = 29.0
+hint_tooltip = "if Work timer is higher than Goal, set Work's time to Goal's"
+size_flags_horizontal = 3
+text = "subtract leftover"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 533.0
-margin_right = 694.0
-margin_bottom = 94.0
+margin_left = 503.0
+margin_right = 619.0
+margin_bottom = 29.0
+hint_tooltip = "clear all timers"
 size_flags_horizontal = 3
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = ExtResource( 13 )
+custom_styles/pressed = ExtResource( 15 )
+custom_styles/normal = ExtResource( 14 )
 text = "clear"
+clip_text = true
 
 [node name="log_day" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 698.0
-margin_right = 860.0
-margin_bottom = 94.0
+margin_left = 623.0
+margin_right = 739.0
+margin_bottom = 29.0
+hint_tooltip = "save day as entry on a csv file and copy it to clipboard"
 size_flags_horizontal = 3
-text = "log"
+text = "log day"
+clip_text = true
+
+[node name="data_folder" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
+unique_name_in_owner = true
+margin_left = 743.0
+margin_right = 860.0
+margin_bottom = 29.0
+hint_tooltip = "open user data folder"
+size_flags_horizontal = 3
+text = "data folder"
+clip_text = true
 
 [node name="progress" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 margin_top = 577.0
 margin_right = 860.0
 margin_bottom = 600.0

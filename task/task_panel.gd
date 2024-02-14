@@ -18,15 +18,9 @@ func add_task():
 	calculate_tasks()
 
 func add_task_internal(task):
-	task.connect("msec_updated", self, "_on_msec_updated", [task], CONNECT_DEFERRED)
-	task.connect("disabled", self, "disable_task", [task])
-	task.connect("enabled", self, "enable_task", [task])
-	
+	task.connect("updated", self, "calculate_tasks")	
 	task_list.add_child(task)
 
-
-func _on_msec_updated(_new_msec, _task):
-	calculate_tasks()
 
 func _on_work_done_updated(msec):
 	msec_completed = msec
@@ -71,4 +65,9 @@ func load_():
 		var task = Task.instance()
 		task.deserialize(serialized_task)
 		add_task_internal(task)
+	calculate_tasks()
+
+func enable_task(_task):
+	calculate_tasks()
+func disable_task(_task):
 	calculate_tasks()
