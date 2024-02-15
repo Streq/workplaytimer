@@ -53,9 +53,19 @@ func update_subtract_leftover():
 	
 
 func _on_subtract_leftover_pressed():
-	if work_timer.msec > work_goal.msec:
-		work_timer.msec = work_goal.msec
+
+	var goal = work_goal.msec
+	var progress = work_timer.msec
+
+	if progress > goal:
+		var excess = progress-goal
+		
+		play_timer.msec += excess
+		work_timer.msec = goal
+		
+		play_timer.render_text()
 		work_timer.render_text()
+		
 func _on_play_button_pressed():
 	unfreeze()
 	set_stop(false)

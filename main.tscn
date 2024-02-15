@@ -185,7 +185,7 @@ unique_name_in_owner = true
 margin_left = 360.0
 margin_right = 499.0
 margin_bottom = 29.0
-hint_tooltip = "if Work timer is higher than Goal, set Work's time to Goal's"
+hint_tooltip = "if Work timer is higher than Goal, move excess time from Work to Play"
 size_flags_horizontal = 3
 text = "subtract leftover"
 
