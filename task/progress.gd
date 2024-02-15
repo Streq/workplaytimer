@@ -1,13 +1,21 @@
 extends ProgressBar
 
+export var focus := false setget set_focus
 
 func _ready():
 	connect("value_changed",self,"_value_changed")
 	connect("changed", self, "_changed")
 func _value_changed(_new_value):
-	if ratio == 1.0:
-		theme = preload("complete_theme.tres")
-	else:
-		theme = preload("incomplete_theme.tres")
+	update_look()
 func _changed():
 	pass
+func set_focus(val):
+	focus = val
+	update_look()
+
+
+func update_look():
+	if focus or ratio >= 1.0:
+		theme_type_variation = "ProgressBar_focus"
+	else:
+		theme_type_variation = ""
