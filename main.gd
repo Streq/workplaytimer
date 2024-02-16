@@ -5,7 +5,7 @@ onready var stop: Button = $"%stop"
 onready var clear: Button = $"%clear"
 onready var freeze: Button = $"%freeze"
 onready var log_day: Button = $"%log_day"
-onready var subtract_leftover: Button = $"%subtract_leftover"
+onready var save: Button = $"%save"
 onready var data_folder = $"%data_folder"
 
 
@@ -20,119 +20,105 @@ onready var tasks = $"%tasks"
 onready var progress = $"%progress"
 
 func _ready() -> void:
+	add_to_group("autosave_authority")
+	
 	play.connect("pressed", self, "_on_play_button_pressed")
-	stop.connect("pressed", self, "_on_stop_button_pressed")
-	clear.connect("pressed", self, "_on_clear_button_pressed")
-	freeze.connect("pressed", self, "_on_freeze_button_pressed")
-	log_day.connect("pressed", self, "_on_log_day_button_pressed")
-	subtract_leftover.connect("pressed", self, "_on_subtract_leftover_pressed")
-	data_folder.connect("pressed", self, "_on_data_folder_pressed")
+	clear.connect("pressed", self, "clear")
+	log_day.connect("pressed", self, "log_day")
+	data_folder.connect("pressed", self, "data_folder")
+	save.connect("pressed", self, "save")
+
+	stop.connect("toggled", self, "set_stopped")
+	freeze.connect("toggled", self, "set_frozen")
+	autosave.connect("toggled", self, "set_should_autosave")
 
 	work_timer.connect("msec_changed", self, "_work_timer_changed")
 	tasks.connect("task_time_changed", self, "_on_task_time_changed")
-
+	
+	set_frozen(freeze.pressed)
+	set_stopped(stop.pressed)
+	set_should_autosave(autosave.pressed)
+	
 	initialize()
+	
 
-	_work_timer_changed(work_timer.msec)
-
-func _on_data_folder_pressed():
+	
+	
+func data_folder():
 	FileUtils.open_user_data()
 	
 func _work_timer_changed(msec):
 	tasks._on_work_done_updated(msec)
-	update_subtract_leftover()
+#	update_subtract_leftover()
 
-func _on_task_time_changed(val):
+func _on_task_time_changed(completed_msec, val):
+	work_timer.msec = completed_msec
 	work_goal.msec = val
+	work_timer.render_text()
 	work_goal.render_text()
 	progress.update_progress()
-	update_subtract_leftover()
 
-func update_subtract_leftover():
-	subtract_leftover.disabled = work_timer.msec <= work_goal.msec
+func _on_play_button_pressed():
+	set_frozen(false)
+	set_stopped(false)
+	if play_timer.stopped:
+		play()
+	else:
+		work()
+
+func play():
+	work_timer.off()
+	play_timer.on()
+	play.text = "work"
+	play.hint_tooltip = "pause the Play timer and start the Work timer"
+	play.theme = preload("work_theme.tres")
+	tasks.paused = true
+
+func work():
+	work_timer.on()
+	play_timer.off()
+	play.text = "play"
+	play.hint_tooltip = "pause the Work timer and start the Play timer"
+	play.theme = preload("play_theme.tres")
+	tasks.paused = false
+
+var stopped = false
+func _on_stop_button_pressed():
+	set_stopped(!stopped)
+
+func set_stopped(val):
+	if val and frozen:
+		set_frozen(false)
+	stopped = val
+	tasks.set_frozen(stopped)
+	play_timer.set_frozen(stopped)
+	stop.pressed = stopped
 	
 
-func _on_subtract_leftover_pressed():
-
-	var goal = work_goal.msec
-	var progress = work_timer.msec
-
-	if progress > goal:
-		var excess = progress-goal
-		
-		play_timer.msec += excess
-		work_timer.msec = goal
-		
-		play_timer.render_text()
-		work_timer.render_text()
-		
-func _on_play_button_pressed():
-	unfreeze()
-	set_stop(false)
-	work_timer.switch()
-	if work_timer.stopped:
-		play_timer.on()
-		play.text = "work"
-		play.hint_tooltip = "pause the Play timer and start the Work timer"
-		play.theme = preload("work_theme.tres")
-	else:
-		play_timer.off()
-		play.text = "play"
-		play.hint_tooltip = "pause the Work timer and start the Play timer"
-		play.theme = preload("play_theme.tres")
-		expected_finish.update_time()
-
-var stop_pressed = false
-func _on_stop_button_pressed():
-	set_stop(!stop_pressed)
-
-func set_stop(val):
-	unfreeze()
-	stop_pressed = val
-	work_timer.set_frozen(stop_pressed)
-	play_timer.set_frozen(stop_pressed)
-	stop.pressed = stop_pressed
-
-func _on_freeze_button_pressed():
-	if frozen:
-		unfreeze()
-	else:
-		freeze()
+func _on_freeze_button_toggled(val):
+	set_frozen(val)
 
 var frozen = false
 
-func freeze():
-	set_stop(false)
-	frozen = true
-	freeze.pressed = true
-	for timer in timers.get_children():
-		timer.freeze()
-		
-func unfreeze():
-	frozen = false
-	freeze.pressed = false
-	for timer in timers.get_children():
-		timer.unfreeze()
+func set_frozen(val):
+	if val and stop:
+		set_stopped(false)
 
+	frozen = val
+	freeze.pressed = val
+	for timer in timers.get_children():
+		timer.set_frozen(val)
+	tasks.set_frozen(val)
 
-func _on_clear_button_pressed():
-	work_timer.off()
-	play_timer.off()
-	
-	work_timer.msec = 0
-	work_timer.render_text()
-	
+func clear():
 	play_timer.msec = 0
-	play_timer.render_text()
+	tasks.clear_progress()
+	set_stopped(true)
 	
-	work_goal.msec = 0
-	work_goal.render_text()
 
 onready var LOGS_FILE = "history".plus_file("history.csv")
 onready var LOGS_ABSOLUTE_PATH = OS.get_user_data_dir().plus_file(LOGS_FILE)
 onready var LOGS_USER_PATH = Global.PATH.plus_file(LOGS_FILE)
-func _on_log_day_button_pressed():
-	log_day()
 
 func log_day():
 	var file = FileUtils.open_or_create(LOGS_USER_PATH)
@@ -184,9 +170,21 @@ static func store_line(file : File, date:String, goal_timer_msec:int, work_timer
 	
 	
 func initialize():
-	work_timer.off()
-	play_timer.off()
+	play()
 	
 	work_timer.render_text()
 	play_timer.render_text()
 	work_goal.render_text()
+
+	tasks.calculate_tasks()
+	
+func save():
+	get_tree().call_group("serializable", "save")
+
+onready var autosave = $"%autosave"
+var should_autosave := false setget set_should_autosave
+func set_should_autosave(val):
+	autosave = val
+	if !is_inside_tree() or Engine.editor_hint:
+		return
+	get_tree().call_group("autosave", "enable" if autosave else "disable")

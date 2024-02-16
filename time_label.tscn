@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://time_label.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/medium_font.tres" type="DynamicFont" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://sound_file.gd" type="Script" id=8]
 [ext_resource path="res://audio_file_dialog.tscn" type="PackedScene" id=9]
 [ext_resource path="res://config.gd" type="Script" id=10]
+[ext_resource path="res://task/autosave.gd" type="Script" id=11]
 [ext_resource path="res://tic_time.gd" type="Script" id=12]
 [ext_resource path="res://volume.gd" type="Script" id=13]
 
@@ -205,3 +206,9 @@ placeholder_text = "00:00:00.0"
 [node name="config" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource( 10 )
+
+[node name="autosave" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+one_shot = true
+script = ExtResource( 11 )

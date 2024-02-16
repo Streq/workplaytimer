@@ -1,31 +1,55 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://input_field/time_line_edit.gd" type="Script" id=1]
 [ext_resource path="res://task/task.gd" type="Script" id=2]
 [ext_resource path="res://task/task.tres" type="Theme" id=3]
 [ext_resource path="res://task/progress.gd" type="Script" id=4]
+[ext_resource path="res://task/drop_rect.gd" type="Script" id=5]
+[ext_resource path="res://task/drag_rect.gd" type="Script" id=6]
 
 [node name="task" type="PanelContainer"]
 margin_right = 72.0
 margin_bottom = 74.0
 size_flags_horizontal = 3
 theme = ExtResource( 3 )
+theme_type_variation = "selected"
 script = ExtResource( 2 )
 
 [node name="data" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 143.0
-margin_bottom = 89.0
+margin_right = 191.0
+margin_bottom = 128.0
+
+[node name="drag_margin" type="MarginContainer" parent="data"]
+margin_right = 184.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 0, 16 )
+custom_constants/margin_right = -7
+custom_constants/margin_top = -7
+custom_constants/margin_left = -7
+custom_constants/margin_bottom = 0
+
+[node name="drag_bar" type="PanelContainer" parent="data/drag_margin"]
+margin_left = -7.0
+margin_top = -7.0
+margin_right = 191.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 0, 16 )
+mouse_default_cursor_shape = 6
+theme_type_variation = "grab_bar"
+script = ExtResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="data"]
-margin_right = 136.0
-margin_bottom = 24.0
+margin_top = 20.0
+margin_right = 184.0
+margin_bottom = 51.0
 custom_constants/separation = 0
 alignment = 2
 
 [node name="progress" type="ProgressBar" parent="data/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 margin_right = 93.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
@@ -46,24 +70,24 @@ unique_name_in_owner = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "work on this"
+text = "start"
 align = 1
 valign = 1
 
 [node name="enabled" type="CheckBox" parent="data/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 93.0
-margin_right = 117.0
-margin_bottom = 24.0
+margin_left = 140.0
+margin_right = 164.0
+margin_bottom = 31.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 pressed = true
 
 [node name="remove" type="Button" parent="data/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 117.0
-margin_right = 136.0
-margin_bottom = 21.0
+margin_left = 164.0
+margin_right = 184.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 16, 16 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -71,20 +95,20 @@ text = "x"
 
 [node name="title" type="LineEdit" parent="data"]
 unique_name_in_owner = true
-margin_top = 28.0
-margin_right = 136.0
-margin_bottom = 53.0
+margin_top = 55.0
+margin_right = 184.0
+margin_bottom = 84.0
 placeholder_text = "task name"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="data"]
-margin_top = 57.0
-margin_right = 136.0
-margin_bottom = 82.0
+margin_top = 88.0
+margin_right = 184.0
+margin_bottom = 117.0
 
 [node name="current_time" type="LineEdit" parent="data/HBoxContainer2"]
 unique_name_in_owner = true
-margin_right = 66.0
-margin_bottom = 25.0
+margin_right = 90.0
+margin_bottom = 29.0
 hint_tooltip = "current progress time"
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -93,11 +117,37 @@ script = ExtResource( 1 )
 
 [node name="time_input" type="LineEdit" parent="data/HBoxContainer2"]
 unique_name_in_owner = true
-margin_left = 70.0
-margin_right = 136.0
-margin_bottom = 25.0
+margin_left = 94.0
+margin_right = 184.0
+margin_bottom = 29.0
 hint_tooltip = "goal target time"
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "00:00:00"
 script = ExtResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="data"]
+margin_top = 121.0
+margin_right = 184.0
+margin_bottom = 121.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 191.0
+margin_bottom = 128.0
+mouse_filter = 2
+custom_constants/margin_right = -7
+custom_constants/margin_top = -7
+custom_constants/margin_left = -7
+custom_constants/margin_bottom = -7
+
+[node name="drop_rect_back" type="ReferenceRect" parent="MarginContainer"]
+margin_left = -7.0
+margin_top = -7.0
+margin_right = 191.0
+margin_bottom = 128.0
+mouse_filter = 1
+border_color = Color( 0.00392157, 0.737255, 0.776471, 1 )
+border_width = 2.0
+script = ExtResource( 5 )

@@ -12,6 +12,26 @@ onready var title_label = $"%title"
 onready var description_label = $"%description"
 onready var label : LineEdit = $"%label"
 onready var config = $"%config"
+onready var autosave = $"%autosave"
+onready var sound = $"%sound"
+
+export var save := false setget set_save
+func set_save(val):
+	save = val
+	if !is_inside_tree() or Engine.editor_hint:
+		return
+	var is_connected = is_connected("updated", autosave, "trigger")
+	if save:
+		if !is_connected:
+			add_to_group("serializable")
+			autosave.connect("triggered", self, "save")
+			connect("updated", autosave, "trigger")
+	else:
+		if is_connected:
+			remove_from_group("serializable")
+			autosave.disconnect("triggered", self, "save")
+			disconnect("updated", autosave, "trigger")
+	
 
 export var stopped := false
 export var color : Color = Color.white setget set_color
@@ -54,8 +74,7 @@ func _update_text(val):
 	label.text = val
 	emit_signal("updated")
 
-
-var msec := 0
+var msec := 0 setget set_msec
 var msec_before := 0
 func set_msec(val):
 	msec_before = msec
@@ -66,16 +85,25 @@ func _ready() -> void:
 	_update_title()
 	_update_description()
 	_update_color()
+
+	set_save(save)
+
 	render_text()
+	
+	set_msec(msec)
+	
 	if Engine.editor_hint:
 		return
-	config.initialize()
 	set_stopped(stopped)
-	label.connect("text_entered", self, "_on_text_entered", [true])
-	label.connect("text_changed", self, "_on_text_changed", [true])
+	label.connect("text_entered", self, "_on_text_entered")
+	label.connect("text_changed", self, "_on_text_changed")
+
+	config.call_deferred("initialize")
+	
 
 func save():
 	FileUtils.save_json_file(SAVE_PATH, {"msec":msec})
+
 func load_():
 	var save_state = FileUtils.load_json_file_as_dict(SAVE_PATH)
 	if save_state != null and "msec" in save_state:
@@ -105,19 +133,15 @@ func on():
 func off():
 	stopped = true
 	update_process()
-func _on_text_entered(_new_text := "", save:=false):
+func _on_text_entered(_new_text := ""):
 	msec = Global.from_text(label.text)
 	render_text()
-	if save:
-		save()
-func _on_text_changed(_new_text := "", save:=false):
+func _on_text_changed(_new_text := ""):
 	msec = Global.from_text(label.text)
+	msec_before = msec
 	var caret = label.caret_position
 	emit_signal("updated")
 	label.caret_position = caret
-	if save:
-		save()
-	
 func _start():
 	pass
 func _stop():
@@ -125,15 +149,7 @@ func _stop():
 
 var frozen = false
 func set_frozen(val):
-	if val:
-		freeze()
-	else:
-		unfreeze()
-func freeze():
-	frozen = true
-	update_process()
-func unfreeze():
-	frozen = false
+	frozen = val
 	update_process()
 
 func update_process():

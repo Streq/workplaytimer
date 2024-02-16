@@ -15,7 +15,7 @@ func set_focus(val):
 
 
 func update_look():
-	if focus or ratio >= 1.0:
+	if focus:
 		theme_type_variation = "ProgressBar_focus"
 	else:
 		theme_type_variation = ""

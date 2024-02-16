@@ -5,11 +5,16 @@ signal msec_updated(msec)
 var msec = 0 setget set_msec
 
 func set_msec(val):
-	msec = val
+	set_msec_internal(val)
 	emit_signal("msec_updated", msec)
+	
+func set_msec_internal(val):
+	msec = val
 	if !is_inside_tree():
 		return
 	render_text()
+
+
 
 func _ready():
 	connect("text_entered",self,"_on_text_entered")

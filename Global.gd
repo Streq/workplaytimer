@@ -50,6 +50,25 @@ static func from_text(text:String):
 	)
 	return msec
 
-static func now_msec():
-	return Time.get_ticks_msec()
+#static func now_msec():
+#	return Time.get_ticks_msec()
 
+
+static func now_msec() -> int:
+	var timezone_offset_minutes = Time.get_time_zone_from_system().bias
+	var timezone_offset_seconds = timezone_offset_minutes*60.0
+	
+	var utc_now_seconds = Time.get_unix_time_from_system()
+	var local_now_seconds = utc_now_seconds + timezone_offset_seconds
+	var local_now_millis = int(local_now_seconds * 1000)
+	return local_now_millis
+
+static func now_msec_utc() -> int:
+	return int(Time.get_unix_time_from_system() * 1000)
+	
+static func now_millis() -> int:
+	return int(now_seconds() * 1000)
+	
+static func now_seconds() -> float:
+	return Time.get_unix_time_from_system()
+	

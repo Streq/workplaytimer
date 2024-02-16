@@ -19,10 +19,10 @@ func do_print_debug(text):
 	print_debug(text)
 	var frame = get_stack()[1]
 	var debug_text = "{text}\n\tAt: {source}:{line}:{function}()".format({
-			"text":text, 
-			"source":frame.source,
-			"line":frame.line,
-			"function":frame.function
+			"text": text, 
+			"source": frame.source,
+			"line": frame.line,
+			"function": frame.function
 		})
 	emit_signal("printed_debug", debug_text)
 

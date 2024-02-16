@@ -80,9 +80,8 @@ columns = 2
 unique_name_in_owner = true
 margin_right = 430.0
 margin_bottom = 180.0
-script = ExtResource( 10 )
 title = "Work"
-description = "this is the time you've spent focusing"
+description = "time spent focusing (must have tasks selected)"
 
 [node name="play_timer" parent="HBoxContainer/VBoxContainer/timers" instance=ExtResource( 3 )]
 unique_name_in_owner = true
@@ -90,6 +89,7 @@ margin_left = 430.0
 margin_right = 860.0
 margin_bottom = 180.0
 script = ExtResource( 10 )
+save = true
 color = Color( 0.764706, 0.764706, 0.764706, 1 )
 title = "Play"
 description = "this is the time you've spent NOT focusing"
@@ -150,7 +150,7 @@ theme = ExtResource( 12 )
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_right = 116.0
+margin_right = 104.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 theme = ExtResource( 16 )
@@ -159,40 +159,29 @@ clip_text = true
 
 [node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 120.0
-margin_right = 236.0
+margin_left = 108.0
+margin_right = 212.0
 margin_bottom = 29.0
 hint_tooltip = "stop both Play and Work timers"
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
 toggle_mode = true
 text = "stop"
-clip_text = true
 
 [node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 240.0
-margin_right = 356.0
+margin_left = 216.0
+margin_right = 320.0
 margin_bottom = 29.0
 hint_tooltip = "stop all timers, useful to take a snapshot of the timer"
 size_flags_horizontal = 3
 toggle_mode = true
 text = "freeze"
-clip_text = true
-
-[node name="subtract_leftover" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
-unique_name_in_owner = true
-margin_left = 360.0
-margin_right = 499.0
-margin_bottom = 29.0
-hint_tooltip = "if Work timer is higher than Goal, move excess time from Work to Play"
-size_flags_horizontal = 3
-text = "subtract leftover"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 503.0
-margin_right = 619.0
+margin_left = 324.0
+margin_right = 428.0
 margin_bottom = 29.0
 hint_tooltip = "clear all timers"
 size_flags_horizontal = 3
@@ -202,10 +191,31 @@ custom_styles/normal = ExtResource( 14 )
 text = "clear"
 clip_text = true
 
+[node name="save" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
+unique_name_in_owner = true
+margin_left = 432.0
+margin_right = 536.0
+margin_bottom = 29.0
+hint_tooltip = "save state"
+size_flags_horizontal = 3
+text = "save"
+clip_text = true
+
+[node name="autosave" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
+unique_name_in_owner = true
+margin_left = 540.0
+margin_right = 644.0
+margin_bottom = 29.0
+hint_tooltip = "save state"
+size_flags_horizontal = 3
+toggle_mode = true
+pressed = true
+text = "autosave"
+
 [node name="log_day" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 623.0
-margin_right = 739.0
+margin_left = 648.0
+margin_right = 752.0
 margin_bottom = 29.0
 hint_tooltip = "save day as entry on a csv file and copy it to clipboard"
 size_flags_horizontal = 3
@@ -214,7 +224,7 @@ clip_text = true
 
 [node name="data_folder" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 743.0
+margin_left = 756.0
 margin_right = 860.0
 margin_bottom = 29.0
 hint_tooltip = "open user data folder"

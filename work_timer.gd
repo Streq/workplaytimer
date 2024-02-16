@@ -11,10 +11,7 @@ func _process(_ignored_: float) -> void:
 	var delta = now - last_start_msec
 	
 	set_msec(msec + delta)
-	
-	if msec_before/1000!=msec/1000:
-		save()
-	
+		
 	last_start_msec = now
 	render_text()
 
