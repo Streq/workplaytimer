@@ -102,10 +102,14 @@ func clear_progress():
 onready var FILE = Global.PATH.plus_file("config").plus_file("tasks.json") 
 func save():
 	var serialized_tasks = []
+	tasks.sort_custom(self, "sort_by_index")
 	for task in tasks:
 		var serialized_task = task.serialize()
 		serialized_tasks.append(serialized_task)
 	FileUtils.save_json_file(FILE, {tasks=serialized_tasks})
+
+func sort_by_index(a: Task, b: Task) -> bool:
+	return a.get_index() < b.get_index()
 
 func load_():
 	var res = FileUtils.load_json_file_as_dict(FILE)

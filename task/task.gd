@@ -139,6 +139,8 @@ func serialize():
 		selected = selected
 	}
 func deserialize(dictionary):
+	if !dictionary:
+		return
 	var dict = serialize()
 	dict.merge(dictionary, true)
 	set_title(dict.title)
