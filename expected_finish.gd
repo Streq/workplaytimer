@@ -11,18 +11,19 @@ export var now_path : NodePath
 onready var now = get_node(now_path)
 
 
-func _process(_delta: float) -> void:
-	if Engine.editor_hint:
-		return
-	update_time()
+#func _process(_delta: float) -> void:
+#	if Engine.editor_hint:
+#		return
+#	update_time()
 
 func _ready() -> void:
 	if Engine.editor_hint:
 		return
 #	._ready()
-	timer.connect("started",self,"set_process",[false])
-	timer.connect("stopped",self,"set_process",[true])
+#	timer.connect("started",self,"set_process",[false])
+#	timer.connect("stopped",self,"set_process",[true])
 	goal.connect("updated",self,"update_time")
+	now.connect("updated",self,"update_time")
 	
 func update_time():
 	set_msec(now.msec + remainder.msec)

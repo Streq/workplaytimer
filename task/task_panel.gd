@@ -3,12 +3,18 @@ signal task_time_changed(task_time_completed_msec, task_time_msec)
 signal updated()
 signal pause(val)
 
-const Task = preload("task.tscn")
+const TASK = preload("task.tscn")
+const Task = preload("task.gd")
 
 onready var add = $"%add"
 onready var task_list = $"%task_list"
 onready var autosave = $"%autosave"
 onready var drop_space = $"%drop_space"
+
+onready var filter_by_name_edit = $"%filter_by_name_edit"
+onready var filter_by_name_button = $"%filter_by_name_button"
+onready var clear_search_button = $"%clear_search_button"
+
 
 var msec_completed = 0
 
@@ -22,10 +28,26 @@ func _ready():
 	connect("updated", autosave, "trigger")
 	
 	add.connect("pressed", self, "add_task")
-	load_()
+	filter_by_name_button.connect("pressed", self, "_on_filter_by_name_button_pressed")
+	filter_by_name_edit.connect("text_entered", self, "filter_by_name")
+	clear_search_button.connect("pressed", self, "_on_clear_search_button_pressed")
 	
+	load_()
+func _on_filter_by_name_button_pressed():
+	filter_by_name(filter_by_name_edit.text)
+
+func filter_by_name(text: String):
+	for t in tasks:
+		var task : Task = t
+		if text.empty() or task.title.find(text) != -1:
+#			task.show()
+			task.set_enabled(true)
+		else:
+#			task.hide()
+			task.set_enabled(false)
+
 func add_task():
-	var task = Task.instance()
+	var task = TASK.instance()
 	add_task_internal(task)
 	calculate_tasks()
 
@@ -77,7 +99,6 @@ func clear_progress():
 		task.msec_done = 0
 	calculate_tasks()
 
-
 onready var FILE = Global.PATH.plus_file("config").plus_file("tasks.json") 
 func save():
 	var serialized_tasks = []
@@ -91,7 +112,7 @@ func load_():
 	if !res or not "tasks" in res:
 		return
 	for serialized_task in res.tasks:
-		var task = Task.instance()
+		var task = TASK.instance()
 		task.deserialize(serialized_task)
 		add_task_internal(task)
 	calculate_tasks()
@@ -119,3 +140,7 @@ func update_process():
 	var should_pause = frozen or paused
 	emit_signal("pause", should_pause)
 	
+
+
+func _on_clear_search_button_pressed():
+	filter_by_name("")

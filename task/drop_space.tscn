@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://task/drop_space.gd" type="Script" id=1]
+
+[node name="drop_space" type="MarginContainer"]
+unique_name_in_owner = true
+margin_right = 94.0
+margin_bottom = 131.0
+rect_min_size = Vector2( 0, 131 )
+size_flags_vertical = 0
+custom_constants/margin_right = 6
+custom_constants/margin_top = 2
+custom_constants/margin_left = 6
+custom_constants/margin_bottom = 2
+script = ExtResource( 1 )
