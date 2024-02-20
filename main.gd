@@ -16,7 +16,7 @@ onready var play_timer: TimeLabel = $"%play_timer"
 onready var expected_finish: TimeLabel = $"%expected_finish"
 onready var work_goal: TimeLabel = $"%work_goal"
 onready var now: TimeLabel = $"%now"
-onready var tasks = $"%tasks"
+onready var tasks = $"%task_panel"
 onready var progress = $"%progress"
 
 func _ready() -> void:

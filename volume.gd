@@ -1,12 +1,16 @@
 extends Slider
 
 onready var debug_volume = $"%debug_volume"
+onready var sound = $"%sound"
 
 func _ready() -> void:
 	yield(owner,"ready")
 	owner.config.connect("volume_updated",self,"set_volume_internal")
 	connect("value_changed",self,"value_changed")
+	connect("drag_ended",self,"_on_drag_ended")
 	
+func _on_drag_ended(_val):
+	sound.play()
 	
 func set_volume_internal(db: float):
 	if to_volume(value) != db:

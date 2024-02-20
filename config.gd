@@ -21,7 +21,7 @@ func initialize() -> void:
 		}))
 		save()
 
-	_refresh_config()
+	emit_updates()
 
 func _load_config():
 	var new_config = FileUtils.load_json_file_as_dict(CONFIG_PATH)
@@ -36,7 +36,7 @@ func _load_config():
 
 	
 
-func _refresh_config():
+func emit_updates():
 	emit_signal("sound_on_updated",config.sound_on)
 	emit_signal("audio_file_updated",config.audio_file)
 	emit_signal("interval_updated",config.interval)

@@ -1,6 +1,8 @@
 extends PanelContainer
 tool
 signal updated()
+signal completed()
+signal deleting()
 
 var dt := DeltaTimer.new()
 
@@ -30,6 +32,8 @@ func set_msec_internal(val):
 	emit_signal("updated")
 
 
+var completed = false
+
 onready var current_time = $"%current_time"
 export var msec_done := 0 setget set_msec_done
 func set_msec_done(val):
@@ -37,8 +41,12 @@ func set_msec_done(val):
 	if !is_inside_tree():
 		return
 	if msec_done >= msec:
+		if !completed:
+			emit_signal("completed")
+		completed = true
 		theme_type_variation = "selected"
 	else:
+		completed = false
 		theme_type_variation = ""
 	current_time.set_msec_internal(msec_done)
 	progress.value = msec_done
@@ -129,7 +137,7 @@ func _ready():
 func remove():
 	set_enabled(false)
 	queue_free()
-
+	emit_signal("deleting")
 func serialize():
 	return {
 		title = title,

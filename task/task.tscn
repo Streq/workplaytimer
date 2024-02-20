@@ -10,7 +10,6 @@
 [node name="task" type="PanelContainer"]
 margin_right = 72.0
 margin_bottom = 74.0
-size_flags_horizontal = 3
 theme = ExtResource( 3 )
 theme_type_variation = "selected"
 script = ExtResource( 2 )
@@ -106,14 +105,16 @@ placeholder_text = "task name"
 margin_top = 88.0
 margin_right = 184.0
 margin_bottom = 117.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="time_input" type="LineEdit" parent="data/HBoxContainer2"]
 unique_name_in_owner = true
 margin_right = 90.0
 margin_bottom = 29.0
 hint_tooltip = "goal target time"
-size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "00:00:00"
 script = ExtResource( 1 )
 
@@ -123,8 +124,8 @@ margin_left = 94.0
 margin_right = 184.0
 margin_bottom = 29.0
 hint_tooltip = "current progress time"
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "00:00:00"
 script = ExtResource( 1 )
 

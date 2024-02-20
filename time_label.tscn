@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://time_label.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/medium_font.tres" type="DynamicFont" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://volume.gd" type="Script" id=13]
 [ext_resource path="res://assets/theme/time_label_theme.tres" type="Theme" id=14]
 [ext_resource path="res://time_label_text_edit.gd" type="Script" id=15]
+[ext_resource path="res://beeper.gd" type="Script" id=16]
 
 [node name="time_label" type="VBoxContainer"]
 margin_right = 461.0
@@ -27,14 +28,18 @@ text = "00:00:00.0"
 
 [node name="Panel" type="PanelContainer" parent="."]
 margin_right = 461.0
-margin_bottom = 82.0
+margin_bottom = 84.0
 grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 454.0
-margin_bottom = 75.0
+margin_bottom = 77.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/margin_right = 8
 custom_constants/margin_top = 0
 custom_constants/margin_left = 8
@@ -44,33 +49,51 @@ custom_constants/margin_bottom = 0
 modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
 margin_left = 8.0
 margin_right = 439.0
-margin_bottom = 68.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/separation = 0
 
-[node name="title" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
 margin_right = 431.0
-margin_bottom = 45.0
-grow_horizontal = 0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 2 )
-text = "title"
+margin_bottom = 47.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/title"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -315.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 127.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+
+[node name="title" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+margin_right = 127.0
 margin_bottom = 47.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "title"
+clip_text = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 131.0
+margin_right = 431.0
+margin_bottom = 47.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 3
 alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_right = 62.0
 margin_bottom = 47.0
 
-[node name="Button" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/PanelContainer"]
+[node name="Button" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 55.0
@@ -81,28 +104,31 @@ text = "copy"
 align = 0
 script = ExtResource( 3 )
 
-[node name="Panel" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 66.0
-margin_right = 315.0
+margin_right = 300.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 242.0
+margin_right = 227.0
 margin_bottom = 40.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="sound" type="AudioStreamPlayer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+[node name="sound" type="AudioStreamPlayer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
 unique_name_in_owner = true
 stream = ExtResource( 6 )
 script = ExtResource( 5 )
 
-[node name="tic" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+[node name="beeper" type="Node" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/sound"]
+script = ExtResource( 16 )
+
+[node name="tic" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
 margin_right = 39.0
 margin_bottom = 33.0
 grow_horizontal = 0
@@ -113,27 +139,30 @@ text = "tick"
 align = 0
 script = ExtResource( 7 )
 
-[node name="tic_time" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
+[node name="tic_time" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
 margin_left = 43.0
-margin_right = 117.0
+margin_right = 113.0
 margin_bottom = 33.0
 hint_tooltip = "interval in seconds"
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/minimum_spaces = 15
 custom_fonts/font = ExtResource( 4 )
+max_length = 8
 placeholder_text = "interval"
 script = ExtResource( 12 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
-margin_left = 121.0
-margin_right = 196.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
+margin_left = 117.0
+margin_right = 181.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="volume" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2/VBoxContainer"]
-margin_right = 75.0
+[node name="volume" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/VBoxContainer"]
+margin_right = 64.0
 margin_bottom = 33.0
+rect_min_size = Vector2( 64, 0 )
 hint_tooltip = "volume"
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -144,7 +173,7 @@ tick_count = 7
 ticks_on_borders = true
 script = ExtResource( 13 )
 
-[node name="debug_volume" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2/VBoxContainer"]
+[node name="debug_volume" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 margin_top = 20.0
@@ -157,9 +186,9 @@ min_value = -80.0
 max_value = 20.0
 step = 0.0
 
-[node name="sound_file" type="Button" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2"]
-margin_left = 200.0
-margin_right = 235.0
+[node name="sound_file" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
+margin_left = 185.0
+margin_right = 220.0
 margin_bottom = 33.0
 grow_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
@@ -167,7 +196,7 @@ text = "file"
 align = 0
 script = ExtResource( 8 )
 
-[node name="audio_file_dialog" parent="Panel/MarginContainer/VBoxContainer/title/HBoxContainer/Panel/HBoxContainer2/sound_file" instance=ExtResource( 9 )]
+[node name="audio_file_dialog" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/sound_file" instance=ExtResource( 9 )]
 unique_name_in_owner = true
 margin_left = -10.0
 margin_top = -10.0
@@ -176,9 +205,9 @@ margin_bottom = 10.0
 
 [node name="description" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 45.0
+margin_top = 47.0
 margin_right = 431.0
-margin_bottom = 68.0
+margin_bottom = 70.0
 grow_horizontal = 0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 4 )
@@ -186,9 +215,9 @@ text = "description"
 align = 2
 
 [node name="Panel2" type="PanelContainer" parent="."]
-margin_top = 82.0
+margin_top = 84.0
 margin_right = 461.0
-margin_bottom = 178.0
+margin_bottom = 180.0
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3

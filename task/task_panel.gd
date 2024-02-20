@@ -1,6 +1,7 @@
 extends PanelContainer
 signal task_time_changed(task_time_completed_msec, task_time_msec)
 signal updated()
+
 signal pause(val)
 
 const TASK = preload("task.tscn")
@@ -14,6 +15,8 @@ onready var drop_space = $"%drop_space"
 onready var filter_by_name_edit = $"%filter_by_name_edit"
 onready var filter_by_name_button = $"%filter_by_name_button"
 onready var clear_search_button = $"%clear_search_button"
+onready var config = $"%config"
+onready var sound = $"%sound"
 
 
 var msec_completed = 0
@@ -31,8 +34,10 @@ func _ready():
 	filter_by_name_button.connect("pressed", self, "_on_filter_by_name_button_pressed")
 	filter_by_name_edit.connect("text_entered", self, "filter_by_name")
 	clear_search_button.connect("pressed", self, "_on_clear_search_button_pressed")
-	
+	drop_space.connect("dropped", self, "reorder")
 	load_()
+	config.initialize()
+
 func _on_filter_by_name_button_pressed():
 	filter_by_name(filter_by_name_edit.text)
 
@@ -54,16 +59,28 @@ func add_task():
 func add_task_internal(task):
 	task.set_paused(paused)
 	task.connect("updated", self, "calculate_tasks")
-	task.connect("tree_exiting", self, "remove_from_tasks", [task])
+	task.connect("deleting", self, "remove_from_tasks", [task])
 	task.connect("tree_entered", self, "add_to_tasks", [task])
 	connect("pause", task, "set_paused")
 	task_list.add_child(task)
+	task.connect("completed", self, "_on_task_completed", [task])
+
+func _on_task_completed(_task):
+	sound.play()
+
+var save_queued = false
+func queue_save():
+	if save_queued:
+		return
+	save_queued = true
+	get_tree().connect("idle_frame", self, "save", [], CONNECT_ONESHOT)
 
 func add_to_tasks(task):
 	tasks.append(task)
+	queue_save()
 func remove_from_tasks(task):
 	tasks.erase(task)
-
+	queue_save()
 func _on_work_done_updated(msec):
 	msec_completed = msec
 #	update_task_completeness()
@@ -107,7 +124,7 @@ func save():
 		var serialized_task = task.serialize()
 		serialized_tasks.append(serialized_task)
 	FileUtils.save_json_file(FILE, {tasks=serialized_tasks})
-
+	save_queued = false
 func sort_by_index(a: Task, b: Task) -> bool:
 	return a.get_index() < b.get_index()
 
@@ -143,8 +160,10 @@ func set_frozen(val):
 func update_process():
 	var should_pause = frozen or paused
 	emit_signal("pause", should_pause)
-	
 
+func reorder(task: Task, to_position: int):
+	self.task_list.move_child(task, to_position)
+	queue_save()
 
 func _on_clear_search_button_pressed():
 	filter_by_name("")

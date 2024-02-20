@@ -16,6 +16,7 @@ func _ready():
 	var pos = get_parent().rect_global_position + get_parent().rect_size
 	set_global_position(pos)
 	hide()
+	owner.config.emit_updates()
 
 func populate():
 	var dir = Directory.new()
