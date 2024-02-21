@@ -1,5 +1,4 @@
 extends Reference
-class_name DeltaTimer
 
 var _last_update_millis := 0
 

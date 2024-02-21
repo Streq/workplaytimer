@@ -1,6 +1,9 @@
 extends TimeLabel
 tool
 
+func _ready():
+	add_to_group("now_label")
+
 func _process(_delta: float) -> void:
 	if Engine.editor_hint:
 		return

@@ -3,6 +3,9 @@ tool
 signal updated()
 signal completed()
 signal deleting()
+signal process_changed(val)
+
+const DeltaTimer = preload("res://utils/chronos/delta_timer.gd")
 
 var dt := DeltaTimer.new()
 
@@ -116,7 +119,7 @@ func _update_can_process():
 	if is_processing() != new_val:
 		dt.get_and_reset()
 		set_process(new_val)
-
+		emit_signal("process_changed", new_val)
 
 func _ready():
 	add_to_group("task")
