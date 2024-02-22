@@ -148,6 +148,7 @@ editable = false
 script = ExtResource( 5 )
 
 [node name="drop_area" type="MarginContainer" parent="."]
+visible = false
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 191.0

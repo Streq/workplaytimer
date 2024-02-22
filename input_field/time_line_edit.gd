@@ -20,7 +20,7 @@ func set_msec_internal(val):
 
 func _ready():
 	connect("text_entered",self,"_on_text_entered")
-	connect("text_changed",self,"_on_text_changed")
+#	connect("text_changed",self,"_on_text_changed")
 	connect("focus_exited",self,"_on_focus_exited")
 	render_text()
 
