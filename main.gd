@@ -23,6 +23,7 @@ onready var progress = $"%progress"
 
 func _ready() -> void:
 	add_to_group("autosave_authority")
+	add_to_group("main")
 	
 	play.connect("pressed", self, "_on_play_button_pressed")
 	clear.connect("pressed", self, "clear")

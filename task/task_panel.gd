@@ -38,6 +38,10 @@ func _ready():
 	drop_space.connect("dropped", self, "reorder")
 	load_()
 	config.initialize()
+	alert.connect("toggled", self, "set_alert_on_completion")
+	
+#	UsefulCode.scan_controls(self)
+
 
 func _on_filter_by_name_button_pressed():
 	filter_by_name(filter_by_name_edit.text)
@@ -66,8 +70,16 @@ func add_task_internal(task):
 	task_list.add_child(task)
 	task.connect("completed", self, "_on_task_completed", [task])
 
-func _on_task_completed(_task):
+
+onready var alert = $"%alert"
+var alert_on_completion = false setget set_alert_on_completion
+func set_alert_on_completion(val):
+	alert_on_completion = val
+func _on_task_completed(task):
 	sound.play()
+	owner.play()
+	if alert_on_completion:
+		OS.alert("Task %s finished! Select a new task." % task.title, "Task finished!")
 
 var save_queued = false
 func queue_save():

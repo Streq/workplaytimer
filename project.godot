@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "TimeLabel",
 "language": "GDScript",
 "path": "res://time_label.gd"
+}, {
+"base": "Object",
+"class": "UsefulCode",
+"language": "GDScript",
+"path": "res://useful_code.gd"
 } ]
 _global_script_class_icons={
 "Config": "",
-"TimeLabel": ""
+"TimeLabel": "",
+"UsefulCode": ""
 }
 
 [application]

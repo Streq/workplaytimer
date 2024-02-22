@@ -1,14 +1,30 @@
 extends Button
-onready var popup = $"%popup"
+var popup : Popup
 
 func _ready():
-	connect("toggled", self, "_toggled")
-	popup.connect("visibility_changed", self, "_on_popup_visibility_changed")
-func _on_popup_visibility_changed():
-	set_pressed_no_signal(popup.visible)
+	find_popup()
+
+	popup.connect("popup_hide",self,"_on_popup_hide",[], CONNECT_DEFERRED)
+	popup.connect("about_to_show",self,"_on_popup_show",[], CONNECT_DEFERRED)
+
+func _on_popup_hide():
+	disabled = false
+	set_pressed_no_signal(false)
+func _on_popup_show():
+	disabled = true
+	set_pressed_no_signal(true)
 	
-func _toggled(val):
-	if val:
-		popup.popup_centered()
-	else:
-		popup.visible = false
+func find_popup():
+	var nodes = []
+	nodes.append_array(get_children())
+	for child in nodes:
+		if child is Popup:
+			popup = child
+			return
+		nodes.append_array(child.get_children())
+	assert(false, "Couldn't find popup among children.")
+
+
+func _pressed():
+	popup.popup()
+	
