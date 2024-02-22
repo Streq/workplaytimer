@@ -6,6 +6,7 @@ signal pause(val)
 
 const TASK = preload("task.tscn")
 const Task = preload("task.gd")
+const FileUtils = preload("res://utils/FileUtils.gd")
 
 onready var add = $"%add"
 onready var task_list = $"%task_list"

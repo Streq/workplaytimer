@@ -1,5 +1,6 @@
 extends Node
 class_name Config
+const FileUtils = preload("res://utils/FileUtils.gd")
 
 signal audio_file_updated(audio)
 signal sound_on_updated(val)

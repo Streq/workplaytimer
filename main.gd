@@ -1,5 +1,7 @@
 extends Control
 
+const FileUtils = preload("res://utils/FileUtils.gd")
+
 onready var play: Button = $"%play"
 onready var stop: Button = $"%stop"
 onready var clear: Button = $"%clear"

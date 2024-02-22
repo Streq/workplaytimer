@@ -1,13 +1,12 @@
 extends TimeLabel
 tool
 
-
 var last_start_msec := 0
 
 func _process(_ignored_: float) -> void:
 	if Engine.editor_hint:
 		return
-	var now = Global.now_msec()
+	var now = Chronos.now_mil()
 	var delta = now - last_start_msec
 	
 	set_msec(msec + delta)
@@ -16,7 +15,7 @@ func _process(_ignored_: float) -> void:
 	render_text()
 
 func _start():
-	last_start_msec = Global.now_msec()
+	last_start_msec = Chronos.now_mil()
 
 
 func _ready():

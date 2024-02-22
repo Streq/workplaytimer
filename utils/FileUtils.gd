@@ -1,6 +1,12 @@
-extends Node
-class_name FileUtils
+extends Object
+const ErrorUtils = preload("res://utils/ErrorUtils.gd")
  
+func _init():
+	var msg = "%s is an utility class, you are not supposed to instantiate it." % get_script().resource_path
+	assert(false, msg)
+	printerr(msg)
+
+
 static func load_json_file_as_dict(json_path: String):
 	var file = File.new()
 	var error = file.open(json_path, file.READ)

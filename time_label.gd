@@ -2,6 +2,9 @@ extends Control
 class_name TimeLabel
 tool
 
+const FileUtils = preload("res://utils/FileUtils.gd")
+const Chronos = preload("res://utils/Chronos.gd")
+
 signal updated
 signal started
 signal stopped
@@ -101,7 +104,6 @@ func _ready() -> void:
 
 	config.call_deferred("initialize")
 	
-
 func save():
 	FileUtils.save_json_file(SAVE_PATH, {"msec":msec})
 
@@ -112,7 +114,7 @@ func load_():
 	render_text()
 
 func render_text():
-	set_text(Global.to_text(msec))
+	set_text(Chronos.mil_to_text_interval_hhmmssd(msec))
 
 func set_stopped(val):
 	stopped = val
@@ -135,10 +137,10 @@ func off():
 	stopped = true
 	update_process()
 func _on_text_entered(_new_text := ""):
-	msec = Global.from_text(label.text)
+	msec = Chronos.hhmmssd_to_mil(label.text)
 	render_text()
 func _on_text_changed(_new_text := ""):
-	msec = Global.from_text(label.text)
+	msec = Chronos.hhmmssd_to_mil(label.text)
 	msec_before = msec
 	var caret = label.caret_position
 	emit_signal("updated")

@@ -1,5 +1,10 @@
-extends Node
-class_name ErrorUtils
+extends Object
+func _init():
+	var msg = "%s is an utility class, you are not supposed to instantiate it." % get_script().resource_path
+	assert(false, msg)
+	printerr(msg)
+
+
 const _map = {
 	FAILED: "Generic error.",
 	ERR_UNAVAILABLE : "Unavailable error.",

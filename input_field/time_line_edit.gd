@@ -2,6 +2,8 @@ extends LineEdit
 tool
 signal msec_updated(msec)
 
+const Chronos = preload("res://utils/Chronos.gd")
+
 var msec = 0 setget set_msec
 
 func set_msec(val):
@@ -23,13 +25,13 @@ func _ready():
 	render_text()
 
 func _on_text_entered(new_text):
-	set_msec(Global.from_text(new_text))
+	set_msec(Chronos.hhmmssd_to_mil(new_text))
 func _on_focus_exited():
-	set_msec(Global.from_text(text))
+	set_msec(Chronos.hhmmssd_to_mil(text))
 func _on_text_changed(new_text):
-	msec = Global.from_text(new_text)
+	msec = Chronos.hhmmssd_to_mil(new_text)
 	emit_signal("msec_updated", msec)
 	
 func render_text():
-	text = Global.to_text_no_sub_sec(msec)
+	text = Chronos.mil_to_text_interval_hhmmss(msec)
 	

@@ -5,7 +5,7 @@ signal completed()
 signal deleting()
 signal process_changed(val)
 
-const DeltaTimer = preload("res://utils/chronos/delta_timer.gd")
+const DeltaTimer = preload("res://utils/time/delta_timer.gd")
 
 var dt := DeltaTimer.new()
 

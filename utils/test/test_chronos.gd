@@ -1,19 +1,11 @@
 extends Node2D
-const Chronos = preload("../chronos.gd")
+const StringUtils = preload("../StringUtils.gd")
+const Chronos = preload("../Chronos.gd")
 
-func padr(text:String, to_length:int, s := " "):
-	if text.length()>=to_length:
-		return text
-	return text + s.repeat(to_length - text.length())
-
-func padl(text:String, to_length:int, s := " "):
-	if text.length()>=to_length:
-		return text
-	return s.repeat(to_length - text.length()) + text
 
 
 func p(text: String, v):
-	print(padr(text, 50, ".") + str(v))
+	print(StringUtils.padr(text, 50, ".") + str(v))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -50,9 +42,13 @@ func _ready():
 	p("sec_to_text_time_hhmmssd(local_now):", Chronos.sec_to_text_time_hhmmssd(local_now))
 	print("")
 	p("sec_to_text_interval_hhmmss(now):", Chronos.sec_to_text_interval_hhmmss(now))
-	p("sec_to_text_interval_hhmmssd(now):", Chronos.sec_to_text_interval_hhmmssd(now))
 	print("")
+	p("sec_to_text_interval_hhmmssd(now):", Chronos.sec_to_text_interval_hhmmssd(now))
 	p("sec_to_text_interval_hhmmss(local_now):", Chronos.sec_to_text_interval_hhmmss(local_now))
 	p("sec_to_text_interval_hhmmssd(local_now):", Chronos.sec_to_text_interval_hhmmssd(local_now))
 	print("")
+	for s in ['01:01:01','01:01:01.23','01:0101','00:00:01','00:00:01:2020','00:0hola0:012020','00:00:01jaja','1','12:12-5']:
+		var res = Chronos.hhmmssd_to_sec(s)
+		var txt = StringUtils.padr(str(res), 8, " ") + "secs    =    " + Chronos.sec_to_text_interval_hhmmssd(res)
+		p("hhmmssd_to_sec('%s'):"%s, txt)
 	get_tree().quit(0)

@@ -1,5 +1,6 @@
 extends Node
-const Chronos = preload("res://utils/chronos/chronos.gd")
+const Chronos = preload("res://utils/Chronos.gd")
+
 var now_label : TimeLabel = null
 func _ready():
 	init()

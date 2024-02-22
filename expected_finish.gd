@@ -27,4 +27,4 @@ func _ready() -> void:
 	
 func update_time():
 	set_msec(now.msec + remainder.msec)
-	set_text(Global.to_text_wrap_hours(msec))
+	set_text(Chronos.mil_to_text_time_hhmmssd(msec))
