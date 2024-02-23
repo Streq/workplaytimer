@@ -5,16 +5,16 @@
 [ext_resource path="res://task/task_panel.gd" type="Script" id=3]
 [ext_resource path="res://task/drop_space.tscn" type="PackedScene" id=4]
 [ext_resource path="res://task/task_list.gd" type="Script" id=5]
-[ext_resource path="res://config.gd" type="Script" id=6]
+[ext_resource path="res://task/task_panel_config.gd" type="Script" id=6]
 [ext_resource path="res://task/scroll.gd" type="Script" id=7]
 [ext_resource path="res://assets/sfx/tic.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=9]
 [ext_resource path="res://volume.gd" type="Script" id=10]
 [ext_resource path="res://sound_file.gd" type="Script" id=11]
-[ext_resource path="res://tic.gd" type="Script" id=12]
 [ext_resource path="res://audio_file_dialog.tscn" type="PackedScene" id=13]
 [ext_resource path="res://tick_sound.gd" type="Script" id=14]
 [ext_resource path="res://popup_button.tscn" type="PackedScene" id=15]
+[ext_resource path="res://config/config_checkbox.tscn" type="PackedScene" id=16]
 
 [node name="task_panel" type="PanelContainer"]
 margin_right = 104.0
@@ -98,14 +98,15 @@ text = "options"
 [node name="Node" type="Node" parent="VBoxContainer/HBoxContainer2/options"]
 
 [node name="Popup" type="WindowDialog" parent="VBoxContainer/HBoxContainer2/options/Node"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -130.0
-margin_top = -90.0
-margin_right = 130.0
-margin_bottom = 90.0
+margin_left = -187.0
+margin_top = -115.0
+margin_right = 187.0
+margin_bottom = 115.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Task Panel Options"
@@ -115,12 +116,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="PanelContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer"]
-margin_right = 260.0
-margin_bottom = 180.0
+margin_right = 374.0
+margin_bottom = 230.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 32
+custom_constants/margin_right = 64
 custom_constants/margin_top = 32
 custom_constants/margin_left = 32
 custom_constants/margin_bottom = 32
@@ -128,31 +129,32 @@ custom_constants/margin_bottom = 32
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer"]
 margin_left = 32.0
 margin_top = 32.0
-margin_right = 228.0
-margin_bottom = 148.0
+margin_right = 310.0
+margin_bottom = 198.0
 
-[node name="alert" type="CheckBox" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer"]
+[node name="alert" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
 unique_name_in_owner = true
-margin_right = 196.0
+margin_top = 0.0
+margin_right = 278.0
 margin_bottom = 31.0
-hint_tooltip = "Send desktop alert when done."
-custom_fonts/font = ExtResource( 9 )
-text = "Popup on Done"
+text = "Alert On Task Completed"
+prop = "alert_on_task_completed"
 
-[node name="play_sound" type="CheckBox" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer"]
-margin_top = 35.0
-margin_right = 196.0
-margin_bottom = 66.0
-grow_horizontal = 0
-hint_tooltip = "play a sound when a task finishes"
-custom_fonts/font = ExtResource( 9 )
-text = "Play sound on done"
-script = ExtResource( 12 )
+[node name="hide_done" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
+margin_right = 278.0
+prop = "hide_completed_tasks"
+
+[node name="sound_on_done" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
+margin_top = 70.0
+margin_right = 278.0
+margin_bottom = 101.0
+text = "Play Sound On Task Completed"
+prop = "sound_on"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer"]
-margin_top = 70.0
-margin_right = 196.0
-margin_bottom = 99.0
+margin_top = 105.0
+margin_right = 278.0
+margin_bottom = 134.0
 
 [node name="sound_file" type="Button" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 60.0
@@ -178,13 +180,13 @@ script = ExtResource( 14 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 64.0
-margin_right = 196.0
+margin_right = 278.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="volume" type="HSlider" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
-margin_right = 132.0
+margin_right = 214.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 64, 0 )
 hint_tooltip = "volume"

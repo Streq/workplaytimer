@@ -1,56 +1,50 @@
 extends Node
 class_name Config
-const FileUtils = preload("res://utils/FileUtils.gd")
 
-signal audio_file_updated(audio)
-signal sound_on_updated(val)
-signal interval_updated(val)
-signal volume_updated(val)
+signal initialized()
+
+const MyConfigFile = preload("res://utils/config.gd")
 
 onready var CONFIG_PATH: String = Global.PATH.plus_file("config").plus_file(owner.name+".json")
-var config = {
-	audio_file = "res://assets/sfx/click.wav",
-	sound_on = false,
-	interval = 1.0,
-	volume = 0.0
-}
 
-func initialize() -> void:
-	if _load_config() == -1:
-		push_warning("configuration file not found for {file}, creating one with default values".format({ 
-			"file" : CONFIG_PATH.get_file() 
-		}))
-		save()
+var file : MyConfigFile = MyConfigFile.new()
 
-	emit_updates()
+# you are supposed to override this function with your config and that's it
+func get_default_config() -> Dictionary: 
+	return {
+		audio_file = "res://assets/sfx/click.wav",
+		sound_on = false,
+		interval = 1.0,
+		volume = 0.0
+	}
 
-func _load_config():
-	var new_config = FileUtils.load_json_file_as_dict(CONFIG_PATH)
-	if new_config == null:
-		return -1
-	if typeof(new_config) == TYPE_DICTIONARY:
-		for key in config.keys():
-			if new_config.has(key):
-				config[key] = new_config[key]
-	return 0
+func initialize():
+	var default_config = get_default_config()
+	var path = CONFIG_PATH
+	file.initialize(default_config, path)
+
+func _ready():
+	file.connect("initialized", self, "_initialized")
+
+func _initialized():
+	emit_signal("initialized")
+	is_initialized = true
+
+var is_initialized = false
+var going_to_emit = false
+func notify_on_init(node:Object, method:String):
+	if !is_initialized:
+		connect("initialized", node, method, [], CONNECT_ONESHOT)
+		return
 	
-
+	node.call("method")
 	
+	if going_to_emit:
+		return
+	
+	going_to_emit = true
+	call_deferred("emit_updates")
 
 func emit_updates():
-	emit_signal("sound_on_updated",config.sound_on)
-	emit_signal("audio_file_updated",config.audio_file)
-	emit_signal("interval_updated",config.interval)
-	emit_signal("volume_updated",config.volume)
-
-
-func set_property_no_signal(prop_name, prop_value):
-	config[prop_name] = prop_value
-func set_property(prop_name, prop_value):
-	set_property_no_signal(prop_name, prop_value)
-	emit_signal(prop_name+"_updated", prop_value)
-	save()
-func get_property(prop_name):
-	return config[prop_name]
-func save():
-	FileUtils.save_json_file(CONFIG_PATH, config)
+	file.emit_updates()
+	

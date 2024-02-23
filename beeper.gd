@@ -1,13 +1,14 @@
 extends Node
 
+onready var config = $"%config"
+
 # Called when the node enters the scene tree for the first time.
 
 func _ready():
-	owner.connect("ready", self, "initialize", [], CONNECT_ONESHOT)
+	config.connect("initialized", self, "initialize", [], CONNECT_ONESHOT)
 
 func initialize():
-	var config = owner.config
-	config.connect("interval_updated", self, "set_interval")
+	config.file.connect("interval_updated", self, "set_interval")
 	get_tree().connect("idle_frame", self, "hook", [], CONNECT_ONESHOT)
 
 func hook():

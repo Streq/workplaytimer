@@ -2,12 +2,14 @@ extends Slider
 
 onready var debug_volume = $"%debug_volume"
 onready var sound = $"%sound"
+onready var config : Config = $"%config"
 
 func _ready() -> void:
-	yield(owner,"ready")
-	owner.config.connect("volume_updated",self,"set_volume_internal")
-	connect("value_changed",self,"value_changed")
-	connect("drag_ended",self,"_on_drag_ended")
+	config.notify_on_init(self, "initialize")
+func initialize():
+	config.file.connect("volume_updated", self, "set_volume_internal")
+	connect("value_changed", self, "value_changed")
+	connect("drag_ended", self, "_on_drag_ended")
 	
 func _on_drag_ended(_val):
 	sound.play()
@@ -18,7 +20,7 @@ func set_volume_internal(db: float):
 	
 func set_volume(db: float):
 	set_volume_internal(db)
-	owner.config.set_property("volume",db)
+	config.file.set_property("volume", db)
 
 func value_changed(value:float):
 	var db = to_volume(value)

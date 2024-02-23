@@ -45,8 +45,8 @@ func set_msec_done(val):
 		return
 	if msec_done >= msec:
 		if !completed:
+			completed = true
 			emit_signal("completed")
-		completed = true
 		theme_type_variation = "selected"
 	else:
 		completed = false

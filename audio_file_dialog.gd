@@ -1,14 +1,17 @@
 extends PopupMenu
 const DIR = "res://assets/sfx/"
-func _ready():
-	yield(owner,"ready")
-	
+
+onready var config : Config = $"%config"
+func _ready() -> void:
+	config.notify_on_init(self, "initialize")
+
+func initialize():
 	populate()
 	
 	connect("index_pressed", self, "index_pressed")
 	connect("about_to_show", self, "about_to_show")
 	
-	owner.config.connect("audio_file_updated", self, "select_item_matching_file")
+	config.file.connect("audio_file_updated", self, "select_item_matching_file")
 	
 	# workaround because of some weird behavior
 	show()
@@ -16,7 +19,6 @@ func _ready():
 	var pos = get_parent().rect_global_position + get_parent().rect_size
 	set_global_position(pos)
 	hide()
-	owner.config.emit_updates()
 
 func populate():
 	var dir = Directory.new()
@@ -38,7 +40,7 @@ func index_pressed(index: int):
 			"file": base_file
 		}))
 	
-	owner.config.set_property("audio_file", base_file)
+	config.file.set_property("audio_file", base_file)
 
 var selected_item_text = ""
 func about_to_show():
