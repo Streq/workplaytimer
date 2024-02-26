@@ -78,3 +78,7 @@ func change_to_prev_year():
 
 func change_to_next_year():
 	set_year(year() + 1)
+func change_to_today():
+	set_day(Calendar.day())
+	set_month(Calendar.month())
+	set_year(Calendar.year())

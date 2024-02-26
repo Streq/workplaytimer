@@ -1,7 +1,4 @@
 extends Control
-signal time_step(delta)
-
-const FileUtils = preload("res://utils/FileUtils.gd")
 
 onready var play: Button = $"%play"
 onready var stop: Button = $"%stop"
@@ -135,70 +132,12 @@ func clear():
 	set_stopped(true)
 
 
-onready var LOGS_FILE = "history".plus_file("history.csv")
-onready var LOGS_ABSOLUTE_PATH = OS.get_user_data_dir().plus_file(LOGS_FILE)
-onready var LOGS_USER_PATH = Global.PATH.plus_file(LOGS_FILE)
 
-func log_day(date):
-	var file = FileUtils.open_or_create(LOGS_USER_PATH)
-	
-	if file == null:
-		return
-	file.seek_end()
-	
+
+func log_day(date, overwrite):
 	var progress_map = tasks.get_progresses()
+	History.log_day(date, progress_map, overwrite)
 	
-	# Store line
-	var line_text = store_line(
-		file, 
-		date,
-		progress_map
-	)
-
-	OS.clipboard = line_text
-	print("entry \"{entry}\" copied to clipboard".format({"entry":line_text}))
-	
-	file.seek(0)
-	print(retrieve_progress_history(file))
-	file.close()
-
-
-static func store_line(file : File, date: String, progress_map: Dictionary):
-	var line_start = file.get_position()
-	
-	var old_len = file.get_len()
-	
-	var arr = [date]
-	arr.resize(progress_map.size()+1)
-	var keys = progress_map.keys()
-	for i in keys.size():
-		var key: String = keys[i]
-		var value: int = progress_map[key]
-		arr[i+1] = "%s=%s" % [key.http_escape(), str(value)]
-	
-	file.store_csv_line(PoolStringArray(arr))
-	var line_size = file.get_len()-old_len
-
-	file.seek(line_start)
-	return file.get_buffer(line_size-1).get_string_from_utf8()
-
-static func retrieve_progress_history(file : File)->Dictionary:
-	var history = {}
-	while file.get_position() < file.get_len():
-		var line: PoolStringArray = file.get_csv_line()
-		var date: String = line[0]
-		for i in range(1, line.size()):
-			var text: String = line[i]
-			var entry: Array = text.split("=")
-			var activity: String = entry[0].http_unescape()
-			var progress: int = int(entry[1])
-			
-			if !history.has(activity):
-				history[activity] = {}
-			
-			var history_activity : Dictionary = history.get(activity)
-			history_activity[date] = progress
-	return history
 func initialize():
 	play()
 	
@@ -234,6 +173,3 @@ func _process(_delta):
 			play_timer.time_step(delta)
 	
 	now.update_time()
-	
-	
-	

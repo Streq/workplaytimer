@@ -1,4 +1,5 @@
 extends Object
+class_name TimeUtils
 func _init():
 	var msg = "%s is an utility class, you are not supposed to instantiate it." % get_script().resource_path
 	assert(false, msg)

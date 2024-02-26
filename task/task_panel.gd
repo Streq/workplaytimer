@@ -105,7 +105,7 @@ func set_hide_completed_tasks(val):
 var alert_on_completion = false setget set_alert_on_completion
 func set_alert_on_completion(val):
 	alert_on_completion = val
-func _on_task_completed(task):
+func _on_task_completed(_task):
 	sound.play()
 	refresh_hide_completed_tasks()
 
@@ -264,6 +264,7 @@ func add_progress_parallel(delta : int) -> int:
 			leftover = MathUtils.mini(leftover, current_leftover)
 	return leftover
 
+# map[activity]->time
 func get_progresses() -> Dictionary:
 	var ret = {}
 	for t in tasks:

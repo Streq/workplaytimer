@@ -1,4 +1,5 @@
 extends Object
+class_name FileUtils
 const ErrorUtils = preload("res://utils/ErrorUtils.gd")
  
 func _init():
@@ -74,7 +75,7 @@ static func save_json_file(path : String, dictionary := {}) -> int:
 	file.close()
 	return OK
 
-static func open_or_create(path : String) -> File:
+static func open_or_create(path : String, mode := File.READ_WRITE) -> File:
 	var file = File.new()
 	
 	var error = create_dir_for_file_if_absent(path)
@@ -82,7 +83,7 @@ static func open_or_create(path : String) -> File:
 	if error:
 		return null
 	
-	error = file.open(path, File.READ_WRITE) 
+	error = file.open(path, mode) 
 	
 	if error == ERR_FILE_NOT_FOUND:
 		push_warning("Couldn't find file \"{file}\". Creating it.".format({
@@ -124,3 +125,9 @@ static func create_if_absent(path : String) -> int:
 static func open_user_data():
 	var file = ProjectSettings.globalize_path("user://")
 	OS.shell_open(file)
+
+static func delete(path: String) -> int:
+	return Directory.new().remove(path)
+
+static func rename(path: String, path_to: String) -> int:
+	return Directory.new().rename(path, path_to)

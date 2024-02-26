@@ -7,13 +7,13 @@ signal printed_stack(text)
 
 const STACK_FRAME = "Frame {i} - {source}:{line} in function '{function}'\n"
 
-func do_print(text):
+func print(text):
 	print(text)
 	emit_signal("printed", text)
-func do_printerr(text):
+func printerr(text):
 	printerr(text)
 	emit_signal("printed_err", text)
-func do_print_debug(text):
+func print_debug(text):
 	if !OS.is_debug_build():
 		return
 	print_debug(text)
@@ -26,7 +26,7 @@ func do_print_debug(text):
 		})
 	emit_signal("printed_debug", debug_text)
 
-func do_print_stack():
+func print_stack():
 	var stack = get_stack()
 	
 	var text = ""

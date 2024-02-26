@@ -1,5 +1,4 @@
-extends Node
-tool
+extends Object
+class_name Global
 
-#var PATH: String = OS.get_executable_path().get_base_dir()
-var PATH: String = "user://"
+const PATH: String = "user://"

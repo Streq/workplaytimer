@@ -31,16 +31,16 @@ Your [color=#ff00ff]local addresses[/color] (the ones people in the same network
 func host(port: int):
 	if validate_port(port):
 		return
-	Console.do_print("Creating server on port %s" % port)
+	Console.print("Creating server on port %s" % port)
 	var peer = NetworkedMultiplayerENet.new()
 	var error = peer.create_server(port)
 	if error:
-		Console.do_printerr("error - failed to create server, error code is %s - %s" % [error, ErrorUtils.get_error_text(error)])
+		Console.printerr("error - failed to create server, error code is %s - %s" % [error, ErrorUtils.get_error_text(error)])
 		return
 	get_tree().set_network_peer(peer)
 	var local_addresses = "\n".join(IP.get_local_addresses())
 	var public_address = ip.replace("\n","") if ip else "unresolved, you can try going to [url]https://icanhazip.com/[/url] to check it"
-	Console.do_print(SERVER_MESSAGE.format({
+	Console.print(SERVER_MESSAGE.format({
 			port=port, 
 			public_address=public_address,
 			local_addresses=local_addresses
@@ -52,36 +52,36 @@ func host(port: int):
 func join(address:String, port:int):
 	if validate_port(port):
 		return
-	Console.do_print("Creating client")
+	Console.print("Creating client")
 	var peer = NetworkedMultiplayerENet.new()
 	var error = peer.create_client(address, port)
 	if error:
-		Console.do_printerr("error - failed to create client, error code is %s - %s" % [error, ErrorUtils.get_error_text(error)])
+		Console.printerr("error - failed to create client, error code is %s - %s" % [error, ErrorUtils.get_error_text(error)])
 		return
 	get_tree().set_network_peer(peer)
-	Console.do_print("Client created")
-	Console.do_print("Attempting to connect to server on %s:%s" % [address,port])
+	Console.print("Client created")
+	Console.print("Attempting to connect to server on %s:%s" % [address,port])
 func validate_port(port):
 	if port<1024 or port>65535:
-		Console.do_printerr("error - port must be a number between 1024 and 65535")
+		Console.printerr("error - port must be a number between 1024 and 65535")
 		return 1
 	return 0
 
 func _on_network_peer_connected(id):
-	Console.do_print("Peer %s connected" % id)
+	Console.print("Peer %s connected" % id)
 func _on_network_peer_disconnected(id):
-	Console.do_print("Peer %s disconnected" % id)
+	Console.print("Peer %s disconnected" % id)
 
 func _on_connected_to_server():
-	Console.do_print("Connected to server")
+	Console.print("Connected to server")
 	disconnect.disabled = false
 
 func _on_server_disconnected():
-	Console.do_print("Disconnected from server")
+	Console.print("Disconnected from server")
 	disconnect.disabled = true
 
 func _on_connection_failed():
-	Console.do_printerr("Connection to server failed")
+	Console.printerr("Connection to server failed")
 	disconnect.disabled = true
 
 func network_disconnect():
@@ -90,5 +90,5 @@ func network_disconnect():
 		return
 	get_tree().network_peer = null
 	disconnect.disabled = true
-	Console.do_print("Disconnected from server")
+	Console.print("Disconnected from server")
 

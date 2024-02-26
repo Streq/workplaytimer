@@ -21,7 +21,6 @@ func _on_about_to_show():
 		control.add_child(shine)
 #		control.theme_type_variation = "tutorial_shine"
 func _on_popup_hide():
-	var shinables = Groups.get_all("shine_on_advice_start_task")
 	for shine in shines:
 		if is_instance_valid(shine):
 			shine.queue_free()

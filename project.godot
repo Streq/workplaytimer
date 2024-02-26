@@ -27,7 +27,37 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Date",
 "language": "GDScript",
-"path": "res://addons/calendar_button/class/Date.gd"
+"path": "res://addons/calendar_button/class/date.gd"
+}, {
+"base": "Node",
+"class": "DebugUtils",
+"language": "GDScript",
+"path": "res://utils/PrintUtils.gd"
+}, {
+"base": "Object",
+"class": "ErrorUtils",
+"language": "GDScript",
+"path": "res://utils/ErrorUtils.gd"
+}, {
+"base": "Object",
+"class": "FileUtils",
+"language": "GDScript",
+"path": "res://utils/FileUtils.gd"
+}, {
+"base": "Object",
+"class": "Global",
+"language": "GDScript",
+"path": "res://Global.gd"
+}, {
+"base": "Node",
+"class": "History",
+"language": "GDScript",
+"path": "res://history/History.gd"
+}, {
+"base": "Object",
+"class": "MapUtils",
+"language": "GDScript",
+"path": "res://utils/MapUtils.gd"
 }, {
 "base": "Node",
 "class": "MathUtils",
@@ -38,6 +68,11 @@ _global_script_classes=[ {
 "class": "TimeLabel",
 "language": "GDScript",
 "path": "res://time_label.gd"
+}, {
+"base": "Object",
+"class": "TimeUtils",
+"language": "GDScript",
+"path": "res://utils/Chronos.gd"
 }, {
 "base": "Object",
 "class": "UsefulCode",
@@ -54,8 +89,15 @@ _global_script_class_icons={
 "CalendarButtons": "",
 "Config": "",
 "Date": "",
+"DebugUtils": "",
+"ErrorUtils": "",
+"FileUtils": "",
+"Global": "",
+"History": "",
+"MapUtils": "",
 "MathUtils": "",
 "TimeLabel": "",
+"TimeUtils": "",
 "UsefulCode": "",
 "WindowRestrictor": ""
 }
@@ -73,7 +115,6 @@ config/icon="res://icon.png"
 [autoload]
 
 Groups="*res://utils/Groups.gd"
-Global="*res://Global.gd"
 Console="*res://utils/console.tscn"
 DragDrop="*res://utils/DragDrop.tscn"
 
