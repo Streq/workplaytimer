@@ -7,7 +7,7 @@ func _ready():
 
 func init():
 	if !Groups.exists("now_label"):
-		call_deferred("init")
+		get_tree().connect("idle_frame", self, "init", [], CONNECT_ONESHOT)
 		return
 	now_label = Groups.get_one("now_label")
 	owner.connect("process_changed", self, "_process_changed")

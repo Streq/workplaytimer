@@ -9,4 +9,5 @@ func get_default_config() -> Dictionary:
 		hide_completed_tasks = false,
 		alert_on_task_completed = false,
 		play_sound_on_task_completed = true,
+		progress_tasks_in_parallel = false,
 	}

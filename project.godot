@@ -9,10 +9,30 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Calendar",
+"language": "GDScript",
+"path": "res://addons/calendar_button/class/Calendar.gd"
+}, {
+"base": "Reference",
+"class": "CalendarButtons",
+"language": "GDScript",
+"path": "res://addons/calendar_button/scripts/calendar_buttons.gd"
+}, {
 "base": "Node",
 "class": "Config",
 "language": "GDScript",
 "path": "res://config.gd"
+}, {
+"base": "Reference",
+"class": "Date",
+"language": "GDScript",
+"path": "res://addons/calendar_button/class/Date.gd"
+}, {
+"base": "Node",
+"class": "MathUtils",
+"language": "GDScript",
+"path": "res://utils/MathUtils.gd"
 }, {
 "base": "Control",
 "class": "TimeLabel",
@@ -23,11 +43,21 @@ _global_script_classes=[ {
 "class": "UsefulCode",
 "language": "GDScript",
 "path": "res://useful_code.gd"
+}, {
+"base": "Reference",
+"class": "WindowRestrictor",
+"language": "GDScript",
+"path": "res://addons/calendar_button/scripts/window_restrictor.gd"
 } ]
 _global_script_class_icons={
+"Calendar": "",
+"CalendarButtons": "",
 "Config": "",
+"Date": "",
+"MathUtils": "",
 "TimeLabel": "",
-"UsefulCode": ""
+"UsefulCode": "",
+"WindowRestrictor": ""
 }
 
 [application]
@@ -36,6 +66,7 @@ config/name="WorkPlayTimer"
 run/main_scene="res://main.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="workplaytimer"
+run/low_processor_mode=true
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
@@ -59,6 +90,10 @@ gdscript/warnings/integer_division=false
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 window/size/always_on_top.debug=false
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/calendar_button/plugin.cfg" )
 
 [global]
 

@@ -114,8 +114,11 @@ func set_paused(val):
 	paused = val
 	_update_can_process()
 
+func is_able_to_process():
+	return selected and !paused and enabled
+
 func _update_can_process():
-	var new_val = selected and !paused and enabled
+	var new_val = is_able_to_process()
 	if is_processing() != new_val:
 		dt.get_and_reset()
 		set_process(new_val)
@@ -123,14 +126,23 @@ func _update_can_process():
 
 func _ready():
 	add_to_group("task")
+	title_input.connect("text_changed", self, "set_title_internal")
+	
 	time_input.connect("msec_updated", self, "set_msec_internal")
 	current_time.connect("msec_updated", self, "set_msec_done_internal")
-	title_input.connect("text_changed", self, "set_title_internal")
-	enabled_input.connect("toggled", self, "set_enabled_internal")
-	remove.connect("pressed",self,"remove")
+	
+	progress.add_to_group("shine_on_advice_start_task")
+	
 	selected_node.connect("toggled",self,"set_selected_internal")
 	selected_node.connect("mouse_entered", self, "set_selected_hovered", [true])
 	selected_node.connect("mouse_exited", self, "set_selected_hovered", [false])
+	
+	enabled_input.connect("toggled", self, "set_enabled_internal")
+	enabled_input.add_to_group("shine_on_advice_start_task")
+	
+	remove.connect("pressed",self,"remove")
+	
+	
 	set_title(title)
 	set_msec(msec)
 	set_msec_done(msec_done)
@@ -166,7 +178,16 @@ func _update_progress():
 	progress.value = msec_done
 	progress.max_value = msec
 	progress.focus = selected
-	progress.visible = enabled and msec > 0
+#	progress.visible = enabled and msec > 0
+	progress.visible = msec > 0
 
-func _process(_delta):
-	set_msec_done(msec_done + dt.get_and_reset())
+#func _process(_delta):
+#	set_msec_done(msec_done + dt.get_and_reset())
+
+func add_progress(millis_done: int) -> int:
+	var addition = MathUtils.clampi(millis_done, 0, get_remainder())
+	set_msec_done(msec_done + addition)
+	return millis_done-addition
+
+func get_remainder():
+	return msec - msec_done

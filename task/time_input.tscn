@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://input_field/time_line_edit.gd" type="Script" id=1]
+
+[node name="time_input" type="LineEdit"]
+unique_name_in_owner = true
+margin_right = 90.0
+margin_bottom = 29.0
+hint_tooltip = "goal target time"
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "00:00:00"
+script = ExtResource( 1 )

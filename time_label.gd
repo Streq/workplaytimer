@@ -83,6 +83,7 @@ var msec_before := 0
 func set_msec(val):
 	msec_before = msec
 	msec = val
+	_on_msec_changed()
 	emit_signal("msec_changed", msec)
 
 func _ready() -> void:
@@ -164,3 +165,13 @@ func update_process():
 	else:
 		emit_signal("started")
 		_start()
+
+func time_step(_millis: int):
+	pass
+
+func add_delta(millis: int):
+	set_msec(msec + millis)
+
+# virtual function
+func _on_msec_changed():
+	pass

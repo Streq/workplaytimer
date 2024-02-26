@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://task/autosave.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/small_theme.tres" type="Theme" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/fonts/small_font.tres" type="DynamicFont" id=9]
 [ext_resource path="res://volume.gd" type="Script" id=10]
 [ext_resource path="res://sound_file.gd" type="Script" id=11]
+[ext_resource path="res://task/no_tasks_alert.gd" type="Script" id=12]
 [ext_resource path="res://audio_file_dialog.tscn" type="PackedScene" id=13]
 [ext_resource path="res://tick_sound.gd" type="Script" id=14]
 [ext_resource path="res://popup_button.tscn" type="PackedScene" id=15]
@@ -36,21 +37,21 @@ margin_bottom = 33.0
 
 [node name="filter_by_name_edit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 123.0
+margin_right = 134.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 placeholder_text = "filter"
 
 [node name="filter_by_name_button" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 127.0
-margin_right = 159.0
+margin_left = 138.0
+margin_right = 165.0
 margin_bottom = 33.0
 text = "go"
 
 [node name="clear_search_button" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 163.0
+margin_left = 169.0
 margin_right = 212.0
 margin_bottom = 33.0
 text = "clear"
@@ -58,7 +59,7 @@ text = "clear"
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 margin_top = 37.0
 margin_right = 212.0
-margin_bottom = 553.0
+margin_bottom = 562.0
 rect_min_size = Vector2( 212, 0 )
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -67,7 +68,7 @@ script = ExtResource( 7 )
 [node name="task_list" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 margin_right = 198.0
-margin_bottom = 516.0
+margin_bottom = 525.0
 rect_min_size = Vector2( 198, 0 )
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -77,28 +78,29 @@ script = ExtResource( 5 )
 margin_right = 198.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 557.0
+margin_top = 566.0
 margin_right = 212.0
 margin_bottom = 586.0
 size_flags_horizontal = 3
 
-[node name="add" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="add" type="Button" parent="VBoxContainer/HBoxContainer2" groups=["shine_on_advice_start_task"]]
 unique_name_in_owner = true
 margin_right = 104.0
-margin_bottom = 29.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "new task"
+text = "new"
 
 [node name="options" parent="VBoxContainer/HBoxContainer2" instance=ExtResource( 15 )]
 margin_left = 108.0
 margin_right = 212.0
-text = "options"
+margin_bottom = 20.0
+text = "settings"
+clip_text = false
 
 [node name="Node" type="Node" parent="VBoxContainer/HBoxContainer2/options"]
 
 [node name="Popup" type="WindowDialog" parent="VBoxContainer/HBoxContainer2/options/Node"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -117,7 +119,7 @@ anchor_bottom = 1.0
 
 [node name="PanelContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer"]
 margin_right = 374.0
-margin_bottom = 230.0
+margin_bottom = 233.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -130,31 +132,38 @@ custom_constants/margin_bottom = 32
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 310.0
-margin_bottom = 198.0
+margin_bottom = 201.0
 
 [node name="alert" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
 unique_name_in_owner = true
 margin_top = 0.0
-margin_right = 278.0
+margin_right = 266.0
 margin_bottom = 31.0
 text = "Alert On Task Completed"
 prop = "alert_on_task_completed"
 
 [node name="hide_done" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
-margin_right = 278.0
+margin_right = 266.0
 prop = "hide_completed_tasks"
 
 [node name="sound_on_done" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
 margin_top = 70.0
-margin_right = 278.0
+margin_right = 266.0
 margin_bottom = 101.0
 text = "Play Sound On Task Completed"
 prop = "sound_on"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer"]
+[node name="only_progress_one_task" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
 margin_top = 105.0
-margin_right = 278.0
-margin_bottom = 134.0
+margin_right = 266.0
+margin_bottom = 136.0
+text = "Progress Tasks In Parallel"
+prop = "progress_tasks_in_parallel"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer"]
+margin_top = 140.0
+margin_right = 266.0
+margin_bottom = 169.0
 
 [node name="sound_file" type="Button" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 60.0
@@ -180,13 +189,13 @@ script = ExtResource( 14 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 64.0
-margin_right = 278.0
+margin_right = 266.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="volume" type="HSlider" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
-margin_right = 214.0
+margin_right = 202.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 64, 0 )
 hint_tooltip = "volume"
@@ -221,3 +230,23 @@ script = ExtResource( 1 )
 [node name="config" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource( 6 )
+
+[node name="Node" type="Node" parent="."]
+
+[node name="no_tasks_alert" type="AcceptDialog" parent="Node"]
+unique_name_in_owner = true
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -69.0
+margin_right = 100.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+window_title = "No Ongoing Tasks"
+dialog_text = "No ongoing tasks left, click start on an incomplete task to begin working on it!"
+dialog_autowrap = true
+script = ExtResource( 12 )

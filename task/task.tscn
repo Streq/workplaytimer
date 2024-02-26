@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://input_field/time_line_edit.gd" type="Script" id=1]
 [ext_resource path="res://task/task.gd" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://task/update_expected_finish.gd" type="Script" id=5]
 [ext_resource path="res://task/drag_rect.gd" type="Script" id=6]
 [ext_resource path="res://task/drop_area.gd" type="Script" id=7]
+[ext_resource path="res://task/time_input.tscn" type="PackedScene" id=8]
+[ext_resource path="res://task/enabled.gd" type="Script" id=9]
 
 [node name="task" type="PanelContainer"]
 margin_right = 72.0
@@ -49,9 +51,8 @@ alignment = 2
 
 [node name="progress" type="ProgressBar" parent="data/HBoxContainer"]
 unique_name_in_owner = true
-visible = false
-margin_right = 93.0
-margin_bottom = 24.0
+margin_right = 140.0
+margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 0.0
@@ -83,6 +84,7 @@ hint_tooltip = "Include/exclude this task from the completion calculations"
 size_flags_horizontal = 8
 size_flags_vertical = 0
 pressed = true
+script = ExtResource( 9 )
 
 [node name="remove" type="Button" parent="data/HBoxContainer"]
 unique_name_in_owner = true
@@ -109,15 +111,7 @@ margin_bottom = 117.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="time_input" type="LineEdit" parent="data/HBoxContainer2"]
-unique_name_in_owner = true
-margin_right = 90.0
-margin_bottom = 29.0
-hint_tooltip = "goal target time"
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "00:00:00"
-script = ExtResource( 1 )
+[node name="time_input" parent="data/HBoxContainer2" instance=ExtResource( 8 )]
 
 [node name="current_time" type="LineEdit" parent="data/HBoxContainer2"]
 unique_name_in_owner = true

@@ -28,3 +28,5 @@ func find_popup():
 func _pressed():
 	popup.popup()
 	
+func _on_submit(date):
+	emit_signal("submit", date)

@@ -3,23 +3,17 @@ tool
 
 var last_start_msec := 0
 
-func _process(_ignored_: float) -> void:
-	if Engine.editor_hint:
-		return
-	var now = Chronos.now_mil()
-	var delta = now - last_start_msec
-	
-	set_msec(msec + delta)
-		
-	last_start_msec = now
+func _on_msec_changed():
 	render_text()
 
-func _start():
-	last_start_msec = Chronos.now_mil()
+func time_step(delta: int) -> void:
+	if Engine.editor_hint:
+		return
+	set_msec(msec + delta)
+	render_text()
 
 
 func _ready():
 	if Engine.editor_hint:
 		return
 	load_()
-		

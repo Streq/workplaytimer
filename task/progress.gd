@@ -13,6 +13,8 @@ func set_focus(val):
 	focus = val
 	update_look()
 
+func is_moot():
+	return value == max_value
 
 func update_look():
 	if focus:

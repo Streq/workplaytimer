@@ -4,9 +4,12 @@ signal updated()
 
 signal pause(val)
 
-const TASK = preload("task.tscn")
 const Task = preload("task.gd")
 const FileUtils = preload("res://utils/FileUtils.gd")
+const DeltaTimer = preload("res://utils/time/delta_timer.gd")
+
+const TASK = preload("task.tscn")
+
 
 onready var add = $"%add"
 onready var task_list = $"%task_list"
@@ -19,6 +22,7 @@ onready var clear_search_button = $"%clear_search_button"
 onready var config = $"%config"
 onready var sound = $"%sound"
 
+var dt = DeltaTimer.new()
 
 var msec_completed = 0
 
@@ -32,6 +36,8 @@ func _ready():
 	connect("updated", autosave, "trigger")
 	
 	add.connect("pressed", self, "add_task")
+	add.add_to_group("shine_on_advice_start_task")
+	
 	filter_by_name_button.connect("pressed", self, "_on_filter_by_name_button_pressed")
 	filter_by_name_edit.connect("text_entered", self, "filter_by_name")
 	clear_search_button.connect("pressed", self, "_on_clear_search_button_pressed")
@@ -40,13 +46,17 @@ func _ready():
 	
 	config.connect("initialized",self,"initialize_from_config")
 	config.initialize()
-	
-#	UsefulCode.scan_controls(self)
 
 func initialize_from_config():
 	config.file.notify_on_prop("alert_on_task_completed", self, "set_alert_on_completion")
 	config.file.notify_on_prop("hide_completed_tasks", self, "set_hide_completed_tasks")
-	
+	config.file.notify_on_prop("progress_tasks_in_parallel", self, "set_progress_tasks_in_parallel")
+
+var progress_tasks_in_parallel := false setget set_progress_tasks_in_parallel
+func set_progress_tasks_in_parallel(val):
+	progress_tasks_in_parallel = val
+
+
 
 func _on_filter_by_name_button_pressed():
 	filter_by_name(filter_by_name_edit.text)
@@ -61,9 +71,21 @@ func filter_by_name(text: String):
 #			task.hide()
 			task.set_enabled(false)
 
-func add_task():
+func register_work(activity:String, millis_done:int):
+	for t in tasks:
+		var task = t as Task
+		if task.title == activity:
+			millis_done = task.add_progress(millis_done)
+			if !millis_done:
+				return
+	add_task(activity, millis_done, millis_done)
+
+func add_task(title:="", millis_target:=0, millis_done:=0):
 	var task = TASK.instance()
 	add_task_internal(task)
+	task.set_title(title)
+	task.set_msec(millis_target)
+	task.set_msec_done(millis_done)
 	calculate_tasks()
 
 func add_task_internal(task):
@@ -85,10 +107,8 @@ func set_alert_on_completion(val):
 	alert_on_completion = val
 func _on_task_completed(task):
 	sound.play()
-	owner.play()
 	refresh_hide_completed_tasks()
-	if alert_on_completion:
-		OS.alert("Task %s finished! Select a new task." % task.title, "Task finished!")
+
 var save_queued = false
 func queue_save():
 	if save_queued:
@@ -181,7 +201,7 @@ export var frozen := false setget set_frozen
 func set_frozen(val):
 	frozen = val
 	update_process()
-	
+
 func update_process():
 	var should_pause = frozen or paused
 	emit_signal("pause", should_pause)
@@ -192,3 +212,63 @@ func reorder(task: Task, to_position: int):
 
 func _on_clear_search_button_pressed():
 	filter_by_name("")
+func log_day():
+	pass
+
+#func _process(_delta):
+#	time_step(dt.get_and_reset())
+
+func time_step(delta: int):
+	add_progress(delta)
+
+onready var no_tasks_alert = $"%no_tasks_alert"
+
+func add_progress(delta: int):
+	if !delta:
+		return
+	
+	if progress_tasks_in_parallel:
+		delta = add_progress_parallel(delta)
+	else:
+		delta = add_progress_sequential(delta)
+		
+	if !delta:
+		return
+	
+	owner.play()
+	owner.play_timer.add_delta(delta)
+	if alert_on_completion:
+		if !OS.is_window_focused():
+			OS.move_window_to_foreground()
+			OS.alert("No selected tasks left! Select a new task.", "Tasks finished!")
+		no_tasks_alert.popup()
+		sound.play()
+
+func add_progress_sequential(delta : int) -> int:
+	for t in tasks:
+		var task : Task = t
+		if task.is_able_to_process():
+			delta = task.add_progress(delta)
+			if !delta:
+				return delta
+	return delta
+
+func add_progress_parallel(delta : int) -> int:
+	var leftover = delta
+	for t in tasks:
+		var task : Task = t
+		if task.is_able_to_process():
+			var current_leftover = task.add_progress(delta)
+			# if one big delta happens, several tasks might complete simultaneously, 
+			# the leftover is the lowest one of all leftovers
+			leftover = MathUtils.mini(leftover, current_leftover)
+	return leftover
+
+func get_progresses() -> Dictionary:
+	var ret = {}
+	for t in tasks:
+		var task : Task = t
+		var title = task.title
+		var accum : int = ret.get(title, 0)
+		ret[title] = accum + task.msec_done
+	return ret
