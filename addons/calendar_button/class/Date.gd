@@ -16,7 +16,7 @@ func _init(day : int = OS.get_datetime()["day"],
 # MM : Two digit month
 # YY : Two digit year
 # YYYY : Four digit year
-func date(date_format = "DD-MM-YY") -> String:
+func date(date_format := "YYYY-MM-DD") -> String:
 	if("DD".is_subsequence_of(date_format)):
 		date_format = date_format.replace("DD", str(day()).pad_zeros(2))
 	if("MM".is_subsequence_of(date_format)):
@@ -26,6 +26,16 @@ func date(date_format = "DD-MM-YY") -> String:
 	elif("YY".is_subsequence_of(date_format)):
 		date_format = date_format.replace("YY", str(year()).substr(2,3))
 	return date_format
+
+func from_date(date: String, date_format := "YYYY-MM-DD"):
+	if("DD".is_subsequence_of(date_format)):
+		day = MathUtils.maxi(1, int(date.substr(date_format.find("DD"), 2)))
+	if("MM".is_subsequence_of(date_format)):
+		month = MathUtils.maxi(1, int(date.substr(date_format.find("MM"), 2)))
+	if("YYYY".is_subsequence_of(date_format)):
+		year = MathUtils.maxi(1, int(date.substr(date_format.find("YYYY"), 4)))
+	elif("YY".is_subsequence_of(date_format)):
+		year = MathUtils.maxi(1, int(date.substr(date_format.find("YY"), 2)))
 
 func day() -> int:
 	return day

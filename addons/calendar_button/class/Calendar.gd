@@ -12,7 +12,7 @@ const WEEKDAY_NAME = [
 		"Sunday", "Monday", "Tuesday", "Wednesday", 
 		"Thursday", "Friday", "Saturday" ]
 
-func get_days_in_month(month : int, year : int) -> int:
+static func get_days_in_month(month : int, year : int) -> int:
 	var number_of_days : int
 	if(month == Month.APR || month == Month.JUN || month == Month.SEP
 			|| month == Month.NOV):
@@ -28,42 +28,42 @@ func get_days_in_month(month : int, year : int) -> int:
 	
 	return number_of_days
 
-func get_weekday(day : int, month : int, year : int) -> int:
+static func get_weekday(day : int, month : int, year : int) -> int:
 	var t : Array = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]
 	if(month < 3):
 		year -= 1
 	return (year + year/4 - year/100 + year/400 + t[month - 1] + day) % 7
 
-func get_weekday_name(day : int, month : int, year : int) -> String:
+static func get_weekday_name(day : int, month : int, year : int) -> String:
 	var day_num = get_weekday(day, month, year)
 	return WEEKDAY_NAME[day_num]
 
-func get_month_name(month : int) -> String:
+static func get_month_name(month : int) -> String:
 	return MONTH_NAME[month - 1]
 
-func hour() -> int:
+static func hour() -> int:
 	return OS.get_datetime()["hour"]
 
-func minute() -> int:
+static func minute() -> int:
 	return OS.get_datetime()["minute"]
 
-func second() -> int:
+static func second() -> int:
 	return OS.get_datetime()["second"]
 
-func day() -> int:
+static func day() -> int:
 	return OS.get_datetime()["day"]
 
-func weekday() -> int:
+static func weekday() -> int:
 	return OS.get_datetime()["weekday"]
 
-func month() -> int:
+static func month() -> int:
 	return OS.get_datetime()["month"]
 
-func year() -> int:
+static func year() -> int:
 	return OS.get_datetime()["year"]
 
-func daylight_savings_time() -> int:
+static func daylight_savings_time() -> int:
 	return dst()
 
-func dst() -> int:
+static func dst() -> int:
 	return OS.get_datetime()["dst"]
