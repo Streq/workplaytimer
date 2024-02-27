@@ -67,3 +67,59 @@ static func daylight_savings_time() -> int:
 
 static func dst() -> int:
 	return OS.get_datetime()["dst"]
+
+static func to_days(y:int, m:int, d:int) -> int:
+	m = (m + 9) % 12
+	y = y - m/10
+	return 365*y + y/4 - y/100 + y/400 + (m*306 + 5)/10 + ( d - 1 )
+static func to_days_arr(arr:Array) -> int:
+	return to_days(arr[0], arr[1], arr[2])
+
+static func from_days(g: int) -> Array:
+	var y = (10000*g + 14780)/3652425
+	var ddd = g - (365*y + y/4 - y/100 + y/400)
+	if ddd < 0:
+		y = y - 1
+		ddd = g - (365*y + y/4 - y/100 + y/400)
+	 
+	var mi = (100*ddd + 52)/3060
+	var mm = (mi + 2)%12 + 1
+	y = y + (mi + 2)/12
+	var dd = ddd - (mi*306 + 5)/10 + 1
+	return [y, mm, dd]
+
+static func date_to_string(year:int, month: int, day: int, date_format := "YYYY-MM-DD") -> String:
+	if("DD".is_subsequence_of(date_format)):
+		date_format = date_format.replace("DD", str(day).pad_zeros(2))
+	if("MM".is_subsequence_of(date_format)):
+		date_format = date_format.replace("MM", str(month).pad_zeros(2))
+	if("YYYY".is_subsequence_of(date_format)):
+		date_format = date_format.replace("YYYY", str(year))
+	elif("YY".is_subsequence_of(date_format)):
+		date_format = date_format.replace("YY", str(year).substr(2,3))
+	return date_format
+
+static func date_to_string_arr(arr: Array, date_format := "YYYY-MM-DD") -> String:
+	var year: int = arr[0]
+	var month: int = arr[1]
+	var day: int = arr[2]
+	return date_to_string(year, month, day, date_format)
+
+static func string_to_date(date: String, date_format := "YYYY-MM-DD") -> Array:
+	var year:int
+	var month:int
+	var day:int
+	if("DD".is_subsequence_of(date_format)):
+		day = MathUtils.maxi(1, int(date.substr(date_format.find("DD"), 2)))
+	if("MM".is_subsequence_of(date_format)):
+		month = MathUtils.maxi(1, int(date.substr(date_format.find("MM"), 2)))
+	if("YYYY".is_subsequence_of(date_format)):
+		year = MathUtils.maxi(1, int(date.substr(date_format.find("YYYY"), 4)))
+	elif("YY".is_subsequence_of(date_format)):
+		year = MathUtils.maxi(1, int(date.substr(date_format.find("YY"), 2)))
+	return [year, month, day]
+
+static func days_to_string(days: int, date_format := "YYYY-MM-DD") -> String:
+	return date_to_string_arr(from_days(days), date_format)
+static func string_to_days(date: String, date_format := "YYYY-MM-DD") -> int:
+	return to_days_arr(string_to_date(date, date_format))

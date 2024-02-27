@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://popup_button.tscn" type="PackedScene" id=17]
 [ext_resource path="res://popups/save_as_task_menu.tscn" type="PackedScene" id=18]
 [ext_resource path="res://popups/log_day_menu.tscn" type="PackedScene" id=19]
+[ext_resource path="res://graph/work_graph.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Image" id=31]
 data = {
@@ -171,7 +172,7 @@ theme = ExtResource( 12 )
 
 [node name="play" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_right = 77.0
+margin_right = 65.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 theme = ExtResource( 16 )
@@ -179,8 +180,8 @@ text = "work"
 
 [node name="stop" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 81.0
-margin_right = 158.0
+margin_left = 69.0
+margin_right = 135.0
 margin_bottom = 29.0
 hint_tooltip = "stop both Play and Work timers"
 size_flags_horizontal = 3
@@ -188,8 +189,8 @@ toggle_mode = true
 text = "stop"
 
 [node name="new_from_play" parent="HBoxContainer/VBoxContainer/buttons" instance=ExtResource( 17 )]
-margin_left = 162.0
-margin_right = 283.0
+margin_left = 139.0
+margin_right = 260.0
 hint_tooltip = "Transfer playtime to a new/existing task"
 text = "new from play"
 clip_text = false
@@ -237,8 +238,8 @@ size_flags_vertical = 3
 
 [node name="freeze" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 287.0
-margin_right = 365.0
+margin_left = 264.0
+margin_right = 329.0
 margin_bottom = 29.0
 hint_tooltip = "stop all timers, useful to take a snapshot of the timer"
 size_flags_horizontal = 3
@@ -247,8 +248,8 @@ text = "freeze"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 369.0
-margin_right = 446.0
+margin_left = 333.0
+margin_right = 399.0
 margin_bottom = 29.0
 hint_tooltip = "clear all timers"
 size_flags_horizontal = 3
@@ -259,8 +260,8 @@ text = "clear"
 
 [node name="save" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 450.0
-margin_right = 527.0
+margin_left = 403.0
+margin_right = 468.0
 margin_bottom = 29.0
 hint_tooltip = "save state"
 size_flags_horizontal = 3
@@ -268,8 +269,8 @@ text = "save"
 
 [node name="autosave" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true
-margin_left = 531.0
-margin_right = 612.0
+margin_left = 472.0
+margin_right = 553.0
 margin_bottom = 29.0
 hint_tooltip = "save state"
 size_flags_horizontal = 3
@@ -279,8 +280,8 @@ text = "autosave"
 
 [node name="log_day" parent="HBoxContainer/VBoxContainer/buttons" instance=ExtResource( 17 )]
 unique_name_in_owner = true
-margin_left = 616.0
-margin_right = 694.0
+margin_left = 557.0
+margin_right = 624.0
 hint_tooltip = "Transfer playtime to a new/existing task"
 text = "log day"
 clip_text = false
@@ -324,6 +325,31 @@ margin_left = 32.0
 margin_top = 32.0
 margin_right = 286.0
 margin_bottom = 290.0
+
+[node name="graph" parent="HBoxContainer/VBoxContainer/buttons" instance=ExtResource( 17 )]
+unique_name_in_owner = true
+margin_left = 628.0
+margin_right = 694.0
+hint_tooltip = "Transfer playtime to a new/existing task"
+text = "graph"
+clip_text = false
+
+[node name="Node" type="Node" parent="HBoxContainer/VBoxContainer/buttons/graph"]
+
+[node name="Popup" type="WindowDialog" parent="HBoxContainer/VBoxContainer/buttons/graph/Node"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -453.0
+margin_top = -247.0
+margin_right = 453.0
+margin_bottom = 247.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+window_title = "Progress Graph"
+
+[node name="work_graph_menu" parent="HBoxContainer/VBoxContainer/buttons/graph/Node/Popup" instance=ExtResource( 20 )]
 
 [node name="data_folder" type="Button" parent="HBoxContainer/VBoxContainer/buttons"]
 unique_name_in_owner = true

@@ -15,16 +15,15 @@ func _init(day : int = OS.get_datetime()["day"],
 # DD : Two digit day of month
 # MM : Two digit month
 # YY : Two digit year
-# YYYY : Four digit year
 func date(date_format := "YYYY-MM-DD") -> String:
 	if("DD".is_subsequence_of(date_format)):
-		date_format = date_format.replace("DD", str(day()).pad_zeros(2))
+		date_format = date_format.replace("DD", str(day).pad_zeros(2))
 	if("MM".is_subsequence_of(date_format)):
-		date_format = date_format.replace("MM", str(month()).pad_zeros(2))
+		date_format = date_format.replace("MM", str(month).pad_zeros(2))
 	if("YYYY".is_subsequence_of(date_format)):
-		date_format = date_format.replace("YYYY", str(year()))
+		date_format = date_format.replace("YYYY", str(year))
 	elif("YY".is_subsequence_of(date_format)):
-		date_format = date_format.replace("YY", str(year()).substr(2,3))
+		date_format = date_format.replace("YY", str(year).substr(2,3))
 	return date_format
 
 func from_date(date: String, date_format := "YYYY-MM-DD"):
@@ -36,6 +35,11 @@ func from_date(date: String, date_format := "YYYY-MM-DD"):
 		year = MathUtils.maxi(1, int(date.substr(date_format.find("YYYY"), 4)))
 	elif("YY".is_subsequence_of(date_format)):
 		year = MathUtils.maxi(1, int(date.substr(date_format.find("YY"), 2)))
+	
+
+
+func is_equal(other: Date):
+	return year == other.year and month == other.month and day == other.day
 
 func day() -> int:
 	return day
@@ -82,3 +86,6 @@ func change_to_today():
 	set_day(Calendar.day())
 	set_month(Calendar.month())
 	set_year(Calendar.year())
+
+func to_days():
+	return Calendar.to_days(year, month, day)

@@ -6,37 +6,79 @@
 [node name="work_graph_menu" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 0
 script = ExtResource( 2 )
 
-[node name="work_graph" type="ScrollContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 572.0
+margin_bottom = 558.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
+margin_right = 170.0
+margin_bottom = 558.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="work_graph" type="ScrollContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 174.0
+margin_right = 1024.0
+margin_bottom = 558.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
-seconds_per_pixel = 60.0
 
-[node name="days" type="HBoxContainer" parent="work_graph"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/work_graph"]
+margin_right = 850.0
+margin_bottom = 558.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="Control" type="Control" parent="HBoxContainer/work_graph/HBoxContainer"]
+margin_right = 64.0
+rect_min_size = Vector2( 64, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="days" type="HBoxContainer" parent="HBoxContainer/work_graph/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 1024.0
-margin_bottom = 572.0
+margin_left = 64.0
+margin_right = 786.0
+margin_bottom = 558.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_top = 576.0
+[node name="Control2" type="Control" parent="HBoxContainer/work_graph/HBoxContainer"]
+margin_left = 786.0
+margin_right = 850.0
+rect_min_size = Vector2( 64, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_top = 562.0
 margin_right = 1024.0
 margin_bottom = 600.0
 
-[node name="Label" type="Label" parent="HBoxContainer"]
-margin_top = 5.0
-margin_right = 117.0
-margin_bottom = 19.0
-text = "seconds_per_pixel"
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 31.0
 
-[node name="seconds_per_pixel" type="LineEdit" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 112.0
+margin_bottom = 19.0
+text = "hours_on_window"
+
+[node name="hours_on_window" type="LineEdit" parent="PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 121.0
-margin_right = 179.0
+margin_left = 116.0
+margin_right = 174.0
 margin_bottom = 24.0

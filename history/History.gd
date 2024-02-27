@@ -33,6 +33,9 @@ class Log:
 		return activity_date_progress_map.get(activity, {})
 	func get_activity_progress_map(date: String):
 		return date_activity_progress_map.get(date, {})
+		
+	func is_empty():
+		return activity_date_progress_map.empty()
 
 func _init():
 	var msg = "%s is an utility class, you are not supposed to instantiate it." % get_script().resource_path

@@ -1,14 +1,17 @@
 extends VBoxContainer
 
 
-onready var seconds_per_pixel = $"%seconds_per_pixel"
+onready var hours_on_window = $"%hours_on_window"
 
-onready var work_graph = $work_graph
+onready var work_graph = $"%work_graph"
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	seconds_per_pixel.connect("text_entered", self ,"_on_seconds_per_pixel_entered")
-	
-func _on_seconds_per_pixel_entered(text):
-	work_graph.seconds_per_pixel = float(text)
+	hours_on_window.connect("text_entered", self ,"_on_hours_on_window_entered")
+	refresh()
+func _on_hours_on_window_entered(text):
+#	work_graph.refresh()
+	pass
+
+func refresh():
 	work_graph.refresh()
