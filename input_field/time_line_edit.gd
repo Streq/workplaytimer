@@ -16,22 +16,25 @@ func set_msec_internal(val):
 		return
 	render_text()
 
-
+export var update_on_edit := false
 
 func _ready():
 	connect("text_entered",self,"_on_text_entered")
-#	connect("text_changed",self,"_on_text_changed")
-	connect("focus_exited",self,"_on_focus_exited")
+	if update_on_edit:
+		connect("text_changed",self,"_on_text_changed")
+	connect("focus_exited",self,"update_msec")
 	render_text()
 
 func _on_text_entered(new_text):
-	set_msec(Chronos.hhmmssd_to_mil(new_text))
-func _on_focus_exited():
-	set_msec(Chronos.hhmmssd_to_mil(text))
+	set_msec_string(new_text)
+func update_msec():
+	set_msec_string(text)
 func _on_text_changed(new_text):
-	msec = Chronos.hhmmssd_to_mil(new_text)
-	emit_signal("msec_updated", msec)
-	
+	set_msec_string(new_text)
+
+func set_msec_string(text : String):
+	set_msec(Chronos.hhmmssd_to_mil(text))
+
 func render_text():
 	text = Chronos.mil_to_text_interval_hhmmss(msec)
 	

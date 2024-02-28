@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://graph/activity_item.gd" type="Script" id=1]
+[ext_resource path="res://graph/color_picker_button.tscn" type="PackedScene" id=2]
+
+[node name="activity_item" type="HBoxContainer"]
+margin_right = 156.0
+margin_bottom = 20.0
+script = ExtResource( 1 )
+
+[node name="color_picker_button" parent="." instance=ExtResource( 2 )]
+
+[node name="show" type="CheckBox" parent="."]
+unique_name_in_owner = true
+margin_left = 28.0
+margin_right = 52.0
+margin_bottom = 24.0
+hint_tooltip = "show"
+pressed = true
+
+[node name="single" type="CheckBox" parent="."]
+unique_name_in_owner = true
+margin_left = 56.0
+margin_right = 80.0
+margin_bottom = 24.0
+hint_tooltip = "single out"
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+margin_left = 84.0
+margin_top = 5.0
+margin_right = 124.0
+margin_bottom = 19.0
+text = "laburo"

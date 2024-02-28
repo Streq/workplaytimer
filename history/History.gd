@@ -36,6 +36,16 @@ class Log:
 		
 	func is_empty():
 		return activity_date_progress_map.empty()
+	
+	func get_max_progress():
+		var max_progress = 0
+		for date in date_activity_progress_map:
+			var progresses = date_activity_progress_map[date].values()
+			var combined_progress: int = 0
+			for progress in progresses:
+				combined_progress += progress
+			max_progress = MathUtils.maxi(max_progress, combined_progress)
+		return max_progress
 
 func _init():
 	var msg = "%s is an utility class, you are not supposed to instantiate it." % get_script().resource_path

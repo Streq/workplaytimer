@@ -379,3 +379,5 @@ margin_left = 992.0
 margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 32, 32 )
+
+[connection signal="about_to_show" from="HBoxContainer/VBoxContainer/buttons/graph/Node/Popup" to="HBoxContainer/VBoxContainer/buttons/graph/Node/Popup/work_graph_menu" method="refresh"]
