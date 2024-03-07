@@ -1,13 +1,11 @@
 extends Node
-class_name Config
+class_name ConfigNode
 
-signal initialized()
-
-const MyConfigFile = preload("res://utils/config.gd")
+signal initialized(map)
 
 onready var CONFIG_PATH: String = Global.PATH.plus_file("config").plus_file(owner.name+".json")
 
-var file : MyConfigFile = MyConfigFile.new()
+var map : ConfigMap = ConfigMap.new()
 
 # you are supposed to override this function with your config and that's it
 func get_default_config() -> Dictionary: 
@@ -21,13 +19,14 @@ func get_default_config() -> Dictionary:
 func initialize():
 	var default_config = get_default_config()
 	var path = CONFIG_PATH
-	file.initialize(default_config, path)
+	map.initialize(default_config, path)
 
 func _ready():
-	file.connect("initialized", self, "_initialized")
+	map.connect("initialized", self, "_initialized")
+	initialize()
 
 func _initialized():
-	emit_signal("initialized")
+	emit_signal("initialized", map)
 	is_initialized = true
 
 var is_initialized = false
@@ -37,7 +36,7 @@ func notify_on_init(node:Object, method:String):
 		connect("initialized", node, method, [], CONNECT_ONESHOT)
 		return
 	
-	node.call("method")
+	node.call(method, map)
 	
 	if going_to_emit:
 		return
@@ -45,6 +44,12 @@ func notify_on_init(node:Object, method:String):
 	going_to_emit = true
 	call_deferred("emit_updates")
 
+# common method
+static func find_config_and_connect(node: Node, method:String):
+	var config = node.get_node("%config")
+	config.notify_on_init(node, method)
+
 func emit_updates():
-	file.emit_updates()
-	
+	map.emit_updates()
+	going_to_emit = false
+

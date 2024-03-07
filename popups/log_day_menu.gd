@@ -10,6 +10,7 @@ const FORMAT = "YYYY-MM-DD"
 
 func _ready():
 	calendar.connect("date_selected",self,"_on_date_selected")
+	calendar.go_today()
 	date.text = calendar.selected_date.date(FORMAT)
 	submit.connect("pressed", self, "_on_submit_pressed")
 func _on_date_selected(date_obj: Date):
@@ -19,3 +20,5 @@ func _on_submit_pressed():
 	date.validate()
 	var overwrite = action.text == "Overwrite"
 	emit_signal("submit", date.text, overwrite)
+func reset():
+	date.text = Calendar.today_to_string(FORMAT)

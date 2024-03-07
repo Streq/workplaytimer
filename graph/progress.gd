@@ -11,9 +11,9 @@ func set_progress(val):
 	progress = val
 	size_flags_stretch_ratio = progress
 
-func initialize(activity: String, progress: int):
-	set_activity(activity)
-	set_progress(progress)
+func initialize(activity_: String, progress_: int):
+	set_activity(activity_)
+	set_progress(progress_)
 
 func _ready():
 	button.connect("mouse_entered", self, "_mouse_entered")

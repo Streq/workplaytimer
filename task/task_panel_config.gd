@@ -1,4 +1,4 @@
-extends Config
+extends ConfigNode
 
 
 func get_default_config() -> Dictionary:

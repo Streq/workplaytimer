@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://graph/text_input_dialog.gd" type="Script" id=1]
+
+[node name="Dialog" type="AcceptDialog"]
+margin_left = 309.0
+margin_top = 222.0
+margin_right = 522.0
+margin_bottom = 304.0
+window_title = "Select Name"
+script = ExtResource( 1 )
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 205.0
+margin_bottom = 46.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 190.0
+margin_bottom = 31.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_right = 183.0
+margin_bottom = 24.0
+alignment = 1
+
+[node name="label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_top = 5.0
+margin_right = 89.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+
+[node name="line_edit" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 93.0
+margin_right = 183.0
+margin_bottom = 24.0
+size_flags_horizontal = 3

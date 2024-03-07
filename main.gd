@@ -48,7 +48,6 @@ func _ready() -> void:
 
 	stop.connect("toggled", self, "set_stopped")
 	freeze.connect("toggled", self, "set_frozen")
-	autosave.connect("toggled", self, "set_should_autosave")
 
 	work_timer.connect("msec_changed", self, "_work_timer_changed")
 	tasks.connect("task_time_changed", self, "_on_task_time_changed")
@@ -59,9 +58,8 @@ func _ready() -> void:
 	
 	set_frozen(freeze.pressed)
 	set_stopped(stop.pressed)
-	set_should_autosave(autosave.pressed)
 	
-	initialize()
+	ConfigNode.find_config_and_connect(self, "initialize")
 
 	
 func data_folder():
@@ -126,9 +124,9 @@ func set_frozen(val):
 	frozen = val
 	freeze.pressed = val
 
-func clear():
+func clear(all:=false):
 	play_timer.msec = 0
-	tasks.clear_progress()
+	tasks.clear_progress(all)
 	set_stopped(true)
 
 
@@ -137,8 +135,14 @@ func clear():
 func log_day(date, overwrite):
 	var progress_map = tasks.get_progresses()
 	History.log_day(date, progress_map, overwrite)
+
+	if !overwrite: #remove all tasks that have been logged
+		cut_tasks_by_progress(true)
+
+func initialize(config: ConfigMap):
+	config.on_prop_change_notify_obj("auto_save", self, "set_should_autosave")
+	config.on_prop_change_notify_obj("auto_save_interval_seconds", self, "set_should_autosave")
 	
-func initialize():
 	play()
 	
 	work_timer.render_text()
@@ -146,17 +150,25 @@ func initialize():
 	work_goal.render_text()
 
 	tasks.calculate_tasks()
-	
+
+var should_autosave := false setget set_should_autosave
+func set_should_autosave(val):
+	should_autosave = val
+	if !is_inside_tree() or Engine.editor_hint:
+		return
+	get_tree().call_group("autosave", "enable" if should_autosave else "disable")
+
+var autosave_interval := 5.0 setget set_autosave_interval
+func set_autosave_interval(val):
+	autosave_interval = val
+	if !is_inside_tree() or Engine.editor_hint:
+		return
+	get_tree().call_group("autosave", "set_interval", autosave_interval)
+
+
 func save():
 	get_tree().call_group("serializable", "save")
 
-onready var autosave = $"%autosave"
-var should_autosave := false setget set_should_autosave
-func set_should_autosave(val):
-	autosave = val
-	if !is_inside_tree() or Engine.editor_hint:
-		return
-	get_tree().call_group("autosave", "enable" if autosave else "disable")
 
 const DeltaTimer = preload("res://utils/time/delta_timer.gd")
 var dt = DeltaTimer.new()
@@ -173,3 +185,6 @@ func _process(_delta):
 			play_timer.time_step(delta)
 	
 	now.update_time()
+
+func cut_tasks_by_progress(all := false):
+	tasks.cut_tasks_by_progress(all)

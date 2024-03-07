@@ -1,14 +1,12 @@
 extends CheckBox
 export var prop := ""
 
-onready var config : Config = $"%config"
 func _ready():
-	config.notify_on_init(self, "initialize")
+	ConfigNode.find_config_and_connect(self, "initialize")
 
-func initialize():
-	config.file.connect(prop+"_updated", self, "_on_updated")
-	connect("toggled", self, "_on_toggled")
+func initialize(config: ConfigMap):
+	config.on_prop_change_notify_obj(prop, self, "_on_updated")
+	connect("toggled", config, "set_property_rev", [prop])
+
 func _on_updated(val):
 	set_pressed_no_signal(val)
-func _on_toggled(val):
-	config.file.set_property(prop, val)

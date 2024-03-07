@@ -46,6 +46,50 @@ class Log:
 				combined_progress += progress
 			max_progress = MathUtils.maxi(max_progress, combined_progress)
 		return max_progress
+	
+	func duplicate() -> Log:
+		var ret : Log = Log.new()
+		ret.activity_date_progress_map = self.activity_date_progress_map.duplicate(true)
+		ret.activity_date_progress_map = self.activity_date_progress_map.duplicate(true)
+		return ret
+	
+	func filter(activities_to_include: Array) -> Log:
+		var copy: Log = Log.new()
+		for activity in activities_to_include:
+			var date_progress_map = activity_date_progress_map.get(activity, {})
+			for date in date_progress_map:
+				var progress = date_progress_map[date]
+				copy.set_progress(activity, date, progress)
+		return copy
+	
+	
+	func join_activities_array(activities:Array, final_activity:String):
+		for activity in activities:
+			join_activities(activity, final_activity)
+	func join_activities(activity, final_activity):
+		if activity == final_activity:
+			return
+		if !activity_date_progress_map.has(activity):
+			return
+		if !activity_date_progress_map.has(final_activity):
+			_overwrite_activity(activity, final_activity)
+		else:
+			_add_activity(activity, final_activity)
+		remove_activity(activity)
+	func remove_activity(activity):
+		activity_date_progress_map.erase(activity)
+		for activity_progress_map in date_activity_progress_map.values():
+			activity_progress_map.erase(activity)
+	func _overwrite_activity(from, to):
+		activity_date_progress_map[to] = activity_date_progress_map[from]
+		for activity_progress_map in date_activity_progress_map.values():
+			if !activity_progress_map.has(from):
+				continue
+			activity_progress_map[to] = activity_progress_map[from]
+	func _add_activity(from, to):
+		var date_progress_map = activity_date_progress_map[from]
+		for date in date_progress_map:
+			add_progress(to, date, date_progress_map[date])
 
 func _init():
 	var msg = "%s is an utility class, you are not supposed to instantiate it." % get_script().resource_path
@@ -62,7 +106,7 @@ static func store_history(file: File, history: Log):
 	for date in history.get_dates():
 		var line = history.get_activity_progress_map(date)
 		var res = store_line(file, date, line)
-		print(res)
+		DebugUtils.print(res)
 
 static func store_line(file: File, date: String, progress_map: Dictionary):
 	var line_start = file.get_position()
@@ -125,12 +169,13 @@ static func log_day(date, progress_map, overwrite_day, path := path()):
 		
 		file.seek_end()
 		# Store line
-		var line_text = store_line(
+#		var line_text = 
+		store_line(
 			file, 
 			date,
 			progress_map
 		)
 
-		OS.clipboard = line_text
-		print("entry \"{entry}\" copied to clipboard".format({"entry":line_text}))
+#		OS.clipboard = line_text
+#		print("entry \"{entry}\" copied to clipboard".format({"entry":line_text}))
 		file.close()

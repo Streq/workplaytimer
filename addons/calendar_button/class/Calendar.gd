@@ -123,3 +123,7 @@ static func days_to_string(days: int, date_format := "YYYY-MM-DD") -> String:
 	return date_to_string_arr(from_days(days), date_format)
 static func string_to_days(date: String, date_format := "YYYY-MM-DD") -> int:
 	return to_days_arr(string_to_date(date, date_format))
+
+
+static func today_to_string(date_format := "YYYY-MM-DD") -> String:
+	return date_to_string(year(), month(), day(), date_format)

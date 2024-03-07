@@ -1,17 +1,20 @@
 extends PopupMenu
 const DIR = "res://assets/sfx/"
-
-onready var config : Config = $"%config"
+signal file_selected(file)
 func _ready() -> void:
-	config.notify_on_init(self, "initialize")
+	ConfigNode.find_config_and_connect(self, "initialize")
 
-func initialize():
+var signals = []
+func initialize(config : ConfigMap):
 	populate()
 	
 	connect("index_pressed", self, "index_pressed")
 	connect("about_to_show", self, "about_to_show")
 	
-	config.file.connect("audio_file_updated", self, "select_item_matching_file")
+	config.on_obj_signal_modify_prop("audio_file", self, "file_selected")
+	config.on_prop_change_notify_obj("audio_file", self, "select_item_matching_file")
+	
+	signals = get_signal_connection_list("file_selected")
 	
 	# workaround because of some weird behavior
 	show()
@@ -39,8 +42,9 @@ func index_pressed(index: int):
 	print("selected file \"{file}\".".format({
 			"file": base_file
 		}))
-	
-	config.file.set_property("audio_file", base_file)
+	var current_signals = get_signal_connection_list("file_selected")
+	assert(str(signals) == str(current_signals))
+	emit_signal("file_selected", base_file)
 
 var selected_item_text = ""
 func about_to_show():

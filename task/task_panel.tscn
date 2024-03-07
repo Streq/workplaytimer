@@ -37,21 +37,21 @@ margin_bottom = 33.0
 
 [node name="filter_by_name_edit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 134.0
+margin_right = 123.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 placeholder_text = "filter"
 
 [node name="filter_by_name_button" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 138.0
-margin_right = 165.0
+margin_left = 127.0
+margin_right = 159.0
 margin_bottom = 33.0
 text = "go"
 
 [node name="clear_search_button" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 169.0
+margin_left = 163.0
 margin_right = 212.0
 margin_bottom = 33.0
 text = "clear"
@@ -59,7 +59,7 @@ text = "clear"
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 margin_top = 37.0
 margin_right = 212.0
-margin_bottom = 562.0
+margin_bottom = 553.0
 rect_min_size = Vector2( 212, 0 )
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -68,7 +68,7 @@ script = ExtResource( 7 )
 [node name="task_list" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 margin_right = 198.0
-margin_bottom = 525.0
+margin_bottom = 516.0
 rect_min_size = Vector2( 198, 0 )
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -78,7 +78,7 @@ script = ExtResource( 5 )
 margin_right = 198.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 566.0
+margin_top = 557.0
 margin_right = 212.0
 margin_bottom = 586.0
 size_flags_horizontal = 3
@@ -86,7 +86,7 @@ size_flags_horizontal = 3
 [node name="add" type="Button" parent="VBoxContainer/HBoxContainer2" groups=["shine_on_advice_start_task"]]
 unique_name_in_owner = true
 margin_right = 104.0
-margin_bottom = 20.0
+margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "new"
@@ -94,7 +94,6 @@ text = "new"
 [node name="options" parent="VBoxContainer/HBoxContainer2" instance=ExtResource( 15 )]
 margin_left = 108.0
 margin_right = 212.0
-margin_bottom = 20.0
 text = "settings"
 clip_text = false
 
@@ -136,9 +135,7 @@ margin_bottom = 201.0
 
 [node name="alert" parent="VBoxContainer/HBoxContainer2/options/Node/Popup/ScrollContainer/PanelContainer/VBoxContainer" instance=ExtResource( 16 )]
 unique_name_in_owner = true
-margin_top = 0.0
 margin_right = 266.0
-margin_bottom = 31.0
 text = "Alert On Task Completed"
 prop = "alert_on_task_completed"
 

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://config/config_menu.gd" type="Script" id=1]
+
+[node name="config_menu" type="MarginContainer"]
+margin_right = 374.0
+margin_bottom = 233.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 64
+custom_constants/margin_top = 32
+custom_constants/margin_left = 32
+custom_constants/margin_bottom = 32
+script = ExtResource( 1 )

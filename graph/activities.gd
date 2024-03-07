@@ -34,3 +34,10 @@ func update_display():
 		activities_to_show = to_show
 	
 	emit_signal("display_activities", activities_to_show)
+
+func get_selected():
+	var ret = []
+	for item in items:
+		if item.single:
+			ret.append(item.label)
+	return ret	

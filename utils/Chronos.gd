@@ -114,15 +114,28 @@ static func nan_to_text_time_hhmmssd(nan: int) -> String:
 	var sec = nan_to_sec(nan)
 	var unit_dsc = int(fmod(sec, 1.0)*10)
 	return sec_to_text_time_hhmmss(sec)+(".%01d" % [unit_dsc])
-
 static func hhmmssd_to_sec(text:String) -> float:
-	var vals = text.split_floats(":")
-	var size = vals.size()
+	var e := Expression.new()
+	
+	var expressions := text.split(":")
+	var size = min(expressions.size(), 3)
+	
+	var vals = PoolRealArray()
 	vals.resize(3)
-
-	# fill remaining with 0
-	for i in 3-size:
-		vals[2-i] = 0.0
+	vals.fill(0.0)
+	for i in size:
+		var expression := expressions[size-1-i]
+		
+		var error := e.parse(expression)
+		var res
+		if error:
+			res = expression
+		else:
+			res = e.execute()
+			if e.has_execute_failed() or !((res is int) or (res is float)):
+				res = expression
+		
+		vals[3-1-i] = float(res)
 
 	var ret = vals[0]*3600.0 + vals[1]*60.0 + vals[2]
 	

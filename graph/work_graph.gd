@@ -3,7 +3,6 @@ signal activity_hover(activity, progress)
 
 var PROGRESS = preload("res://graph/progress.tscn")
 var DATE = preload("res://graph/date.tscn")
-onready var days = $"%days"
 var colors = {}
 
 var dates = {}
@@ -12,23 +11,24 @@ var activity_nodes = {}
 
 onready var days_node = $"%days"
 
+var history : History.Log
 
 func refresh():
 	cleanup()
 	
-	var history : History.Log = History.retrieve_progress_history()
+	history = History.retrieve_progress_history()
 	
 	if history.is_empty():
 		return
 	
 	populate(history)
 
-func populate(history: History.Log):
-	var used_dates = history.get_dates()
+func populate(hist: History.Log):
+	var used_dates = hist.get_dates()
 	var first_date = used_dates[0]
 	var last_date = used_dates[used_dates.size()-1]
 	var all_dates = get_all_dates_between(first_date, last_date)
-	var max_progress = history.get_max_progress()
+	var max_progress = hist.get_max_progress()
 
 	for date in all_dates:
 		var date_node = DATE.instance()
@@ -39,7 +39,7 @@ func populate(history: History.Log):
 		date_node.set_total_time(max_progress)
 		
 	for date in used_dates:
-		var map = history.get_activity_progress_map(date)
+		var map = hist.get_activity_progress_map(date)
 		var date_node = dates[date]
 		for activity in map:
 			var progress_node = date_node.add_activity(activity, map[activity])
@@ -81,15 +81,8 @@ func _on_activity_hover(activity:String, progress:int):
 	emit_signal("activity_hover", activity, progress)
 
 func filter_activities(activities: Array):
-	# hide all
-	for activity in activity_nodes:
-		var nodes = activity_nodes[activity]
-		for node in nodes:
-			node.modulate = Color.transparent
-	# show only selected
-	for activity in activities:
-		var nodes = activity_nodes[activity]
-		var color = get_activity_color(activity)
-		for node in nodes:
-			node.modulate = color
-			node.get_parent().move_child(node, node.get_parent().get_child_count()-1)
+	cleanup()
+	
+	var filtered_history = history.filter(activities)
+	
+	populate(filtered_history)

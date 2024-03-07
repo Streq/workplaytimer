@@ -1,13 +1,12 @@
 extends AudioStreamPlayer
 
-onready var config : Config = $"%config"
 func _ready() -> void:
-	config.notify_on_init(self, "initialize")
+	ConfigNode.find_config_and_connect(self, "initialize")
 
-func initialize():
-	config.file.connect("audio_file_updated", self, "set_audio_file")
-	config.file.connect("sound_on_updated", self, "set_sound_on")
-	config.file.connect("volume_updated", self, "set_volume")
+func initialize(config: ConfigMap):
+	config.on_prop_change_notify_obj("audio_file", self, "set_audio_file")
+	config.on_prop_change_notify_obj("sound_on", self, "set_sound_on")
+	config.on_prop_change_notify_obj("volume", self, "set_volume")
 	
 	
 func set_audio_file(path:String):

@@ -23,3 +23,6 @@ func enable():
 	enabled = true
 func disable():
 	enabled = false
+
+func set_interval(val: float):
+	wait_time = val

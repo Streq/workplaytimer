@@ -1,11 +1,11 @@
 extends LineEdit
-
-onready var config : Config = $"%config"
+signal changed(val)
 func _ready() -> void:
-	config.notify_on_init(self, "initialize")
+	ConfigNode.find_config_and_connect(self, "initialize")
 	
-func initialize() -> void:
-	config.file.connect("interval_updated",self,"set_interval_internal")
+func initialize(config : ConfigMap) -> void:
+	config.on_prop_change_notify_obj("interval", self, "set_interval_internal")
+	config.on_obj_signal_modify_prop("interval", self, "changed")
 	connect("text_changed", self, "text_changed")
 
 var interval : float = 1.0 setget set_interval
@@ -24,7 +24,7 @@ func set_interval(val):
 	set_interval_internal(val)
 	var new = interval
 	if old != new:
-		config.file.set_property("interval",interval)
-
+		emit_signal("changed", interval)
+		
 func text_changed(val:String):
 	set_interval(val.to_float())

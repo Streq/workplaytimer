@@ -44,13 +44,12 @@ func _ready():
 	drop_space.connect("dropped", self, "reorder")
 	load_()
 	
-	config.connect("initialized",self,"initialize_from_config")
-	config.initialize()
+	ConfigNode.find_config_and_connect(self, "initialize_from_config")
 
-func initialize_from_config():
-	config.file.notify_on_prop("alert_on_task_completed", self, "set_alert_on_completion")
-	config.file.notify_on_prop("hide_completed_tasks", self, "set_hide_completed_tasks")
-	config.file.notify_on_prop("progress_tasks_in_parallel", self, "set_progress_tasks_in_parallel")
+func initialize_from_config(config_map: ConfigMap):
+	config_map.on_prop_change_notify_obj("alert_on_task_completed", self, "set_alert_on_completion")
+	config_map.on_prop_change_notify_obj("hide_completed_tasks", self, "set_hide_completed_tasks")
+	config_map.on_prop_change_notify_obj("progress_tasks_in_parallel", self, "set_progress_tasks_in_parallel")
 
 var progress_tasks_in_parallel := false setget set_progress_tasks_in_parallel
 func set_progress_tasks_in_parallel(val):
@@ -154,9 +153,9 @@ func refresh_hide_completed_tasks():
 	for task in tasks:
 		task.visible = !hide_completed_tasks or !task.completed
 
-func clear_progress():
+func clear_progress(all := false):
 	for task in tasks:
-		if !task.enabled:
+		if !all and !task.enabled:
 			continue
 		task.msec_done = 0
 	calculate_tasks()
@@ -273,3 +272,11 @@ func get_progresses() -> Dictionary:
 		var accum : int = ret.get(title, 0)
 		ret[title] = accum + task.msec_done
 	return ret
+
+func cut_tasks_by_progress(all:=false):
+	for task in tasks:
+		if !all and !task.enabled:
+			continue
+		task.msec = MathUtils.maxi(0, task.msec - task.msec_done)
+		task.msec_done = 0
+	calculate_tasks()

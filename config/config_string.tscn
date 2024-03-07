@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://config/config_string.gd" type="Script" id=1]
+
+[node name="config_string" type="PanelContainer"]
+margin_right = 76.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+script = ExtResource( 1 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 69.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="label" type="Label" parent="HBoxContainer2"]
+unique_name_in_owner = true
+margin_top = 5.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+
+[node name="line_edit" type="LineEdit" parent="HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
