@@ -9,14 +9,14 @@ func get_default_config() -> Dictionary:
 		auto_save = {
 			value = {
 				enabled = {value = true, hint = save_hint},
-				interval_seconds = {value=5.0, hint="interval of time between saves, in seconds"}
+				interval_seconds = {value = 5.0, hint = "Interval of time between automatic saves, in seconds"}
 			},
 			hint = save_hint
 		},
 		auto_log = {
 			value = {
 				enabled = {value = true, hint = log_hint},
-				interval_seconds = {value=5.0, hint="interval of time between logs, in seconds"}
+				interval_seconds = {value = 5.0, hint = "Interval of time between automatic logs, in seconds"}
 			},
 			hint = log_hint
 		}
