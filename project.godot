@@ -132,6 +132,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Regex="*res://utils/singleton/RegexSingleton.tscn"
 Groups="*res://utils/Groups.gd"
 Console="*res://utils/console.tscn"
 DragDrop="*res://utils/DragDrop.tscn"

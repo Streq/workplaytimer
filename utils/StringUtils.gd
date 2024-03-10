@@ -25,27 +25,28 @@ static func wrap_string(string: String, max_length : int) -> String:
 		ret += wrap_line(line, max_length) + "\n"
 	return ret
 
-static func wrap_line(tooltip: String, max_length : int) -> String:
-	var regex := RegEx.new() 
-	regex.compile("\\S+") # non whitespace text
-	var results := regex.search_all(tooltip)
+# assumes line to have no '\n' 
+static func wrap_line(line: String, max_length : int) -> String:
+	var results := Regex.NON_WHITESPACE.search_all(line)
 	var ret := ""
 	var line_length := 0
 	
 	for r in results:
 		var result : RegExMatch = r
 		var word : String = result.get_string()
-		var text_to_add : String
+		var connector : String
+		# start of line
 		if line_length == 0:
-			text_to_add = word
-		elif line_length + word.length()+1 > max_length:
-			ret += "\n"
-			line_length = 0
-			text_to_add = word
+			connector = ""
+		# not start of line and within line length
+		elif line_length + word.length()+1 <= max_length: 
+			connector = " "
+		# not start of line and past line length
 		else:
-			text_to_add = " " + word
-
-		ret += text_to_add
-		line_length += text_to_add.length()
+			connector = "\n"
+			line_length = 0
+			
+		ret += connector + word
+		line_length += connector.length() + word.length()
 		
 	return ret

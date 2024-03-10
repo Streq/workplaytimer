@@ -16,18 +16,23 @@ func get_default_config() -> Dictionary:
 		volume = 0.0
 	}
 
+var initialized := false
 func initialize():
+	if initialized:
+		return
+	initialized = true
 	var default_config = get_default_config()
 	var path = CONFIG_PATH
 	map.initialize(default_config, path)
-
+	
+	
 func _ready():
 	map.connect("initialized", self, "_initialized")
 	initialize()
 
 func _initialized():
-	emit_signal("initialized", map)
 	is_initialized = true
+	emit_signal("initialized", map)
 
 var is_initialized = false
 var going_to_emit = false

@@ -15,7 +15,6 @@ onready var SAVE_PATH = Global.PATH.plus_file("state").plus_file(name+".json")
 onready var title_label = $"%title"
 onready var description_label = $"%description"
 onready var label : LineEdit = $"%label"
-onready var config = $"%config"
 onready var autosave = $"%autosave"
 onready var sound = $"%sound"
 
@@ -103,7 +102,6 @@ func _ready() -> void:
 	label.connect("text_entered", self, "_on_text_entered")
 	label.connect("text_changed", self, "_on_text_changed")
 
-	config.call_deferred("initialize")
 	
 func save():
 	FileUtils.save_json_file(SAVE_PATH, {"msec":msec})

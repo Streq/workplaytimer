@@ -34,8 +34,8 @@ func set_value_nodes():
 	value_node.text = value
 
 func _ready():
-	set_value(value)
-	set_label(label)
+	set_value_no_signal(value)
+	set_label_no_signal(label)
 	value_node.connect("text_entered", self, "set_value")
 	value_node.connect("focus_exited", self, "update_value")
 func update_value():

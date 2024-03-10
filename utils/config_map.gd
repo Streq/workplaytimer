@@ -7,7 +7,12 @@ const FileUtils = preload("FileUtils.gd")
 var config := {} 
 
 # accessed like: config_flat[PoolStringArray(["path1", "path2"]))
+# contains inner nodes also
 var config_flat := {}
+
+# accessed like: config_flat[PoolStringArray(["path1", "path2"]))
+# contains only leaves
+var config_leaves_flat := {}
 
 # accessed like: config_flat[PoolStringArray(["path1", "path2"])]
 var config_flat_string := {}
@@ -27,18 +32,30 @@ func get_reference(path: String) -> MapUtils.Ref:
 	return config_flat_string[path]
 
 func on_prop_change_notify_obj(prop: String, object: Object, function: String, binds: Array = [], flags: int = 0):
-	get_reference(prop).connect("changed", object, function, binds, flags)
+	var ref := get_reference(prop)
+	ref.connect("changed", object, function, binds, flags)
+func on_prop_change_notify_obj_arr(prop: PoolStringArray, object: Object, function: String, binds: Array = [], flags: int = 0):
+	var ref := get_reference_arr(prop)
+	ref.connect("changed", object, function, binds, flags)
 
 func on_obj_signal_modify_prop(prop: String, object: Object, object_signal: String):
 	var ref := get_reference(prop)
 	object.connect(object_signal, ref, "set_value")
+func on_obj_signal_modify_prop_arr(prop: PoolStringArray, object: Object, object_signal: String):
+	var ref := get_reference_arr(prop)
+	object.connect(object_signal, ref, "set_value")
 
 signal creating
+var init_started = false
 func create_config_from(default_values: Dictionary):
+	if init_started:
+		return
+	init_started = true
 	emit_signal("creating")
 	
 	config = {}
 	config_flat = {}
+	config_leaves_flat = {}
 	config_flat_string = {}
 	hints = {}
 	refs = []
@@ -51,23 +68,23 @@ func create_config_from(default_values: Dictionary):
 		
 		# passed by value, keys is a copy
 		var keys : PoolStringArray = node.keys
+		var keys_string : String = keys.join("/")
+		
 		
 		var value = node.value
+		
+		var ref := MapUtils.put_if_absent_recursive(config, keys, value)
+		
+		config_flat[keys] = ref
+		config_flat_string[keys_string] = ref
+		refs.append(ref)
+		ref.connect("updated_internal", self, "save")
+
 		var type := typeof(value)
-		
 		if type != TYPE_DICTIONARY:
-			# store prop in config
-			
-			# register prop
-			var ref := MapUtils.put_if_absent_recursive(config, keys, value)
-			refs.append(ref)
-			ref.connect("updated_internal", self, "save")
-			
-			config_flat[keys] = ref
-			config_flat_string[keys.join("/")] = ref
-			
+			config_leaves_flat[keys] = ref
 			continue
-		
+			
 		var map : Dictionary = value
 		for key in map:
 			# passed by value, keys_ is a copy
@@ -102,7 +119,7 @@ func _load_config():
 	if new_config == null:
 		return -1
 	if typeof(new_config) == TYPE_DICTIONARY:
-		for k in config_flat:
+		for k in config_leaves_flat:
 			var keys : PoolStringArray = k
 			if !MapUtils.has_recursive(new_config, keys):
 				continue
@@ -124,7 +141,7 @@ func keys(path:String) -> PoolStringArray:
 func get_property(path: String):
 	return get_reference(path).value
 
-func get_hint(path: String) -> String:
+func get_hint(path: PoolStringArray) -> String:
 	return hints.get(path, "")
 
 func save():

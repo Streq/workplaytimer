@@ -140,8 +140,8 @@ func log_day(date, overwrite):
 		cut_tasks_by_progress(true)
 
 func initialize(config: ConfigMap):
-	config.on_prop_change_notify_obj("auto_save", self, "set_should_autosave")
-	config.on_prop_change_notify_obj("auto_save_interval_seconds", self, "set_should_autosave")
+	config.on_prop_change_notify_obj("auto_save/enabled", self, "set_should_autosave")
+	config.on_prop_change_notify_obj("auto_save/interval_seconds", self, "set_should_autosave")
 	
 	play()
 	

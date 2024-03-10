@@ -32,7 +32,9 @@ class Ref extends Reference:
 		return typeof(map[key])
 
 	func set_value(val):
-		assert(typeof(val) == type(), "type mismatch")
+		var type := type()
+		var type_to_set := typeof(val)
+		assert(type_to_set == type, "type mismatch")
 		_set_value(val)
 		emit_signal("updated_internal")
 		emit_signal("changed", val)
@@ -46,7 +48,8 @@ class Ref extends Reference:
 
 
 static func put_if_absent(map: Dictionary, key, value):
-	value = map.get(key, value)
+	if map.has(key):
+		return map[key]
 	map[key] = value
 	return value
 
@@ -58,11 +61,15 @@ static func compute_if_absent(map: Dictionary, key, supplier: FuncRef):
 	return value
 
 static func get_recursive(map: Dictionary, keys: Array):
+	if keys.empty():
+		return map
 	var node = map
 	for key in keys:
 		 node = node[key]
 	return node
 static func get_recursive_or_else(map: Dictionary, keys: Array, default = null):
+	if keys.empty():
+		return map
 	var node = map
 	for key in keys:
 		if !node.has(key):
@@ -70,6 +77,8 @@ static func get_recursive_or_else(map: Dictionary, keys: Array, default = null):
 		node = node[key]
 	return node
 static func has_recursive(map: Dictionary, keys: Array) -> bool:
+	if keys.empty():
+		return true
 	var node = map
 	for key in keys:
 		if typeof(node) != TYPE_DICTIONARY or !node.has(key):
@@ -78,6 +87,8 @@ static func has_recursive(map: Dictionary, keys: Array) -> bool:
 	return true
 
 static func put_if_absent_recursive(map: Dictionary, keys: Array, value) -> Ref:
+	if keys.empty():
+		return get_root_reference(map)
 	var node = map
 	var inner_nodes = keys.size()-1
 	
@@ -95,6 +106,8 @@ static func set_type_sensitive(map: Dictionary, key, val):
 	map[key] = val
 
 static func set_recursive_type_sensitive(map: Dictionary, keys: Array, val) -> Ref:
+	if keys.empty():
+		return get_root_reference(map)
 	var node = map
 	var inner_nodes = keys.size()-1
 	var key
@@ -111,7 +124,12 @@ static func set_recursive_type_sensitive(map: Dictionary, keys: Array, val) -> R
 	return Ref.new(node, key)
 	
 
+static func get_root_reference(map: Dictionary) -> Ref:
+	return Ref.new({null:map}, null)
+
 static func set_recursive_or_create(map: Dictionary, keys: Array, value) -> Ref:
+	if keys.empty():
+		return get_root_reference(map)
 	var node := map
 	var inner_nodes = keys.size()-1
 	
@@ -136,6 +154,8 @@ static func set_recursive(map: Dictionary, keys: Array, value) -> Ref:
 	return Ref.new(node, final_key)
 
 static func get_value_reference_recursive(map: Dictionary, keys: Array) -> Ref:
+	if keys.empty():
+		return get_root_reference(map)
 	var node := map
 	var inner_nodes = keys.size()-1
 	
@@ -152,6 +172,8 @@ static func get_value_reference(map: Dictionary, key) -> Ref:
 
 
 static func get_or_create_value_reference_recursive(map: Dictionary, keys: Array) -> Ref:
+	if keys.empty():
+		return get_root_reference(map)
 	var node := map
 	var inner_nodes = keys.size()-1
 	

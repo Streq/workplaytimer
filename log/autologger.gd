@@ -9,8 +9,8 @@ func _ready():
 	timer.process_mode = Timer.TIMER_PROCESS_IDLE
 	ConfigNode.find_config_and_connect(self, "init")
 func init(config: ConfigMap):
-	config.on_prop_change_notify_obj("auto_log", self, "set_auto_log")
-	config.on_prop_change_notify_obj("auto_log_interval_seconds", self, "set_interval")
+	config.on_prop_change_notify_obj("auto_log/enabled", self, "set_auto_log")
+	config.on_prop_change_notify_obj("auto_log/interval_seconds", self, "set_interval")
 	timer.connect("timeout", self, "check")
 
 var autolog := false
