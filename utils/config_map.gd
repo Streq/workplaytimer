@@ -20,6 +20,9 @@ var config_flat_string := {}
 # accessed like: hints[PoolStringArray(["path1", "path2"])]
 var hints := {}
 
+# accessed like: hints[PoolStringArray(["path1", "path2"])]
+var type_hints := {}
+
 var refs := []
 
 var file_path := ""
@@ -58,6 +61,7 @@ func create_config_from(default_values: Dictionary):
 	config_leaves_flat = {}
 	config_flat_string = {}
 	hints = {}
+	type_hints = {}
 	refs = []
 	
 	var nodes = [{value = default_values, keys = PoolStringArray()}]
@@ -73,18 +77,26 @@ func create_config_from(default_values: Dictionary):
 		
 		var value = node.value
 		
-		var ref := MapUtils.put_if_absent_recursive(config, keys, value)
+		
+
+		var type := typeof(value)
+		if type != TYPE_DICTIONARY:
+			var ref := MapUtils.put_if_absent_recursive(config, keys, value)
+		
+			config_flat[keys] = ref
+			config_flat_string[keys_string] = ref
+			refs.append(ref)
+			ref.connect("updated_internal", self, "save")
+			config_leaves_flat[keys] = ref
+			continue
+		
+		var ref := MapUtils.put_if_absent_recursive(config, keys, {})
 		
 		config_flat[keys] = ref
 		config_flat_string[keys_string] = ref
 		refs.append(ref)
 		ref.connect("updated_internal", self, "save")
-
-		var type := typeof(value)
-		if type != TYPE_DICTIONARY:
-			config_leaves_flat[keys] = ref
-			continue
-			
+		
 		var map : Dictionary = value
 		for key in map:
 			# passed by value, keys_ is a copy
@@ -95,10 +107,12 @@ func create_config_from(default_values: Dictionary):
 			
 			if entry is Dictionary:
 				hints[keys_] = entry.get("hint", "")
-				nodes.append({value = entry.value, keys = keys_})
+				type_hints[keys_] = entry.get("type", null)
+				var entry_value = entry.value
+				nodes.append({value = entry_value, keys = keys_})
 			else:
 				nodes.append({value = entry, keys = keys_})
-
+	return
 func initialize(default_values: Dictionary, path: String) -> void:
 	create_config_from(default_values)
 	
@@ -115,6 +129,7 @@ func initialize(default_values: Dictionary, path: String) -> void:
 	emit_updates()
 
 func _load_config():
+#	print(OS.get_user_data_dir())
 	var new_config = FileUtils.load_json_file_as_dict(file_path)
 	if new_config == null:
 		return -1
@@ -143,6 +158,9 @@ func get_property(path: String):
 
 func get_hint(path: PoolStringArray) -> String:
 	return hints.get(path, "")
+
+func get_type_hint(path: PoolStringArray) -> String:
+	return type_hints.get(path, null)
 
 func save():
 	FileUtils.save_json_file(file_path, config)

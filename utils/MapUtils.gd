@@ -142,6 +142,8 @@ static func set_recursive_or_create(map: Dictionary, keys: Array, value) -> Ref:
 	return Ref.new(node, final_key)
 
 static func set_recursive(map: Dictionary, keys: Array, value) -> Ref:
+	if keys.empty():
+		return get_root_reference(map)
 	var node := map
 	var inner_nodes = keys.size()-1
 	

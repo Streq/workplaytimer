@@ -58,3 +58,5 @@ func emit_updates():
 	map.emit_updates()
 	going_to_emit = false
 
+static func entry(value, tooltip:="", control_type = null):
+	return {value=value, hint=tooltip, type=control_type}

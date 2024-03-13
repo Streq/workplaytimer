@@ -1,15 +1,25 @@
 extends MarginContainer
 
+const type_map = {
+	TYPE_DICTIONARY: "section",
+	TYPE_BOOL: "checkbox",
+	TYPE_STRING: "line_edit",
+	TYPE_INT: "int_edit",
+	TYPE_REAL: "real_edit",
+}
+
+
 var config_list : VBoxContainer
 func _ready():
 	ConfigNode.find_config_and_connect(self, "initialize")
 
+const ConfigList = preload("res://config/config_list.tscn")
 func init_config_list():
 	for child in get_children():
 		if child is VBoxContainer:
 			config_list = child
 			return
-	config_list = VBoxContainer.new()
+	config_list = ConfigList.instance()
 	add_child(config_list)
 	
 
@@ -53,23 +63,16 @@ func choose_control(config : ConfigMap, key_stack: PoolStringArray) -> Control:
 	var sub_node_ref := config.get_reference_arr(key_stack)
 	var type = sub_node_ref.type()
 	
-	var ret : Control
-	match type:
-		TYPE_DICTIONARY:
-			ret = section(config, key_stack)
-		TYPE_BOOL:
-			ret = checkbox(config, key_stack)
-		TYPE_STRING:
-			ret = line_edit(config, key_stack)
-		TYPE_INT:
-			ret = int_edit(config, key_stack)
-		TYPE_REAL:
-			ret = real_edit(config, key_stack)
-		_:
-			ret = line_edit(config, key_stack)
+	var control_method = config.get_type_hint(key_stack)
+	
+	if !control_method:
+		control_method = type_map.get(type, "line_edit")
+	
+	var ret : Control = call(control_method, config, key_stack)
 	
 	var hint = StringUtils.wrap_string(config.get_hint(key_stack), 40)
 	ret.hint_tooltip = hint
+	
 	return ret
 func checkbox(config: ConfigMap, prop: PoolStringArray) -> CheckBox:
 	var ret = CheckBox.new()
@@ -79,6 +82,14 @@ func checkbox(config: ConfigMap, prop: PoolStringArray) -> CheckBox:
 	
 	ret.text = get_title(prop)
 	return ret
+
+
+
+func audio_file(config: ConfigMap, prop: PoolStringArray):
+	pass
+
+
+
 
 const ConfigString = preload("res://config/config_string.tscn")
 func line_edit(config: ConfigMap, prop: PoolStringArray) -> Control:
