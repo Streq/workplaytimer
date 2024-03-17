@@ -27,6 +27,7 @@ onready var save_as_task_menu = $"%save_as_task_menu"
 
 
 func _ready() -> void:
+	Engine.iterations_per_second = 1
 	add_to_group("autosave_authority")
 	add_to_group("main")
 	
@@ -173,6 +174,13 @@ func save():
 const DeltaTimer = preload("res://utils/time/delta_timer.gd")
 var dt = DeltaTimer.new()
 func _process(_delta):
+	if OS.window_minimized:
+		minimized()
+	elif !OS.is_window_focused():
+		low_process()
+	else:
+		high_process()
+	
 	var delta = dt.get_and_reset()
 	
 	if frozen:
@@ -188,3 +196,18 @@ func _process(_delta):
 
 func cut_tasks_by_progress(all := false):
 	tasks.cut_tasks_by_progress(all)
+
+func low_process():
+	Engine.target_fps = 30
+	OS.vsync_enabled = false
+	show()
+	
+func high_process():
+	Engine.target_fps = 0
+	OS.vsync_enabled = true
+	show()
+
+func minimized():
+	Engine.target_fps = 30
+	OS.vsync_enabled = false
+	hide()

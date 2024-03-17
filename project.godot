@@ -70,6 +70,11 @@ _global_script_classes=[ {
 "path": "res://utils/MathUtils.gd"
 }, {
 "base": "Node",
+"class": "SignalUtils",
+"language": "GDScript",
+"path": "res://utils/SignalUtils.gd"
+}, {
+"base": "Node",
 "class": "StringUtils",
 "language": "GDScript",
 "path": "res://utils/StringUtils.gd"
@@ -112,6 +117,7 @@ _global_script_class_icons={
 "History": "",
 "MapUtils": "",
 "MathUtils": "",
+"SignalUtils": "",
 "StringUtils": "",
 "TimeLabel": "",
 "TimeUtils": "",
@@ -126,7 +132,6 @@ config/name="WorkPlayTimer"
 run/main_scene="res://main.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="workplaytimer"
-run/low_processor_mode=true
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
@@ -211,7 +216,8 @@ limits/debugger_stdout/max_messages_per_frame=100
 
 [physics]
 
-common/enable_pause_aware_picking=true
+common/physics_fps=1
+common/enable_object_picking=false
 
 [rendering]
 

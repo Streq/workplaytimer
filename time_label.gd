@@ -113,7 +113,8 @@ func load_():
 	render_text()
 
 func render_text():
-	set_text(Chronos.mil_to_text_interval_hhmmssd(msec))
+	var text = self.text if !is_visible_in_tree() else Chronos.mil_to_text_interval_hhmmssd(msec)
+	set_text(text)
 
 func set_stopped(val):
 	stopped = val

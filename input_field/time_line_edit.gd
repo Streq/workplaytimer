@@ -36,5 +36,5 @@ func set_msec_string(text : String):
 	set_msec(Chronos.hhmmssd_to_mil(text))
 
 func render_text():
-	text = Chronos.mil_to_text_interval_hhmmss(msec)
+	text = text if !is_visible_in_tree() else Chronos.mil_to_text_interval_hhmmss(msec)
 	
