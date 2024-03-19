@@ -50,3 +50,106 @@ static func wrap_line(line: String, max_length : int) -> String:
 		line_length += connector.length() + word.length()
 		
 	return ret
+
+
+class StringBuffer:
+	var arr := PoolStringArray()
+	var size := 0
+	var capacity := 0
+	func _init(initial_size := 0, initial_capacity := 0):
+		set_capacity(initial_capacity)
+		set_size(initial_size)
+	
+	func set_size(n: int):
+		reserve(size)
+		size = n
+	
+	# ensures it has memory for at least n entries
+	func reserve(n: int):
+		if capacity <= self.capacity:
+			return
+		set_capacity(n)
+
+	func set_capacity(val: int):
+		arr.resize(val)
+		size = min(size, val)
+		capacity = val
+	
+	func get_index(index: int):
+		assert(index < size and -size-1 < index, "index out of bounds")
+		return posmod(index, size)
+	
+	func at(index: int) -> String:
+		return arr[get_index(index)]
+
+	func _to_string() -> String:
+		return "StringBuffer(%s)" % str(arr)
+
+	func to_string() -> String:
+		return arr.join("")
+
+	func write(src: StringBuffer, at_index := 0, src_index := 0, size := -1):
+		at_index = get_index(at_index)
+		src_index = src.get_index(src_index)
+		if size < 0:
+			size = src.size
+		if at_index + size > self.size:
+			set_size(at_index + size)
+		
+		for i in size:
+			arr.set(at_index + i, src.at(src_index + i))
+	func append(src: StringBuffer, src_index := 0, size := -1):
+		src_index = posmod(src_index, src.size)
+		
+		if size < 0:
+			size = src.size
+		
+		set_size(self.size + size)
+		for i in range(src_index, src_index+size):
+			arr.set(i, src.at(i))
+	
+	func write_str(src: String, at_index := 0):
+		
+		at_index = posmod(at_index, self.size)
+		
+		var size = src.length()
+		if at_index + size > self.size:
+			reserve(at_index + size)
+
+		for i in size:
+			arr.set(i, src[i])
+
+static func wrap_text_performant(text: String, line_length : int) -> String:
+	var length = text.length()
+	
+	var ret := PoolStringArray()
+	ret.resize(length*2) # text will never be longer than this
+	var ret_write_cursor := -1
+	
+	var word_buffer := PoolStringArray()
+	word_buffer.resize(line_length) # words longer than line_length get hyphenated
+	var word_buffer_write_cursor := 0
+	
+	var current_line_length := 0
+	
+	for character in text:
+		ret_write_cursor += 1
+		match character:
+			" ", "\t":
+				if current_line_length > line_length:
+					pass
+			"\n":
+				current_line_length = 0
+			_:
+				if word_buffer_write_cursor == line_length:
+					pass
+				word_buffer[word_buffer_write_cursor] = character
+				word_buffer_write_cursor += 1
+#				if word_buffer:
+				current_line_length += 1
+		
+		prints(ret.join(""))
+		
+	
+	return ""
+	

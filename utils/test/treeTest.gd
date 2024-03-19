@@ -9,6 +9,9 @@ extends Tree
 # Called when the node enters the scene tree for the first time.
 
 func _ready():
+	print(range(1, -1, -4))
+	
+	
 	var tree = self
 	var root = tree.create_item()
 #	tree.set_hide_root(true)
