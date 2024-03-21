@@ -25,6 +25,6 @@ func set_value(val):
 	emit_signal("changed", value)
 	emit_signal("updated")
 	
-func set_value_no_signal(val):
-	assert(typeof(val) == typeof(value), "type mismatch")
-	value = val
+func set_value_no_signal(new_value):
+	var new_type := typeof(new_value)
+	value = TypeUtils.safe_cast(new_value, type)

@@ -95,6 +95,11 @@ _global_script_classes=[ {
 "path": "res://utils/Chronos.gd"
 }, {
 "base": "Object",
+"class": "TypeUtils",
+"language": "GDScript",
+"path": "res://utils/TypeUtils.gd"
+}, {
+"base": "Object",
 "class": "UsefulCode",
 "language": "GDScript",
 "path": "res://useful_code.gd"
@@ -127,6 +132,7 @@ _global_script_class_icons={
 "StringUtils": "",
 "TimeLabel": "",
 "TimeUtils": "",
+"TypeUtils": "",
 "UsefulCode": "",
 "ValueWrapper": "",
 "WindowRestrictor": ""

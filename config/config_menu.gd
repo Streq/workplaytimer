@@ -100,18 +100,17 @@ func line_edit(config: ConfigMap, prop: PoolStringArray) -> Control:
 	ret.label = get_title(prop)
 	return ret
 	
-const ConfigNumber = preload("res://config/config_number.tscn")
+const ConfigFloat = preload("res://config/config_float.tscn")
 func real_edit(config: ConfigMap, prop: PoolStringArray) -> Control:
-	var ret = ConfigNumber.instance()
-	ret.is_int = false
+	var ret = ConfigFloat.instance()
 	config.on_prop_change_notify_obj_arr(prop, ret, "set_value_no_signal")
 	config.on_obj_signal_modify_prop_arr(prop, ret, "value_changed")
 	
 	ret.label = get_title(prop)
 	return ret
+const ConfigInt = preload("res://config/config_int.tscn")
 func int_edit(config: ConfigMap, prop: PoolStringArray) -> Control:
-	var ret = ConfigNumber.instance()
-	ret.is_int = true
+	var ret = ConfigInt.instance()
 	config.on_prop_change_notify_obj_arr(prop, ret, "set_value_no_signal")
 	config.on_obj_signal_modify_prop_arr(prop, ret, "value_changed")
 
