@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://work_remainder.gd" type="Script" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -23,6 +23,8 @@
 [ext_resource path="res://config/config_menu.tscn" type="PackedScene" id=21]
 [ext_resource path="res://main_config.gd" type="Script" id=22]
 [ext_resource path="res://log/autologger.gd" type="Script" id=23]
+[ext_resource path="res://power/power.gd" type="Script" id=24]
+[ext_resource path="res://on_step_plugins.gd" type="Script" id=25]
 
 [sub_resource type="Image" id=31]
 data = {
@@ -407,5 +409,12 @@ script = ExtResource( 22 )
 
 [node name="autologger" type="Node" parent="."]
 script = ExtResource( 23 )
+
+[node name="on_frame_plugins" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource( 25 )
+
+[node name="power" type="Node" parent="on_frame_plugins"]
+script = ExtResource( 24 )
 
 [connection signal="about_to_show" from="HBoxContainer/VBoxContainer/buttons/graph/Node/Popup" to="HBoxContainer/VBoxContainer/buttons/graph/Node/Popup/work_graph_menu" method="refresh"]

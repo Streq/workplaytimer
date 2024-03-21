@@ -6,5 +6,8 @@ func _ready():
 
 func update_time():
 	set_msec(Chronos.local_now_mil())
+	update()
+
+func _draw():
 	set_text(Chronos.mil_to_text_time_hhmmssd(msec))
 

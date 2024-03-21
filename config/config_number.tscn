@@ -30,3 +30,4 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 3600.0
 rounded = true
+allow_greater = true

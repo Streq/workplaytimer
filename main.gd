@@ -1,4 +1,6 @@
 extends Control
+signal frame()
+signal step(millis)
 
 onready var play: Button = $"%play"
 onready var stop: Button = $"%stop"
@@ -24,9 +26,12 @@ onready var tasks = $"%task_panel"
 onready var progress = $"%progress"
 
 onready var save_as_task_menu = $"%save_as_task_menu"
+onready var on_frame_plugins = $"%on_frame_plugins"
 
 
 func _ready() -> void:
+	connect("frame", on_frame_plugins, "frame")
+	
 	Engine.iterations_per_second = 1
 	add_to_group("autosave_authority")
 	add_to_group("main")
@@ -172,16 +177,11 @@ func save():
 
 
 const DeltaTimer = preload("res://utils/time/delta_timer.gd")
-var dt = DeltaTimer.new()
+var dt := DeltaTimer.new()
 func _process(_delta):
-	if OS.window_minimized:
-		minimized()
-	elif !OS.is_window_focused():
-		low_process()
-	else:
-		high_process()
+
 	
-	var delta = dt.get_and_reset()
+	var delta := dt.get_and_reset()
 	
 	if frozen:
 		return
@@ -193,20 +193,9 @@ func _process(_delta):
 			play_timer.time_step(delta)
 	
 	now.update_time()
+	emit_signal("frame")
+	emit_signal("step", delta)
 
 func cut_tasks_by_progress(all := false):
 	tasks.cut_tasks_by_progress(all)
 
-func low_process():
-	OS.low_processor_usage_mode_sleep_usec = 100_000
-	OS.low_processor_usage_mode = true
-	show()
-	
-func high_process():
-	OS.low_processor_usage_mode = false
-	show()
-
-func minimized():
-	OS.low_processor_usage_mode_sleep_usec = 500_000
-	OS.low_processor_usage_mode = true
-	hide()

@@ -50,8 +50,8 @@ func notify_on_init(node:Object, method:String):
 	call_deferred("emit_updates")
 
 # common method
-static func find_config_and_connect(node: Node, method:String):
-	var config = node.get_node("%config")
+static func find_config_and_connect(node: Node, method: String):
+	var config : ConfigNode = node.get_node("%config")
 	config.notify_on_init(node, method)
 
 func emit_updates():
