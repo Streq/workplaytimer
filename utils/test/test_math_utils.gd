@@ -13,7 +13,8 @@ const INVERT_RANGE_INPUTS = [
 		[-4, 8, 2],
 		[-4, 9, 2]
 	]
-
+func padr(s, c := " "):
+	return StringUtils.padr(str(s), 50, c)
 func invert_range(input: Array):
 	var res
 	var expected
@@ -29,7 +30,7 @@ func invert_range(input: Array):
 			res = MathUtils.invert_range(a, b, c)
 			expected = range(a, b, c)
 	expected.invert()
-	prints("%-48s" % msg, "=", "%-48s" % [res], "OK" if res == expected else ("!="+str(expected)))
+	prints(padr(msg), "=", padr(res), "OK" if res == expected else ("!="+str(expected)))
 	assert(res == expected, "%s != %s" % [res, expected])
 
 func test_invert_range():
@@ -59,7 +60,7 @@ func test_wrapped_range_(input:Array, expected:Array):
 	var res = callv("wrapped_range", input)
 	var call = "wrapped_range(%d, %2d, %2d, %2d)" % input
 	assert(res == expected, " ".join([call, "=", str(res), "does not equal", str(expected)]))
-	prints("%-48s" % call, "=", "%-48s" % [expected], "OK")
+	prints(padr(call), "=", padr(expected), "OK")
 	
 func wrapped_range(a, b, c, d):
 	return MathUtils.wrapped_range(a,b,c,d)

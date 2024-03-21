@@ -198,16 +198,15 @@ func cut_tasks_by_progress(all := false):
 	tasks.cut_tasks_by_progress(all)
 
 func low_process():
-	Engine.target_fps = 30
-	OS.vsync_enabled = false
+	OS.low_processor_usage_mode_sleep_usec = 100_000
+	OS.low_processor_usage_mode = true
 	show()
 	
 func high_process():
-	Engine.target_fps = 0
-	OS.vsync_enabled = true
+	OS.low_processor_usage_mode = false
 	show()
 
 func minimized():
-	Engine.target_fps = 30
-	OS.vsync_enabled = false
+	OS.low_processor_usage_mode_sleep_usec = 500_000
+	OS.low_processor_usage_mode = true
 	hide()
