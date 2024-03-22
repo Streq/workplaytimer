@@ -147,6 +147,7 @@ config/custom_user_dir_name="workplaytimer"
 run/low_processor_mode_sleep_usec=100000
 boot_splash/show_image=false
 config/icon="res://icon.png"
+config/custom_user_dir_name.debug="workplaytimer_debug"
 
 [autoload]
 

@@ -27,33 +27,34 @@ func frame():
 	if OS.window_minimized:
 		minimized()
 	elif !OS.is_window_focused():
-		low_process()
+		unfocused()
 	else:
-		high_process()
+		focused()
 
-func high_process():
+func focused():
 	owner.show()
 	var vp := get_tree().root
 	vp.render_target_update_mode = Viewport.UPDATE_WHEN_VISIBLE
 	OS.low_processor_usage_mode = false
+	OS.vsync_enabled = true
 
-func low_process():
+func unfocused():
 	if !unfocus_enabled.value:
-		high_process()
 		return
 	owner.visible = unfocus_render.value
 	var vp := get_tree().root
 	vp.render_target_update_mode = Viewport.UPDATE_WHEN_VISIBLE
 	OS.low_processor_usage_mode_sleep_usec = unfocus_sleep.value * 1000
 	OS.low_processor_usage_mode = true
+	OS.vsync_enabled = false
 	
 func minimized():
 	if !minimized_enabled.value:
-		high_process()
 		return
 	owner.visible = minimized_render.value
 	var vp := get_tree().root
 	vp.render_target_update_mode = Viewport.UPDATE_DISABLED
 	OS.low_processor_usage_mode_sleep_usec = minimized_sleep.value * 1000
 	OS.low_processor_usage_mode = true
+	OS.vsync_enabled = false
 	

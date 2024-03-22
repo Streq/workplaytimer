@@ -5,8 +5,8 @@ extends ConfigNode
 func get_default_config() -> Dictionary: 
 	var save_hint = "Automatically save task progress in case of a sudden crash."
 	var log_hint = "Automatically log progress to history, using overwrite. When the current calendar day changes, all task target times will be shortened by the progressed time, and tasks progress will reset to 0. So that progress for the passed day is accounted only for that day and not the following."
-	var low_process_on_unfocus_hint = "Reduce cpu usage when unfocused by reducing framerate and not rendering to screen, timers unaffected"
-	var low_process_on_minimized_hint = "Reduce cpu usage when minimized by reducing framerate and not rendering to screen, timers unaffected"
+	var low_process_on_unfocus_hint = "Reduce cpu usage when unfocused by reducing framerate and/or not rendering to screen, timers will advance at the same rate regardless."
+	var low_process_on_minimized_hint = "Reduce cpu usage when minimized by reducing framerate and/or not rendering to screen, timers will advance at the same rate regardless."
 	var render_hint = "Whether to render to screen"
 	var sleep_hint = "Time to sleep between frames"
 	return {
