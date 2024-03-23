@@ -273,10 +273,13 @@ func get_progresses() -> Dictionary:
 		ret[title] = accum + task.msec_done
 	return ret
 
-func cut_tasks_by_progress(all:=false):
-	for task in tasks:
+func cut_tasks_by_progress(all := false):
+	for t in tasks:
+		var task : Task = t
 		if !all and !task.enabled:
 			continue
 		task.msec = MathUtils.maxi(0, task.msec - task.msec_done)
 		task.msec_done = 0
+		if task.msec == 0:
+			task.remove()
 	calculate_tasks()
