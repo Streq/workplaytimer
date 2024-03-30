@@ -113,20 +113,29 @@ func create_config_from(default_values: Dictionary):
 			else:
 				nodes.append({value = entry, keys = keys_})
 	return
-func initialize(default_values: Dictionary, path: String) -> void:
+
+
+func initialize(default_values: Dictionary, path: String = "") -> void:
 	create_config_from(default_values)
 	
-	file_path = path
-	
-	var error = _load_config()
-	if error:
-		push_warning("configuration file not found for {file}, creating one with default values".format({ 
-			"file" : file_path.get_file() 
-		}))
-		save()
+	if path:
+		file_path = path
+		var error = _load_config()
+		if error:
+			push_warning("configuration file not found for {file}, creating one with default values".format({ 
+				"file" : file_path.get_file() 
+			}))
+			save()
 
 	emit_signal("initialized")
 	emit_updates()
+
+func initialize_from_template(template: Dictionary, values: Dictionary) -> void:
+	create_config_from(template)
+	set_config_values(values)
+	emit_signal("initialized")
+	emit_updates()
+
 
 func _load_config():
 #	print(OS.get_user_data_dir())
@@ -134,14 +143,17 @@ func _load_config():
 	if new_config == null:
 		return -1
 	if typeof(new_config) == TYPE_DICTIONARY:
-		for k in config_leaves_flat:
-			var keys : PoolStringArray = k
-			if !MapUtils.has_recursive(new_config, keys):
-				continue
-			var ref := get_reference_arr(keys)
-			ref._set_value(MapUtils.get_recursive(new_config, keys))
+		set_config_values(new_config)
 	return 0
 	
+func set_config_values(new_config: Dictionary):
+	for k in config_leaves_flat:
+		var keys : PoolStringArray = k
+		if !MapUtils.has_recursive(new_config, keys):
+			continue
+		var ref := get_reference_arr(keys)
+		ref._set_value(MapUtils.get_recursive(new_config, keys))
+
 func emit_updates():
 	for r in config_flat.values():
 		var ref : MapUtils.Ref = r

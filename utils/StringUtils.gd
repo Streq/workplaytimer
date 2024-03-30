@@ -51,38 +51,38 @@ static func wrap_line(line: String, max_length : int) -> String:
 		
 	return ret
 
-
-static func wrap_text_performant(text: String, line_length : int) -> String:
-	var length = text.length()
-	
-	var ret := PoolStringArray()
-	ret.resize(length*2) # text will never be longer than this
-	var ret_write_cursor := -1
-	
-	var word_buffer := PoolStringArray()
-	word_buffer.resize(line_length) # words longer than line_length get hyphenated
-	var word_buffer_write_cursor := 0
-	
-	var current_line_length := 0
-	
-	for character in text:
-		ret_write_cursor += 1
-		match character:
-			" ", "\t":
-				if current_line_length > line_length:
-					pass
-			"\n":
-				current_line_length = 0
-			_:
-				if word_buffer_write_cursor == line_length:
-					pass
-				word_buffer[word_buffer_write_cursor] = character
-				word_buffer_write_cursor += 1
-#				if word_buffer:
-				current_line_length += 1
-		
-		prints(ret.join(""))
-		
-	
-	return ""
+#
+#static func wrap_text_performant(text: String, line_length : int) -> String:
+#	var length = text.length()
+#
+#	var ret := PoolStringArray()
+#	ret.resize(length*2) # text will never be longer than this
+#	var ret_write_cursor := -1
+#
+#	var word_buffer := PoolStringArray()
+#	word_buffer.resize(line_length) # words longer than line_length get hyphenated
+#	var word_buffer_write_cursor := 0
+#
+#	var current_line_length := 0
+#
+#	for character in text:
+#		ret_write_cursor += 1
+#		match character:
+#			" ", "\t":
+#				if current_line_length > line_length:
+#					pass
+#			"\n":
+#				current_line_length = 0
+#			_:
+#				if word_buffer_write_cursor == line_length:
+#					pass
+#				word_buffer[word_buffer_write_cursor] = character
+#				word_buffer_write_cursor += 1
+##				if word_buffer:
+#				current_line_length += 1
+#
+#		prints(ret.join(""))
+#
+#
+#	return ""
 	

@@ -9,5 +9,10 @@ func get_and_reset() -> int:
 	_last_update_millis = now_millis
 	return delta
 
+func get_() -> int:
+	var now_millis = Chronos.now_mil()
+	var delta = now_millis - _last_update_millis
+	return delta
+
 func _init():
 	get_and_reset()

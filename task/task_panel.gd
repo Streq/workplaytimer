@@ -164,7 +164,8 @@ onready var FILE = Global.PATH.plus_file("config").plus_file("tasks.json")
 func save():
 	var serialized_tasks = []
 	tasks.sort_custom(self, "sort_by_index")
-	for task in tasks:
+	for t in tasks:
+		var task : Task = t
 		var serialized_task = task.serialize()
 		serialized_tasks.append(serialized_task)
 	FileUtils.save_json_file(FILE, {tasks=serialized_tasks})

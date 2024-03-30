@@ -70,7 +70,10 @@ func choose_control(config : ConfigMap, key_stack: PoolStringArray) -> Control:
 	
 	var ret : Control = call(control_method, config, key_stack)
 	
-	var hint = StringUtils.wrap_string(config.get_hint(key_stack), 40)
+	var hint := config.get_hint(key_stack)
+	
+	hint = StringUtils.wrap_line(hint, 40)
+	
 	ret.hint_tooltip = hint
 	
 	return ret

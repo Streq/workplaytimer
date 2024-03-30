@@ -7,6 +7,8 @@ onready var CONFIG_PATH: String = Global.PATH.plus_file("config").plus_file(owne
 
 var map : ConfigMap = ConfigMap.new()
 
+export var load_from_file := true
+
 # you are supposed to override this function with your config and that's it
 func get_default_config() -> Dictionary: 
 	return {
