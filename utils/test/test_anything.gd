@@ -78,9 +78,10 @@ const tables = {
 
 
 func _ready():
-	
+	test1()
 
-	var s = SQLiteWrapper.new()
+func test1():
+	var s := SQLiteWrapper.new()
 	s.set_path("user://test_data")
 	s.set_foreign_keys(true)
 	
@@ -117,6 +118,8 @@ func _ready():
 	
 	s.close_db()
 
+
+	get_tree().quit(0)
 func pretty_print_res(v: Array):
 	if !v.size():
 		return
@@ -142,7 +145,7 @@ func print_row(row: Dictionary, row_size: Dictionary = {}):
 	for key in row.keys():
 		line[i] = StringUtils.padr(str(row[key]), row_size.get(key, 0))
 		i += 1
-	print(line.join("|"))
+	print("|",line.join("|"),"|")
 
 func print_header(row_size: Dictionary = {}):
 	var line := PoolStringArray()
@@ -151,4 +154,4 @@ func print_header(row_size: Dictionary = {}):
 	for key in row_size.keys():
 		line[i] = StringUtils.padr(key, row_size[key])
 		i += 1
-	print(line.join("|"))
+	print("|",line.join("|"),"|")

@@ -189,6 +189,7 @@ enabled=PoolStringArray( "res://addons/calendar_button/plugin.cfg", "res://addon
 [global]
 
 ocal=false
+word=false
 
 [gui]
 
