@@ -6,16 +6,30 @@ func _init():
 	printerr(msg)
 
 # pad right, assumes s is a single character
-static func padr(text:String, to_length:int, pad := " "):
+static func padr(text:String, to_length:int, pad := " ") -> String:
 	if text.length() >= to_length:
 		return text
 	return text + pad.repeat(to_length - text.length())
 
 # pad left, assumes s is a single character
-static func padl(text:String, to_length:int, pad := " "):
+static func padl(text:String, to_length:int, pad := " ") -> String:
 	if text.length() >= to_length:
 		return text
 	return pad.repeat(to_length - text.length()) + text
+
+# pad center left, assumes s is a single character
+static func padcl(text:String, to_length:int, pad := " ") -> String:
+	if text.length() >= to_length:
+		return text
+	var remainder = to_length - text.length()
+	return pad.repeat(remainder/2) + text + pad.repeat(remainder/2) + pad.repeat(remainder%2)
+
+# pad center right, assumes s is a single character
+static func padcr(text:String, to_length:int, pad := " ") -> String:
+	if text.length() >= to_length:
+		return text
+	var remainder = to_length - text.length()
+	return pad.repeat(remainder%2) + pad.repeat(remainder/2) + text + pad.repeat(remainder/2)
 
 # horrible efficiency-wise but works
 static func wrap_string(string: String, max_length : int) -> String:

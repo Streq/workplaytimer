@@ -78,8 +78,64 @@ const tables = {
 
 
 func _ready():
-	test1()
+	test2()
+	get_tree().quit(0)
 
+
+const test_db_file = "user://test.db"
+func test2():
+	FileUtils.delete(test_db_file)
+	
+	var s := SQLiteWrapper.new()
+	
+	s.set_path(test_db_file)
+	s.set_foreign_keys(true)
+	
+	s.verbosity_level = 2
+	s.open_db()
+	s.query(Schema.DEFINITION)
+	s.query(Schema.TEST_DATA_INSERT)
+	s.query("""
+		SELECT *
+		FROM activity_progress;
+	""")
+	pretty_print_res(s.get_query_result())
+	
+	s.query("""
+		SELECT *
+		FROM task_progress;
+	""")
+	pretty_print_res(s.get_query_result())
+	s.query("""
+		SELECT *
+		FROM interval;
+	""")
+	pretty_print_res(s.get_query_result())
+	s.query("""
+		SELECT *
+		FROM closed_interval;
+	""")
+	pretty_print_res(s.get_query_result())
+	s.query("""
+		SELECT *
+		FROM open_interval;
+	""")
+	pretty_print_res(s.get_query_result())
+
+	s.query("""
+		SELECT *
+		FROM task;
+	""")
+	pretty_print_res(s.get_query_result())
+
+
+	s.query("""
+		SELECT *
+		FROM activity;
+	""")
+	pretty_print_res(s.get_query_result())
+
+	s.close_db()
 func test1():
 	var s := SQLiteWrapper.new()
 	s.set_path("user://test_data")
@@ -122,36 +178,57 @@ func test1():
 	get_tree().quit(0)
 func pretty_print_res(v: Array):
 	if !v.size():
+		print("query returned empty")
 		return
 	var first : Dictionary = v[0]
 	var keys : Array = first.keys()
-	var key_size = {}
+	var column_widths = {}
 	
 	for key in keys:
 		var size : int = key.length()
 		for entry in v:
 			var str_ := str(entry[key])
 			size = MathUtils.maxi(size, str_.length())
-		key_size[key] = size
-
-	print_header(key_size)
+		column_widths[key] = size
+	var headers = get_headers(column_widths)
+	var separator : String = headers.separator
+	var header : String = headers.header
+	print(separator)
+	print(header)
+	print(separator)
 	for entry in v:
-		print_row(entry, key_size)
+		print_row(entry, column_widths)
+	print(separator)
 		
-func print_row(row: Dictionary, row_size: Dictionary = {}):
+func print_row(row: Dictionary, column_widths: Dictionary = {}):
 	var line := PoolStringArray()
 	line.resize(row.size())
 	var i := 0
 	for key in row.keys():
-		line[i] = StringUtils.padr(str(row[key]), row_size.get(key, 0))
+		var val = row[key]
+		var val_s := str(val)
+		var column_width : int = column_widths.get(key, 0)
+		match typeof(val):
+			TYPE_INT, TYPE_REAL:
+				line[i] = StringUtils.padl(val_s, column_width)
+			_:
+				line[i] = StringUtils.padr(val_s, column_width)
 		i += 1
-	print("|",line.join("|"),"|")
+	print("| ",line.join(" | ")," |")
 
-func print_header(row_size: Dictionary = {}):
+func get_headers(row_size: Dictionary = {}) -> Dictionary:
 	var line := PoolStringArray()
+	var line2 := line
 	line.resize(row_size.size())
+	line2.resize(row_size.size())
 	var i := 0
 	for key in row_size.keys():
-		line[i] = StringUtils.padr(key, row_size[key])
+		var res := StringUtils.padcl(key, row_size[key])
+		line[i] = res
+		line2[i] = "-".repeat(res.length())
 		i += 1
-	print("|",line.join("|"),"|")
+	return {
+		"header":"| "+line.join(" | ")+" |",
+		"separator":"+-"+line2.join("-+-")+"-+"
+	}
+	
