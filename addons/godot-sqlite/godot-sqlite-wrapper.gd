@@ -15,6 +15,7 @@ enum VerbosityLevel {
 }
 
 func _init():
+	._init()
 	db = SQLite.new()
 
 # VARIABLES --------------------------------------------------------------------

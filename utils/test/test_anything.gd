@@ -1,4 +1,12 @@
 extends Node2D
+
+class A:
+	func _init():
+		print("lmao")
+class B extends A:
+	func _init():
+		print("lmao2")
+
 const CONSTANTS = {
 	JULIAN_DAY = "julianday('now')",
 
@@ -79,6 +87,7 @@ const tables = {
 
 func _ready():
 	test2()
+	
 	get_tree().quit(0)
 
 
@@ -88,12 +97,15 @@ func test2():
 	
 	var s := SQLiteWrapper.new()
 	
+	
+	
+	
 	s.set_path(test_db_file)
 	s.set_foreign_keys(true)
 	
 	s.verbosity_level = 2
 	s.open_db()
-	s.query(Schema.DEFINITION)
+	s.query(Schema.load_definition())
 	s.query(Schema.TEST_DATA_INSERT)
 	s.query("""
 		SELECT *

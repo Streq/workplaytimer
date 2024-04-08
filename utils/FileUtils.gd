@@ -12,7 +12,7 @@ static func load_json_file_as_dict(json_path: String):
 	var file = File.new()
 	var error = file.open(json_path, file.READ)
 	if error:
-		push_warning("couldn't open json file at \"{path}\". Error code {error} - {error_string}".format({
+		push_warning("Couldn't open json file at \"{path}\". Error code {error} - {error_string}".format({
 				"path": json_path,
 				"error": str(error),
 				"error_string": ErrorUtils.get_error_text(error)
@@ -25,7 +25,7 @@ static func load_json_file_as_dict(json_path: String):
 	file.close()
 	
 	if json.error:
-		push_warning("couldn't extract valid json from \"{path}\". Error code {error} - {error_text}, at line {error_line}.".format({
+		push_warning("Couldn't extract valid json from \"{path}\". Error code {error} - {error_text}, at line {error_line}.".format({
 				"path": json_path,
 				"error": str(json.error),
 				"error_text": json.error_string,
@@ -44,7 +44,7 @@ static func create_dir_for_file_if_absent(file_path) -> int:
 	if directory.dir_exists(dir_path):
 		return OK
 	
-	push_warning("directory \"{dir}\" absent for \"{file}\", creating one.".format({
+	push_warning("Directory \"{dir}\" absent for \"{file}\", creating one.".format({
 			"dir": dir_path, 
 			"file": file
 		}))
@@ -53,7 +53,7 @@ static func create_dir_for_file_if_absent(file_path) -> int:
 	if !error:
 		return OK
 	
-	push_error("directory \"{dir}\" could not be created. Error code {error}".format({
+	push_error("Directory \"{dir}\" could not be created. Error code {error}".format({
 			"dir": dir_path,
 			"error": error
 		}))
@@ -66,7 +66,7 @@ static func save_json_file(path : String, dictionary := {}) -> int:
 	var file = File.new()
 	error = file.open(path, File.WRITE)
 	if error:
-		push_error("couldn't create file at \"{file}\". Error code {error}.".format({
+		push_error("Couldn't create file at \"{file}\". Error code {error}.".format({
 				"file": path,
 				"error": str(error)
 			}))
@@ -131,3 +131,24 @@ static func delete(path: String) -> int:
 
 static func rename(path: String, path_to: String) -> int:
 	return Directory.new().rename(path, path_to)
+
+static func get_text_file(path: String) -> String:
+	var file := File.new()
+	var error = open(file, path, File.READ)
+	if error:
+		return ""
+	var ret := file.get_as_text()
+
+	file.close()
+
+	return ret
+
+static func open(file: File, path: String, mode: int) -> int:
+	var error := file.open(path, mode)
+	if error:
+		push_error("Couldn't open file at \"{path}\". Error code {error} - {error_string}".format({
+				"path": path,
+				"error": str(error),
+				"error_string": ErrorUtils.get_error_text(error)
+			}))
+	return error
