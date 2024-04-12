@@ -74,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-sqlite/godot-sqlite-wrapper.gd"
 }, {
+"base": "Reference",
+"class": "Scheduler",
+"language": "GDScript",
+"path": "res://scheduler/scheduler.gd"
+}, {
 "base": "Object",
 "class": "Schema",
 "language": "GDScript",
@@ -138,6 +143,7 @@ _global_script_class_icons={
 "MapUtils": "",
 "MathUtils": "",
 "SQLiteWrapper": "",
+"Scheduler": "",
 "Schema": "",
 "SignalUtils": "",
 "StringBuilder": "",
