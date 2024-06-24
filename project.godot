@@ -114,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utils/Chronos.gd"
 }, {
+"base": "Reference",
+"class": "Timeline",
+"language": "GDScript",
+"path": "res://new_way/timeline/timeline.gd"
+}, {
 "base": "Object",
 "class": "TypeUtils",
 "language": "GDScript",
@@ -156,6 +161,7 @@ _global_script_class_icons={
 "StringUtils": "",
 "TimeLabel": "",
 "TimeUtils": "",
+"Timeline": "",
 "TypeUtils": "",
 "UsefulCode": "",
 "ValueWrapper": "",

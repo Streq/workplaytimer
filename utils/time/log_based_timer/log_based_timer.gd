@@ -16,7 +16,6 @@ func is_running()->bool:
 	return _running
 func is_stopped()->bool:
 	return !_running
-	
 
 func start_at(time_millis: int):
 	if _running:
