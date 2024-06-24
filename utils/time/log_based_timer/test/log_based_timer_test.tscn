@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://utils/time/log_based_timer/test/log_based_timer_test.gd" type="Script" id=1]
+
+[node name="Node" type="Node"]
+script = ExtResource( 1 )

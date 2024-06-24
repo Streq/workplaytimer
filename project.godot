@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://history/History.gd"
 }, {
+"base": "Reference",
+"class": "LogBasedTimer",
+"language": "GDScript",
+"path": "res://utils/time/log_based_timer/log_based_timer.gd"
+}, {
 "base": "Object",
 "class": "MapUtils",
 "language": "GDScript",
@@ -140,6 +145,7 @@ _global_script_class_icons={
 "FileUtils": "",
 "Global": "",
 "History": "",
+"LogBasedTimer": "",
 "MapUtils": "",
 "MathUtils": "",
 "SQLiteWrapper": "",

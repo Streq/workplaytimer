@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://user_activity_history/user_activity_history.gd" type="Script" id=1]
+
+[node name="user_activity_history" type="Node"]
+script = ExtResource( 1 )

@@ -2,11 +2,12 @@ extends Node
 var db := SQLiteWrapper.new()
 
 func _init():
-	db.verbosity_level = db.VerbosityLevel.VERY_VERBOSE
-	db.set_path("database.db")
-	db.foreign_keys = true
-	db.open_db()
-	
+#	db.verbosity_level = db.VerbosityLevel.VERY_VERBOSE
+#	db.set_path("database.db")
+#	db.foreign_keys = true
+#	db.open_db()
+	pass
+
 func scalar(query:String):
 #	print("raw query passed:", query)
 	query = Regex.SQL_SELECT_SCALAR_STATEMENT.sub(query, "$scalar")

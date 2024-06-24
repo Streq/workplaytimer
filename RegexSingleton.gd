@@ -12,3 +12,4 @@ func _ready():
 	# "select {scalar}"
 	# "{scalar};;;;;"
 	SQL_SELECT_SCALAR_STATEMENT.compile("(?i)^(SELECT +)?(?<scalar>.*[^;]+);*$")
+	

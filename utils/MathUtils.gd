@@ -10,9 +10,9 @@ func _init():
 static func clampi(val: int, min_val: int, max_val: int) -> int:
 	return maxi(min_val, mini(max_val, val))
 static func maxi(val: int, val2: int) -> int:
-	return val if val > val2 else val2
+	return val if val >= val2 else val2
 static func mini(val: int, val2: int) -> int:
-	return val if val < val2 else val2
+	return val if val <= val2 else val2
 static func signi(val: int) -> int:
 	return clampi(val, -1, 1)
 # inverts a conventional min-to-max range so that
@@ -64,3 +64,13 @@ static func wrapped_range(size: int, begin: = 0, end: = 0, step: = 1):
 
 static func absi(n: int) -> int:
 	return n if n > 0 else -n
+
+static func is_between(c:int, s:int, e:int):
+	return s <= c && c <= e
+	
+static func range_intersection(s: int, e: int, start: int, end: int) -> PoolIntArray:
+	if e < start:
+		return PoolIntArray([s, e, start, end])
+	if s > end:
+		return PoolIntArray([start, end, s, e])
+	return PoolIntArray([mini(s, start), maxi(e, end)])
